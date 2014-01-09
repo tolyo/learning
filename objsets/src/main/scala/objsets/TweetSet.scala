@@ -66,7 +66,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -106,6 +106,11 @@ abstract class TweetSet {
    * This method takes a function and applies it to every element in the set.
    */
   def foreach(f: Tweet => Unit): Unit
+  
+  /**
+   * This method checks if element is empty.
+   */
+  def isEmpty: Boolean
 }
 
 class Empty extends TweetSet {
@@ -113,6 +118,10 @@ class Empty extends TweetSet {
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 		  
   def union(that: TweetSet): TweetSet = that
+  
+  def isEmpty: Boolean = true
+  
+  def mostRetweeted: Tweet = throw new NoSuchElementException
 
   /**
    * The following methods are already implemented
@@ -133,7 +142,19 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     if(p(elem)) right.filterAcc(p, left.filterAcc(p, acc incl elem))
     else right.filterAcc(p, left.filterAcc(p, acc))
     
-  def union(that: TweetSet): TweetSet = ((left union that) union right) incl elem  
+  def union(that: TweetSet): TweetSet = ((left union that) union right) incl elem 
+  
+  def isEmpty: Boolean = false
+    
+  def mostRetweeted: Tweet = {
+  	def findMostRetweeted(that: TweetSet, tweet: Tweet): Tweet = {
+  	  val result = filter(_.retweets > tweet.retweets)
+  	  if(result.isEmpty) tweet
+  	  else result.mostRetweeted
+  	}
+  	
+  	findMostRetweeted(this, elem)
+  }
 
   /**
    * The following methods are already implemented
