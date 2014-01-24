@@ -22,13 +22,13 @@ object Main {
    * Exercise 2
    */
   def balance(chars: List[Char]): Boolean = {
-      def balance(chars: List[Char], acc: Int): Boolean = {
+      def balance(chars: List[Char], acc: Int): Boolean = 
         if(chars.isEmpty && acc == 0) true
+        else if(chars.isEmpty && acc != 0) false
         else if(chars.head == ')' && acc == 0) false
         else if(chars.head == '(') balance(chars.tail, acc + 1)
-        else if(chars.head == ')') balance(chars.tail, acc - 1)
-        else false
-      }
+        else balance(chars.tail, acc - 1)
+      
       balance(chars.filter(x => x == '(' || x == ')'), 0)
     }
 
