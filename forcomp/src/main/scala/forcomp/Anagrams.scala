@@ -37,10 +37,11 @@ object Anagrams {
     val sortCharList = w.toLowerCase().toList.sorted
     def wordOccurrences(charlist: List[Char]): Occurrences = charlist match {
       case List() => Nil
-      case x :: xs =>
+      case x :: _ =>
         val group = charlist groupBy(_ == x)
-        if(group contains(false)) (group(true).head, group(true).size) :: wordOccurrences(group(false))
-        else (group(true).head, group(true).size) :: Nil
+        val result = (group(true).head, group(true).size)
+        if(group contains(false)) result :: wordOccurrences(group(false))
+        else result :: Nil
     }    
     wordOccurrences(sortCharList)    
   }

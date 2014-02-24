@@ -33,7 +33,7 @@ object Huffman {
   }
 
   def makeCodeTree(left: CodeTree, right: CodeTree): Fork =
-    Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
+    Fork(left, right, chars(left) ++ chars(right), weight(left) + weight(right))
 
   // Part 2: Generating Huffman trees
 
@@ -74,8 +74,8 @@ object Huffman {
 
   def times(chars: List[Char]): List[(Char, Int)] = chars match {
     case Nil => Nil
-    case y :: ys => 
-      (chars.head, chars.filter(_ == chars.head).size) :: times(ys.filter(_ != chars.head))
+    case head :: tail => 
+      (head, chars.filter(_ == head).size) :: times(tail.filter(_ != head))
   }
 
   /**
@@ -87,7 +87,7 @@ object Huffman {
    */
   def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = freqs match {
     case Nil => Nil
-    case y :: ys => insert(Leaf(y._1, y._2), makeOrderedLeafList(ys))     
+    case head :: tail => insert(Leaf(head._1, head._2), makeOrderedLeafList(tail))     
   }
   
   /**
@@ -95,9 +95,9 @@ object Huffman {
    */
   def insert(leaf: Leaf, list: List[Leaf]): List[Leaf] = list match {
     case List() => List(leaf)
-    case y :: ys => 
-      if(leaf.weight < y.weight) leaf :: list 
-      else y :: insert(leaf, ys)
+    case head :: tail => 
+      if(leaf.weight < head.weight) leaf :: list 
+      else head :: insert(leaf, tail)
   }
   
   /**
@@ -154,8 +154,8 @@ object Huffman {
    *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
    */
   def until(condition: List[CodeTree]=> Boolean, acc: List[CodeTree]=> List[CodeTree])(trees: List[CodeTree]): List[CodeTree] = {
-    if(condition.apply(trees)) trees
-    else until(condition, acc)(acc.apply(trees))  
+    if(condition(trees)) trees
+    else until(condition, acc)(acc(trees))  
   }
   
   /**
@@ -179,11 +179,16 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
     def walkTree(remainingTree: CodeTree, remainingBits: List[Bit]): List[Char] = remainingTree match {
-    	case Leaf(char, weight) => char :: (if(remainingBits.isEmpty) Nil else walkTree(tree, remainingBits))
-    	case Fork(left, right, chars, weight) => 
-    	  if(remainingBits.head == 0) walkTree(left, remainingBits.tail) else walkTree(right, remainingBits.tail)  
+		case Leaf(char, _) => remainingBits match {
+		  case Nil => char :: Nil
+		  case y :: ys => char :: walkTree(tree, remainingBits)
+		}
+		case Fork(left, right, _, _) => remainingBits match {
+		  case 0 :: tail => walkTree(left, remainingBits.tail) 
+		  case 1 :: tail => walkTree(right, remainingBits.tail) 
+		}
     }
     walkTree(tree, bits)
   }  
