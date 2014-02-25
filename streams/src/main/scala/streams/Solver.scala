@@ -49,8 +49,7 @@ trait Solver extends GameDef {
     val newBlocks = for {
       x <- neighbors 
       if !explored.contains(x._1)
-    } yield x
-    
+    } yield x    
     newBlocks.toStream
   }
 
@@ -79,13 +78,15 @@ trait Solver extends GameDef {
    */
   def from(initial: Stream[(Block, List[Move])],
            explored: Set[Block]): Stream[(Block, List[Move])] = {
-      val neighbors = newNeighborsOnly(initial, explored)              
-	  if(neighbors.isEmpty) Stream.empty
-	  else {
-	    neighbors #::: from(neighbors.tail, explored ++ neighbors.map(x => x._1))
-	  }
-  }
-    
+      if(initial.isEmpty) Stream.empty
+      else {
+        val more = for {
+          path <- initial
+          next <- newNeighborsOnly(neighborsWithHistory(path._1, path._2), explored)
+        } yield next        
+        initial #::: from(more, explored ++ more.map(_._1))
+      }
+  }    
 
   /**
    * The stream of all paths that begin at the starting block.
@@ -96,9 +97,12 @@ trait Solver extends GameDef {
    * Returns a stream of all possible pairs of the goal block along
    * with the history how it was reached.
    */
-  lazy val pathsToGoal: Stream[(Block, List[Move])] = 
-  	if(done(pathsToGoal.head._1)) pathsToGoal else pathsFromStart
- 
+  lazy val pathsToGoal: Stream[(Block, List[Move])] = {
+    for {
+      path <- pathsFromStart
+      if(done(path._1))
+    } yield path
+  } 
 
   /**
    * The (or one of the) shortest sequence(s) of moves to reach the
@@ -108,5 +112,7 @@ trait Solver extends GameDef {
    * the first move that the player should perform from the starting
    * position.
    */
-  lazy val solution: List[Move] = ???
+  lazy val solution: List[Move] = 
+  	if(pathsToGoal.isEmpty) List.empty
+  	else pathsToGoal.minBy(_._2.length)._2
 }
