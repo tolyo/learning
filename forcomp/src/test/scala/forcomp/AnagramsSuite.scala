@@ -124,5 +124,11 @@ class AnagramsSuite extends FunSuite {
     )
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
   }  
+  
+  test("breakCompound: Linuxrulez") {
+    val sentence = List("Linuxrulez")
+    val anas = List(List("Linux", "rulez"))
+    assert(breakCompound(sentence).toSet === anas.toSet)
+  }
 
 }

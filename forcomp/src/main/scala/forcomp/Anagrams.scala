@@ -184,4 +184,22 @@ object Anagrams {
 	    
   	  anagramsHelp(sentenceOccurs)
   }
+  
+  /**
+   * Break up a compound into a sentence
+   */
+  def breakCompound(sentence: Sentence): List[Sentence] = {
+    val sentenceOccurs = sentenceOccurrences(sentence)
+  	  
+  	  def anagramsHelp(occ: Occurrences): List[Sentence]  = { 
+	    if(occ.isEmpty) List(List())
+	    else for {
+	    	comb <- combinations(occ)
+	    	word <- dictionaryByOccurrences(comb)
+	    	restSentence <- anagramsHelp(subtract(occ, comb))
+	    } yield word :: restSentence
+  	  }
+	    
+  	  anagramsHelp(sentenceOccurs).filter(x => (x.foldLeft("")((a, b) => a + b)).equals(sentence.head))
+  }
 }
