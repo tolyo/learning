@@ -24,7 +24,7 @@ object Lists {
    * @return The sum of all elements in `xs`
    */
   def sum(xs: List[Int]): Int = 
-    if(xs.isEmpty) 0
+    if (xs.isEmpty)	0
     else xs.head + sum(xs.tail)
 
   /**
@@ -40,15 +40,8 @@ object Lists {
    * @return The largest element in `xs`
    * @throws java.util.NoSuchElementException if `xs` is an empty list
    */
-  def max(xs: List[Int]): Int = {
-    
-    def compare(x: Int, y: Int): Int = 
-      if(x > y) x 
-      else y
-        
-  	if(xs.isEmpty) throw new NoSuchElementException()
-  	else if(xs.tail.isEmpty) xs.head
-  	else compare(xs.head, max(xs.tail))    
-  	
-    }    
+  def max(xs: List[Int]): Int = 
+  	if (xs.isEmpty) throw new NoSuchElementException()
+  	else if (xs.tail.isEmpty) xs.head
+  	else xs.head max max(xs.tail)
 }
