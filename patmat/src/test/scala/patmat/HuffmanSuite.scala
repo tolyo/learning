@@ -31,7 +31,7 @@ class HuffmanSuite extends FunSuite {
   }
   
   test("times"){
-    assert(times("test".toList) == List(('t', 2), ('e', 1), ('s', 1)))
+    assert(times("test".toList) === List(('t', 2), ('e', 1), ('s', 1)))
   }
 
   test("makeOrderedLeafList for some frequency table") {
@@ -63,18 +63,10 @@ class HuffmanSuite extends FunSuite {
     }
   }
   
-  test("contains"){
-    new TestTrees {
-      assert(contains(t1, 'a') == true)
-      assert(contains(t1, 'c') == false)
-      assert(contains(t2, 'd') == true)
-      assert(contains(t2, 'c') == false)
-    }
-  }
-
   test("decode and encode a very short text should be identity") {
     new TestTrees {
-      assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+      assert(decode(t1, encode(t1)("abbabb".toList)) === "abbabb".toList)
+      assert(encode(frenchCode)(decodedSecret) === secret)
     }
   }
   
@@ -97,7 +89,7 @@ class HuffmanSuite extends FunSuite {
   
   test("merge") {
     val a = List(('a', List(0)))
-    val b = List(('b', List(0)))
-    assert(mergeCodeTables(a, b) === List(('a', List(0,0)), ('b', List(0,1))))    
+    val b = List(('a', List(0)))
+    assert(mergeCodeTables(a, b) === List(('a', List(0,0)), ('a', List(0,1))))    
   }
 }
