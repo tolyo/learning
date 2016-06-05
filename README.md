@@ -1,2 +1,2 @@
-CourseraFunProg
+Self study
 ===============
