@@ -1,6 +1,5 @@
-from ps3a import *
-import time
 from perm import *
+from ps3a import *
 
 
 #
@@ -16,8 +15,25 @@ def comp_choose_word(hand, word_list):
     hand: dictionary (string -> int)
     word_list: list (string)
     """
-    # TO DO...
-
+    # Get permutaitons
+    word = None
+    score = None
+    # For each permutation check if work is in wordlist
+    for i in reversed(range(1, len(hand), 1)):
+        if word != None:
+            break
+        perms = get_perms(hand, i)
+        for perm in perms:
+            if perm in word_list:
+                if word is None:
+                    word = perm
+                    score = get_word_score(perm, len(hand))
+                elif get_word_score(perm, len(hand)) > score:
+                    word = perm
+                    score = get_word_score(perm, len(hand))
+                else:
+                    continue
+    return word
 #
 # Problem #6B: Computer plays a hand
 #
@@ -40,8 +56,24 @@ def comp_play_hand(hand, word_list):
      hand: dictionary (string -> int)
      word_list: list (string)
     """
-    # TO DO ...    
-    
+    print "Computer begins play"
+    total = 0
+    while True:
+        display_hand(hand)
+        word = comp_choose_word(hand,word_list)
+        if word == None:
+            print "Computer could not find a word for a given hand"
+            break
+        else:
+            print "Computer choose a word " + word
+            hand = update_hand(hand, word)
+            word_score = get_word_score(word, HAND_SIZE)
+            print "The score for that word is " + str(word_score)
+
+            total += word_score
+            if hand_is_empty(hand):
+                break
+    print "Computer total score: " + str(total)
 #
 # Problem #6C: Playing a game
 #
@@ -64,8 +96,56 @@ def play_game(word_list):
 
     word_list: list (string)
     """
-    # TO DO...
-        
+    selection = raw_input("Please enter 'n' or 'r' or 'e' ")
+    hand = None
+    if selection == 'n':
+        hand = deal_hand(HAND_SIZE)
+        play_hand_with_comp(hand, word_list)
+    elif selection == 'r':
+        if hand is None:
+            hand = deal_hand(HAND_SIZE)
+        play_hand_with_comp(hand, word_list)
+    elif selection == 'e':
+        return
+    else:
+        play_game(word_list)
+
+
+def play_hand_with_comp(hand, word_list):
+    total = 0
+    while True:
+        selection = raw_input("Please enter 'u' or 'c'")
+        if selection == 'u':
+            display_hand(hand)
+            word = raw_input("Please enter your word : ")
+            if word == ".":
+                break
+            if is_word_in_hand(word, hand):
+                hand = update_hand(hand, word)
+                word_score = get_word_score(word, HAND_SIZE)
+                print "The score for that word is " + str(word_score)
+
+                total += word_score
+                if hand_is_empty(hand):
+                    break
+        elif selection == 'c':
+            word = comp_choose_word(hand, word_list)
+            if word == None:
+                print "No word chosen by computer"
+                break
+            print "Computer chose a word " + word
+            hand = update_hand(hand, word)
+            word_score = get_word_score(word, HAND_SIZE)
+            print "The score for that word is " + str(word_score)
+
+            total += word_score
+            if hand_is_empty(hand):
+                break
+        else:
+            play_hand_with_comp(hand, word_list)
+
+    print "Your total score: " + str(total)
+
 #
 # Build data structures used for entire session and play game
 #
