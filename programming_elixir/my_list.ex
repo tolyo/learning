@@ -13,7 +13,7 @@ defmodule MyList do
     _max(tail, head)
   end
 
-  defp _max([ head | tail], val) do
+  defp _max([ _ | tail], val) do
     _max(tail, val)
   end
 
@@ -27,4 +27,11 @@ defmodule MyList do
       [ head + n - 26 | caesar(tail, n) ]
    end
 
+   def span(from, from) do
+     [from]
+   end
+
+   def span(from, to) do
+      [ from | span(from + 1, to) ]
+   end
 end
