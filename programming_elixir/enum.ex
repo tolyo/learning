@@ -28,4 +28,23 @@ defmodule MyEnum do
     []
   end
 
+  def filter([ head | tail ], func) do
+     if func.(head) do
+       [ head | filter(tail, func)]
+     else
+       filter( tail , func)
+     end
+  end
+
+  def filter([head], func) do
+    if func.(head) do
+      [ head ]
+    else
+      []
+    end
+  end
+
+  def filter([], _) do
+    []
+  end
 end
