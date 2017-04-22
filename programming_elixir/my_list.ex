@@ -12,7 +12,7 @@ defmodule MyList do
   defp _max([ head | tail], val) when head > val do
     _max(tail, head)
   end
-/
+
   defp _max([ _ | tail], val) do
     _max(tail, val)
   end
