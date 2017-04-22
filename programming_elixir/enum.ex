@@ -1,6 +1,6 @@
 defmodule MyEnum do
 
-  def all?([], func) do
+  def all?([], _) do
     false
   end
 
@@ -47,4 +47,31 @@ defmodule MyEnum do
   def filter([], _) do
     []
   end
+
+  def split(list, sep) do
+    _split(list, sep, [])
+  end
+
+  def _split([ head | tail], sep, acc) do
+    if head === sep do
+      {[ acc | [head]], tail}
+    else
+      _split(tail, sep, acc ++ head)
+    end
+  end
+
+  def take(list, sep) do
+    _take(list, sep, 0)
+  end
+
+  def _take([ head | tail ], sep, count) do
+    if sep === count do
+      []
+    else
+      [ head | _take(tail, sep, count + 1) ]
+    end
+  end
+
+  def _take([], sep, count), do: []
+
 end
