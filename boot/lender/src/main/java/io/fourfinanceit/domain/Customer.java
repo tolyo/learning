@@ -1,5 +1,6 @@
 package io.fourfinanceit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,11 +16,13 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
     private String number;
 
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
+    @JsonIgnore
     private Date created = new Date();
 
     public Customer() {}

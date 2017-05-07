@@ -17,8 +17,8 @@ public class HomeworkApplication {
     @Bean
     InitializingBean bootstrapData(CustomerRepository customerRepository) {
         return () -> {
-            customerRepository.save(new Customer("Chuck Norris"));
-            customerRepository.save(new Customer("Michael Dudikoff"));
+            customerRepository.save(new Customer("22211"));
+            customerRepository.save(new Customer("22233"));
         };
     }
 }
