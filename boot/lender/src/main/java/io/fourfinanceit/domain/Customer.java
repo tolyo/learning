@@ -1,5 +1,6 @@
 package io.fourfinanceit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Date;
  * A generic recipient of services provided by the application.
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer {
 
     @Id
