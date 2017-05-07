@@ -14,15 +14,12 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) @JsonIgnore
     private Long id;
+
     private String number;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.DATE)
-    @JsonIgnore
+    @CreationTimestamp @Temporal(TemporalType.DATE) @JsonIgnore
     private Date created = new Date();
 
     public Customer() {}
