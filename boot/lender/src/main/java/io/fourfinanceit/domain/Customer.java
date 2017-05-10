@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /*
@@ -14,12 +15,19 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) @JsonIgnore
+    @Id
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
+    @NotNull
     private String number;
 
-    @CreationTimestamp @Temporal(TemporalType.DATE) @JsonIgnore
+    @NotNull
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    @JsonIgnore
     private Date created = new Date();
 
     public Customer() {}

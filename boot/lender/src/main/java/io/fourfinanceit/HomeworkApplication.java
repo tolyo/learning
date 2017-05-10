@@ -1,6 +1,5 @@
 package io.fourfinanceit;
 
-import io.fourfinanceit.domain.Customer;
 import io.fourfinanceit.repository.CustomerRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +16,8 @@ public class HomeworkApplication {
     @Bean
     InitializingBean bootstrapData(CustomerRepository customerRepository) {
         return () -> {
-            customerRepository.save(new Customer("22211"));
-            customerRepository.save(new Customer("22233"));
+//            customerRepository.save(new Customer("22211"));
+//            customerRepository.save(new Customer("22233"));
         };
     }
 }
