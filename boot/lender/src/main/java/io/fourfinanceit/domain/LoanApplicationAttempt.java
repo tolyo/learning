@@ -1,7 +1,9 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,7 @@ import java.util.Objects;
 /**
  * For every loan there may be several application attempts
  */
+@Entity
 public class LoanApplicationAttempt {
 
     @Id
@@ -32,6 +35,12 @@ public class LoanApplicationAttempt {
     @Temporal(TemporalType.DATE)
     @JsonIgnore
     private Date created = new Date();
+
+    @NotNull
+    @UpdateTimestamp
+    @Temporal(TemporalType.DATE)
+    @JsonIgnore
+    private Date updated = new Date();
 
     public Long getId() {
         return id;
@@ -86,6 +95,14 @@ public class LoanApplicationAttempt {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     @Override

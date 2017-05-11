@@ -1,16 +1,19 @@
 package io.fourfinanceit.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 /**
  * Loan extentions modify a loan
  */
+@Entity
 public class LoanExtension {
 
     @Id
@@ -24,10 +27,16 @@ public class LoanExtension {
     private LocalDate endDate;
 
     @NotNull
-    private LocalDate dateCreated;
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    @JsonIgnore
+    private Date created = new Date();
 
     @NotNull
-    private LocalDate lastUpdated;
+    @UpdateTimestamp
+    @Temporal(TemporalType.DATE)
+    @JsonIgnore
+    private Date updated = new Date();
 
     @ManyToOne
     private Loan loan;
@@ -66,30 +75,20 @@ public class LoanExtension {
         this.endDate = endDate;
     }
 
-    public LocalDate getDateCreated() {
-        return dateCreated;
+    public Date getCreated() {
+        return created;
     }
 
-    public LoanExtension dateCreated(LocalDate dateCreated) {
-        this.dateCreated = dateCreated;
-        return this;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public void setDateCreated(LocalDate dateCreated) {
-        this.dateCreated = dateCreated;
+    public Date getUpdated() {
+        return updated;
     }
 
-    public LocalDate getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public LoanExtension lastUpdated(LocalDate lastUpdated) {
-        this.lastUpdated = lastUpdated;
-        return this;
-    }
-
-    public void setLastUpdated(LocalDate lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     public Loan getLoan() {
@@ -131,8 +130,8 @@ public class LoanExtension {
                 "id=" + id +
                 ", startDate='" + startDate + "'" +
                 ", endDate='" + endDate + "'" +
-                ", dateCreated='" + dateCreated + "'" +
-                ", lastUpdated='" + lastUpdated + "'" +
+                ", create='" + created + "'" +
+                ", updated='" + updated + "'" +
                 '}';
     }
 }

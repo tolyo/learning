@@ -1,8 +1,10 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ import java.util.Set;
 /**
  * A loan that can be taken out by a customer
  */
+@Entity
 public class Loan implements Serializable {
 
     @Id
@@ -47,9 +50,14 @@ public class Loan implements Serializable {
     @JsonIgnore
     private Date created = new Date();
 
+    @NotNull
+    @UpdateTimestamp
+    @Temporal(TemporalType.DATE)
+    @JsonIgnore
+    private Date updated = new Date();
+
     @OneToMany(mappedBy = "loan")
     @JsonIgnore
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<LoanExtension> loanExtensions = new HashSet<>();
 
     public Long getId() {
@@ -100,12 +108,12 @@ public class Loan implements Serializable {
         this.rate = rate;
     }
 
-    public Date getCreated() {
-        return created;
+    public Date getUpdated() {
+        return updated;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     public Set<LoanExtension> getLoanExtensions() {
