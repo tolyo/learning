@@ -1,8 +1,8 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.fourfinanceit.util.JsonDateSerializer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,10 +29,12 @@ public class Loan implements Serializable {
     private Customer customer;
 
     @NotNull
-    private LocalDate startDate;
+    @JsonSerialize(using=JsonDateSerializer.class)
+    private Date startDate;
 
     @NotNull
-    private LocalDate endDate;
+    @JsonSerialize(using=JsonDateSerializer.class)
+    private Date endDate;
 
     @NotNull
     @Column(precision=10, scale=2)
@@ -75,19 +76,19 @@ public class Loan implements Serializable {
         this.customer = customer;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
