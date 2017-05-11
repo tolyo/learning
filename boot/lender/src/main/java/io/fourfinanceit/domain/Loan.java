@@ -123,4 +123,35 @@ public class Loan implements Serializable {
     public void setLoanExtensions(Set<LoanExtension> loanExtensions) {
         this.loanExtensions = loanExtensions;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Loan loan = (Loan) o;
+
+        return id != null ? id.equals(loan.id) : loan.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Loan{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", amount=" + amount +
+                ", rate=" + rate +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", loanExtensions=" + loanExtensions +
+                '}';
+    }
 }
