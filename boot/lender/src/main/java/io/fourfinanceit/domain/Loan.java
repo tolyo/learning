@@ -22,7 +22,6 @@ import java.util.Set;
 public class Loan implements Serializable {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     private Long id;

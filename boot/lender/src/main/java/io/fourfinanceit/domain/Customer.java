@@ -16,7 +16,6 @@ import java.util.Date;
 public class Customer {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     private Long id;
