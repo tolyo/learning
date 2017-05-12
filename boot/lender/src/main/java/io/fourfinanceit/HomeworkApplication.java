@@ -17,6 +17,8 @@ public class HomeworkApplication {
     @Bean
     InitializingBean bootstrapData(CustomerRepository customerRepository) {
         return () -> {
+
+            // TODO initialize only for dev and test
             customerRepository.save(new Customer("22211"));
             customerRepository.save(new Customer("22233"));
         };
