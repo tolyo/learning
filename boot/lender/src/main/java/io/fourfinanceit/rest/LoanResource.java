@@ -1,21 +1,29 @@
 package io.fourfinanceit.rest;
 
-import io.fourfinanceit.domain.Loan;
+import io.fourfinanceit.validation.LoanApplicationCommand;
+import io.fourfinanceit.validation.LoanExtentionCommand;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.validation.Valid;
+
+import static io.fourfinanceit.util.ControllerUtils.*;
 
 @RestController
 @RequestMapping("/loans")
 public class LoanResource {
 
     @PostMapping("")
-    public Loan createLoan() {
+    public ResponseEntity<Object> createLoan(@Valid LoanApplicationCommand cmd, Errors errors) {
         // create a new loan for a customer
-
+        // extend load
+        if (errors.hasErrors()) {
+            return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
+        }
         // create and save and application attempt
         // validate application request
 
@@ -23,9 +31,11 @@ public class LoanResource {
     }
 
     @PutMapping("")
-    public Loan updateLoan() {
+    public ResponseEntity<Object> updateLoan(@Valid LoanExtentionCommand cmd, Errors errors) {
         // extend load
-
+        if (errors.hasErrors()) {
+            return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
+        }
         // validate extention request
 
         // return created
