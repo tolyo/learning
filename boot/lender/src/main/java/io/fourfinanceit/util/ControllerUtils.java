@@ -1,18 +1,17 @@
 package io.fourfinanceit.util;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.validation.Errors;
-
-import java.util.HashMap;
-import java.util.Map;
 
 abstract public class ControllerUtils {
 
-    public static Map<String, String> getErrorMap(Errors errors ){
-        Map<String, String> errorMap = new HashMap<>();
+    public static ObjectNode getErrorMap(Errors errors ){
+        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
         errors.getAllErrors().forEach(x -> {
-            errorMap.put(getLast(x.getCodes()[0].split("\\.")), x.getDefaultMessage());
+            node.put(getLast(x.getCodes()[0].split("\\.")), x.getDefaultMessage());
         });
-        return errorMap;
+        return node;
     }
 
     private static String getLast(String[] errors) {

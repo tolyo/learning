@@ -1,5 +1,6 @@
 package io.fourfinanceit.rest;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.validation.LoanApplicationCommand;
 import io.fourfinanceit.validation.LoanExtentionCommand;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static io.fourfinanceit.util.ControllerUtils.*;
+import static io.fourfinanceit.util.ControllerUtils.getErrorMap;
 
 @RestController
 @RequestMapping("/loans")
@@ -31,7 +32,7 @@ public class LoanResource {
     }
 
     @PutMapping("")
-    public ResponseEntity<Object> updateLoan(@Valid LoanExtentionCommand cmd, Errors errors) {
+    public ResponseEntity<ObjectNode> updateLoan(@Valid LoanExtentionCommand cmd, Errors errors) {
         // extend load
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));

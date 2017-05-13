@@ -1,7 +1,9 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.fourfinanceit.util.DomainFilter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,7 +15,7 @@ import java.util.Date;
  * A generic recipient of services provided by the application.
  */
 @Entity
-public class Customer {
+public class Customer implements DomainFilter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -93,5 +95,11 @@ public class Customer {
                 ", number='" + number + '\'' +
                 ", created=" + created +
                 '}';
+    }
+
+    @Override
+    public ObjectNode toJson() {
+        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+        return node;
     }
 }
