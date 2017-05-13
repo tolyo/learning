@@ -1,13 +1,14 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.fourfinanceit.util.DomainFilter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,19 +16,22 @@ import java.util.Objects;
  * For every loan there may be several application attempts
  */
 @Entity
-public class LoanApplicationAttempt {
+public class LoanApplicationAttempt implements DomainFilter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @NotNull
     private String ip;
 
     @NotNull
-    private LocalDate dateCreated;
+    @JsonIgnore
+    private Date dateCreated = new Date();
 
     @ManyToOne
+    @JsonIgnore
     private Customer customer;
 
     @NotNull
@@ -41,6 +45,13 @@ public class LoanApplicationAttempt {
     @Temporal(TemporalType.DATE)
     @JsonIgnore
     private Date updated = new Date();
+
+    public LoanApplicationAttempt() {}
+
+    public LoanApplicationAttempt(Customer customer, String ip) {
+        this.customer = customer;
+        this.ip = ip;
+    }
 
     public Long getId() {
         return id;
@@ -63,16 +74,16 @@ public class LoanApplicationAttempt {
         this.ip = ip;
     }
 
-    public LocalDate getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public LoanApplicationAttempt dateCreated(LocalDate dateCreated) {
+    public LoanApplicationAttempt dateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }
 
-    public void setDateCreated(LocalDate dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -132,5 +143,11 @@ public class LoanApplicationAttempt {
                 ", ip='" + ip + "'" +
                 ", dateCreated='" + dateCreated + "'" +
                 '}';
+    }
+
+    @Override
+    public ObjectNode toJson() {
+        return new ObjectNode(JsonNodeFactory.instance)
+                .put("ip", ip);
     }
 }

@@ -1,5 +1,7 @@
 package io.fourfinanceit.rest;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.domain.Customer;
 import io.fourfinanceit.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+import static io.fourfinanceit.util.ControllerUtils.toArrayNode;
+
 @RestController
 @RequestMapping("/customers")
 public class CustomerResource {
@@ -21,16 +25,16 @@ public class CustomerResource {
     CustomerRepository customerRepository;
 
     @GetMapping("")
-    public ResponseEntity<List> getCustomers() {
+    public ResponseEntity<ArrayNode> getCustomers() {
         List<Customer> customerList = customerRepository.findAll();
-        return ResponseEntity.ok().body(customerList);
+        return ResponseEntity.ok().body(toArrayNode(customerList));
     }
 
     @GetMapping("/{number}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable String number) {
+    public ResponseEntity<ObjectNode> getCustomer(@PathVariable String number) {
         Customer customer = customerRepository.findByNumber(number);
         return Optional.ofNullable(customer)
-                .map(response -> ResponseEntity.ok().body(response))
+                .map(response -> ResponseEntity.ok().body(response.toJson()))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

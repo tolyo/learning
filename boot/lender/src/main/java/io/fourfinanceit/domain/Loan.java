@@ -2,6 +2,9 @@ package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.fourfinanceit.util.DomainFilter;
 import io.fourfinanceit.util.JsonDateSerializer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,7 +21,7 @@ import java.util.Set;
  * A loan that can be taken out by a customer
  */
 @Entity
-public class Loan implements Serializable {
+public class Loan implements Serializable, DomainFilter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,6 +62,14 @@ public class Loan implements Serializable {
     @OneToMany(mappedBy = "loan")
     @JsonIgnore
     private Set<LoanExtension> loanExtensions = new HashSet<>();
+
+    public Loan() {};
+
+    public Loan(Date startDate, Date endDate, BigDecimal amount) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.amount = amount;
+    }
 
     public Long getId() {
         return id;
@@ -153,5 +164,11 @@ public class Loan implements Serializable {
                 ", updated=" + updated +
                 ", loanExtensions=" + loanExtensions +
                 '}';
+    }
+
+    @Override
+    public ObjectNode toJson() {
+        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+        return node;
     }
 }
