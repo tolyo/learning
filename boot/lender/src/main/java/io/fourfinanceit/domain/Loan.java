@@ -10,7 +10,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -31,29 +30,29 @@ public class Loan implements Serializable, DomainFilter {
     @ManyToOne
     private Customer customer;
 
-    @NotNull
+   //@NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
     private Date startDate;
 
-    @NotNull
+   //@NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
     private Date endDate;
 
-    @NotNull
+   //@NotNull
     @Column(precision=10, scale=2)
     private BigDecimal amount;
 
-    @NotNull
+   //@NotNull
     @Column(precision=10, scale=2)
     private BigDecimal rate;
 
-    @NotNull
+   //@NotNull
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     @JsonIgnore
     private Date created = new Date();
 
-    @NotNull
+   //@NotNull
     @UpdateTimestamp
     @Temporal(TemporalType.DATE)
     @JsonIgnore
