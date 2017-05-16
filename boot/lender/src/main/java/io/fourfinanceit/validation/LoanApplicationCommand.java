@@ -2,7 +2,7 @@ package io.fourfinanceit.validation;
 
 import io.fourfinanceit.domain.Customer;
 import io.fourfinanceit.repository.CustomerRepository;
-import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
+import io.fourfinanceit.util.IpAddressHolder;
 import io.fourfinanceit.util.SpringContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.validation.Validator;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -133,15 +132,18 @@ public class LoanApplicationCommand implements Serializable, Validator {
         if (customer == null) errors.rejectValue("customerNumber", "", "invalid number");
         else this.setCustomer(customer);
 
-        LoanApplicationAttemptRepository loanApplicationAttemptReposity =
-                SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
+        // Validate ip address count
+        IpAddressHolder ipAddress = SpringContext.getApplicationContext().getBean(IpAddressHolder.class);
+
+        Assert.notNull(ipAddress, "IpAddress must not be null");
+
+//        LoanApplicationAttemptRepository loanApplicationAttemptReposity =
+//                SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
 
 //        loanApplicationAttemptReposity
 //                .findByCustomer(customer)
 //                .stream()
 //                .filter(x -> x.getDateCreated().after(Date.from(LocalDateTime.now().with(LocalTime.ofNanoOfDay(0)).toInstant(ZoneOffset.MIN)));
-
-        // Validate amount
 
 
     }

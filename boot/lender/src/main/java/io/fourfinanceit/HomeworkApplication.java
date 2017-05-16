@@ -26,7 +26,7 @@ public class HomeworkApplication {
             Customer customer1 = new Customer();
             customer1.setNumber("123123123");
             customer1 = customerRepository.save(customer1);
-            LoanApplicationAttempt loandApplicationAttempt = new LoanApplicationAttempt(customer1, "123122123");
+            LoanApplicationAttempt loandApplicationAttempt = new LoanApplicationAttempt(customer1, "127.0.0.1");
             loandApplicationAttempt = loanApplicationAttemptRepository.save(loandApplicationAttempt);
             //Loan loan = new Loan();
             customer1.addLoandApplicationAttempt(loandApplicationAttempt);

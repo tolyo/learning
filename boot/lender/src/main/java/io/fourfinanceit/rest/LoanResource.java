@@ -29,7 +29,6 @@ public class LoanResource {
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {
-            loanApplicationCommand.setIp(request.getRemoteAddr());
         }
         // create and save and application attempt
         // validate application request
