@@ -13,6 +13,7 @@ import org.springframework.validation.Validator;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,6 +35,8 @@ public class LoanApplicationCommand implements Serializable, Validator {
 
     @NotNull
     private Date startDate;
+
+    private String ip;
 
     @NotNull
     private Date endDate;
@@ -79,6 +82,14 @@ public class LoanApplicationCommand implements Serializable, Validator {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     @Override

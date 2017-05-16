@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static io.fourfinanceit.util.ControllerUtils.getErrorMap;
@@ -21,12 +22,14 @@ public class LoanResource {
     private final Logger log = LoggerFactory.getLogger(LoanResource.class);
 
     @PostMapping("")
-    public ResponseEntity<Object> createLoan(@Valid LoanApplicationCommand loanApplicationCommand, Errors errors) {
-        log.info("createLoan > " + loanApplicationCommand.toString());
+    public ResponseEntity<Object> createLoan(@Valid LoanApplicationCommand loanApplicationCommand, Errors errors, HttpServletRequest request) {
+        log.info("createLoan > " + loanApplicationCommand.toString() + " from " + request.getRemoteAddr());
         // create a new loan for a customer
         // extend load
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
+        } else {
+            loanApplicationCommand.setIp(request.getRemoteAddr());
         }
         // create and save and application attempt
         // validate application request

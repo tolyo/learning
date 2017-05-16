@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,6 +25,10 @@ public class LoanApplicationAttempt implements DomainFilter {
     private Long id;
 
     @NotNull
+    /**
+     * Accurate regex to check for an IP address, allowing leading zeros
+     */
+    @Pattern(regexp="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
     private String ip;
 
     @NotNull
