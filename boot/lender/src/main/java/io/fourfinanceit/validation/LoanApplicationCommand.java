@@ -6,13 +6,13 @@ import io.fourfinanceit.repository.CustomerRepository;
 import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.util.IpAddressHolder;
 import io.fourfinanceit.util.SpringContext;
+import io.fourfinanceit.util.SpringEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -20,10 +20,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +37,6 @@ public class LoanApplicationCommand implements Serializable, Validator {
 
     @NotNull
     @Min(0)
-    @Max(100)
     private BigDecimal amount;
 
     @NotNull
@@ -133,37 +131,67 @@ public class LoanApplicationCommand implements Serializable, Validator {
         Assert.notNull(target, "Target must not be null");
         Assert.notNull(errors, "Errors must not be null");
         log.info("Begin validate loan application command");
+
         LoanApplicationCommand cmd = (LoanApplicationCommand) target;
+        log.info("cmd: " + cmd.toString());
 
         // Validate customer number
         CustomerRepository customerRepository = SpringContext.getApplicationContext().getBean(CustomerRepository.class);
         Customer customer = customerRepository.findByNumber(cmd.getCustomerNumber());
-        if (customer == null) errors.rejectValue("customerNumber", "", "invalid number");
-        else this.setCustomer(customer);
+        if (customer.getId() == null) {
+            errors.rejectValue("customerNumber", "", "invalid number");
+            return;
+        } else cmd.setCustomer(customer);
+
+        log.info("Customer" + customer.toString());
 
         // Validate ip address count
-        IpAddressHolder ipAddress = SpringContext.getApplicationContext().getBean(IpAddressHolder.class);
+        cmd.setIp(SpringContext.getApplicationContext().getBean(IpAddressHolder.class).getIpAddress());
 
-        Assert.notNull(ipAddress, "IpAddress must not be null");
+        Integer maxAttemptsLimit = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.max.attempts"));
+        Integer currentAttemptsCount = getCurrentAttemptsCount(cmd);//
 
+        // Risk analysis for IP attempts
+        if (currentAttemptsCount >= maxAttemptsLimit) {
+            errors.rejectValue("customer", "", "attempts exceeded");
+            return;
+        }
+        // Risk analysis for amount and time
+        if ((cmd.getAmount() == new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.max.limit"))) &&
+            isRiskTime()) {
+            errors.rejectValue("customer", "", "risk limits exceeded");
+            return;
+        }
+    }
+
+    private Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
         LoanApplicationAttemptRepository loanApplicationAttemptReposity =
                 SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
 
         // reached max applications (e.g. 3) per day from a single IP
-
         List<LoanApplicationAttempt> loanApplicationAttempts =
                 loanApplicationAttemptReposity.findByCustomer(customer)
-                .stream()
-                .filter(x -> x.getCreated().after(Date.from(LocalDateTime.now().with(LocalTime.ofNanoOfDay(0)).toInstant(ZoneOffset.MIN))))
-                        .collect(Collectors.toList());
+                    .stream()
+                    .filter(x -> x.getIp() == cmd.getIp() &&
+                        x.getCreated().after(Date.from(LocalDateTime.now().with(LocalTime.ofNanoOfDay(0)).toInstant(ZoneOffset.MIN))))
+                    .collect(Collectors.toList());
 
         log.info("Found " + Integer.toString(loanApplicationAttempts.size()));
+        return Integer.valueOf(loanApplicationAttempts.size());
+    }
+
+    private boolean isRiskTime() {
+        Calendar rightNow = Calendar.getInstance();
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+        int start = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
+        int end = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
+        return(start <= hour && hour <= end);
     }
 
     @Override
     public String toString() {
         return "LoanApplicationCommand{" +
-                "customerName='" + customerNumber + '\'' +
+                "customerNumber='" + customerNumber + '\'' +
                 ", amount=" + amount +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

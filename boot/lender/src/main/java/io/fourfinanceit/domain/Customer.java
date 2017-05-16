@@ -153,7 +153,7 @@ public class Customer implements DomainFilter {
         node.put("number", number);
         ArrayNode loanApplicationAttemptsNode = new ArrayNode(JsonNodeFactory.instance);
         loandApplicationAttempts.stream().forEach(x -> loanApplicationAttemptsNode.add(x.toJson()));
-        node.set("loadnAppllicationAttempts", loanApplicationAttemptsNode);
+        node.set("loanAppllicationAttempts", loanApplicationAttemptsNode);
         return node;
     }
 }
