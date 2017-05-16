@@ -9,4 +9,6 @@ import java.util.Set;
 public interface LoanApplicationAttemptRepository extends JpaRepository<LoanApplicationAttempt, Long> {
 
     Set<LoanApplicationAttempt> findByCustomer(Customer customer);
+
+
 }

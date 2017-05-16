@@ -1,7 +1,9 @@
 package io.fourfinanceit.validation;
 
 import io.fourfinanceit.domain.Customer;
+import io.fourfinanceit.domain.LoanApplicationAttempt;
 import io.fourfinanceit.repository.CustomerRepository;
+import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.util.IpAddressHolder;
 import io.fourfinanceit.util.SpringContext;
 import org.slf4j.Logger;
@@ -15,7 +17,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Class for validating loan applications
@@ -137,15 +146,18 @@ public class LoanApplicationCommand implements Serializable, Validator {
 
         Assert.notNull(ipAddress, "IpAddress must not be null");
 
-//        LoanApplicationAttemptRepository loanApplicationAttemptReposity =
-//                SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
+        LoanApplicationAttemptRepository loanApplicationAttemptReposity =
+                SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
 
-//        loanApplicationAttemptReposity
-//                .findByCustomer(customer)
-//                .stream()
-//                .filter(x -> x.getDateCreated().after(Date.from(LocalDateTime.now().with(LocalTime.ofNanoOfDay(0)).toInstant(ZoneOffset.MIN)));
+        // reached max applications (e.g. 3) per day from a single IP
 
+        List<LoanApplicationAttempt> loanApplicationAttempts =
+                loanApplicationAttemptReposity.findByCustomer(customer)
+                .stream()
+                .filter(x -> x.getCreated().after(Date.from(LocalDateTime.now().with(LocalTime.ofNanoOfDay(0)).toInstant(ZoneOffset.MIN))))
+                        .collect(Collectors.toList());
 
+        log.info("Found " + Integer.toString(loanApplicationAttempts.size()));
     }
 
     @Override

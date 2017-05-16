@@ -31,23 +31,19 @@ public class LoanApplicationAttempt implements DomainFilter {
     @Pattern(regexp="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
     private String ip;
 
-    @NotNull
-    @JsonIgnore
-    private Date dateCreated = new Date();
-
     @ManyToOne
     @JsonIgnore
     private Customer customer;
 
     @NotNull
     @CreationTimestamp
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
     private Date created = new Date();
 
     @NotNull
     @UpdateTimestamp
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
     private Date updated = new Date();
 
@@ -77,19 +73,6 @@ public class LoanApplicationAttempt implements DomainFilter {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public LoanApplicationAttempt dateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-        return this;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
     }
 
     public Customer getBorrower() {
@@ -146,7 +129,6 @@ public class LoanApplicationAttempt implements DomainFilter {
         return "LoanApplicationAttempt{" +
                 "id=" + id +
                 ", ip='" + ip + "'" +
-                ", dateCreated='" + dateCreated + "'" +
                 '}';
     }
 
