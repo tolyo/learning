@@ -53,6 +53,7 @@ public class LoanExtension implements DomainFilter {
     public LoanExtension(LoanExtensionCommand cmd) {
         this.startDate = cmd.getStartDate();
         this.endDate = cmd.getEndDate();
+        this.loan = cmd.getLoan();
     }
 
     public Long getId() {
