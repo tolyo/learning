@@ -37,6 +37,7 @@ public class HomeworkApplication {
                                    LoanRepository loanRepository,
                                    LoanExtensionRepository loanExtensionRepository) {
         return () -> {
+            log.info("Generate sample data");
             Customer customer = new Customer();
             customer.setNumber("123123123");
             customer = customerRepository.save(customer);
@@ -48,7 +49,7 @@ public class HomeworkApplication {
             Loan loan = new Loan();
             loan.setCustomer(customer);
             loan.setStartDate(Date.from(LocalDate.now().minusDays(10).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
-            loan.setEndDate(new Date());
+            loan.setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
             loan.setAmount(new BigDecimal(10.10));
             loanRepository.save(loan);
 

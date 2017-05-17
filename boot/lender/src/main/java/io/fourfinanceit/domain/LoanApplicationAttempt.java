@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.util.DomainFilter;
+import io.fourfinanceit.util.FormatUtils;
 import io.fourfinanceit.validation.LoanApplicationCommand;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -19,6 +21,8 @@ import java.util.Objects;
  */
 @Entity
 public class LoanApplicationAttempt implements DomainFilter {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(FormatUtils.DATE_FORMAT);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -137,6 +141,7 @@ public class LoanApplicationAttempt implements DomainFilter {
     @Override
     public ObjectNode toJson() {
         return new ObjectNode(JsonNodeFactory.instance)
+                .put("date", dateFormat.format(this.created))
                 .put("ip", ip);
     }
 }

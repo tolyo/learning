@@ -74,6 +74,16 @@ public class LoanExtensionCommand implements Validator, DateRange {
     }
 
     @Override
+    public String toString() {
+        return "LoanExtensionCommand{" +
+                "number='" + number + '\'' +
+                ", startDate=" + this.getEndDate() +
+                ", endDate=" + endDate +
+                ", loan=" + loan +
+                '}';
+    }
+
+    @Override
     public void validate(Object target, Errors errors) {
         Assert.notNull(target, "Target must not be null");
         Assert.notNull(errors, "Errors must not be null");
@@ -99,6 +109,9 @@ public class LoanExtensionCommand implements Validator, DateRange {
             return;
         }
 
+        // Default extension start date from loan end date
+        log.info("cmd: " + cmd.toString());
+
         // Validate dates
         if (!isDateRangeValid(cmd)) {
             errors.rejectValue("startDate", "", "invalid start date");
@@ -113,7 +126,6 @@ public class LoanExtensionCommand implements Validator, DateRange {
     }
 
     public LoanExtension getLoanExtension() {
-        LoanExtension loanExtension = new LoanExtension();
-        return loanExtension;
+        return new LoanExtension(this);
     }
 }

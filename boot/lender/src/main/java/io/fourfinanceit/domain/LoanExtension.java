@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.util.DomainFilter;
 import io.fourfinanceit.util.FormatUtils;
+import io.fourfinanceit.validation.LoanExtensionCommand;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -46,6 +47,13 @@ public class LoanExtension implements DomainFilter {
 
     @ManyToOne
     private Loan loan;
+
+    public LoanExtension(){}
+
+    public LoanExtension(LoanExtensionCommand cmd) {
+        this.startDate = cmd.getStartDate();
+        this.endDate = cmd.getEndDate();
+    }
 
     public Long getId() {
         return id;
@@ -89,11 +97,6 @@ public class LoanExtension implements DomainFilter {
 
     public Loan getLoan() {
         return loan;
-    }
-
-    public LoanExtension loan(Loan loan) {
-        this.loan = loan;
-        return this;
     }
 
     public void setLoan(Loan loan) {

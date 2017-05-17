@@ -180,6 +180,7 @@ public class Loan implements Serializable, DomainFilter {
     @Override
     public ObjectNode toJson() {
         ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+        node.put("number", number);
         node.put("amount", amount.setScale(2).doubleValue());
         node.put("debt", getCurrentDebt());
         node.put("startDate", dateFormat.format(startDate));
