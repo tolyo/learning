@@ -14,7 +14,7 @@ public class SpringEnvironment implements ApplicationContextAware {
 
     private static Environment environment;
 
-    public static Environment getEnvironment() {
+    public static Environment get() {
         return environment;
     }
 

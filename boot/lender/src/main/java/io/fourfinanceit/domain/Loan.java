@@ -1,14 +1,12 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.fourfinanceit.util.DomainFilter;
-import io.fourfinanceit.util.FormatUtils;
-import io.fourfinanceit.util.JsonDateSerializer;
-import io.fourfinanceit.util.SpringEnvironment;
+import io.fourfinanceit.util.*;
 import io.fourfinanceit.validation.LoanApplicationCommand;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,10 +43,12 @@ public class Loan implements Serializable, DomainFilter {
 
     @NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date startDate = new Date();
 
    //@NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date endDate;
 
    //@NotNull
@@ -196,7 +196,7 @@ public class Loan implements Serializable, DomainFilter {
     public BigDecimal getCurrentDebt() {
         int days = (int)((startDate.getTime() - endDate.getTime())/(1000 * 60 * 60 * 24));
         return amount
-                .multiply(new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.factor")))
+                .multiply(new BigDecimal(SpringEnvironment.get().getProperty("loan.factor")))
                 .multiply(new BigDecimal(days/7))
                 .abs();
     }

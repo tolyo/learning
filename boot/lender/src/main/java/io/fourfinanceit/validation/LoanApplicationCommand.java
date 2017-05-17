@@ -155,7 +155,7 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
         log.info("cmd: " + cmd.toString());
 
         // Validate customer number
-        CustomerRepository customerRepository = SpringContext.getApplicationContext().getBean(CustomerRepository.class);
+        CustomerRepository customerRepository = SpringContext.get().getBean(CustomerRepository.class);
         Customer customer = customerRepository.findByNumber(cmd.getCustomerNumber());
         if (customer.getId() == null) {
             errors.rejectValue("customerNumber", "", "invalid number");
@@ -177,7 +177,7 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
         };
 
         // Validate ip address count
-        Integer maxAttemptsLimit = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.max.attempts"));
+        Integer maxAttemptsLimit = Integer.valueOf(SpringEnvironment.get().getProperty("loan.max.attempts"));
         Integer currentAttemptsCount = getCurrentAttemptsCount(cmd);//
 
         // Risk analysis for IP attempts
@@ -187,7 +187,7 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
         }
 
         // Risk analysis for amount and time
-        if ((cmd.getAmount().compareTo(new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.max.limit")))) == 0 &&
+        if ((cmd.getAmount().compareTo(new BigDecimal(SpringEnvironment.get().getProperty("loan.max.limit")))) == 0 &&
             isRiskTime()) {
             errors.rejectValue("customer", "", "risk limits exceeded");
             return;
@@ -197,9 +197,9 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
     private static Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
         Assert.notNull(cmd.getCustomer(), "Customer must not be null");
         LoanApplicationAttemptRepository loanApplicationAttemptReposity =
-                SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
+                SpringContext.get().getBean(LoanApplicationAttemptRepository.class);
 
-        final int RIGA_TIME = Integer.parseInt(SpringEnvironment.getEnvironment().getProperty("utc.offset"));
+        final int RIGA_TIME = Integer.parseInt(SpringEnvironment.get().getProperty("utc.offset"));
         log.info("Customer " + cmd.getCustomer().toString());
         log.info("Found attemts " + Integer.toString(loanApplicationAttemptReposity.findByCustomer(cmd.getCustomer()).size()));
 
@@ -218,8 +218,8 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
     private static boolean isRiskTime() {
         Calendar rightNow = Calendar.getInstance();
         int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-        int start = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
-        int end = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourend"));
+        int start = Integer.valueOf(SpringEnvironment.get().getProperty("loan.risk.hourstart"));
+        int end = Integer.valueOf(SpringEnvironment.get().getProperty("loan.risk.hourend"));
 
         boolean riskTime = (start <= hour && hour <= end);
         log.info(Boolean.toString(riskTime));

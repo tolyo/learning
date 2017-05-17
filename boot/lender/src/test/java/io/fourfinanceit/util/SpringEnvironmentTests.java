@@ -14,11 +14,11 @@ public class SpringEnvironmentTests {
 
     @Test
     public void testEnvironmentInjection() {
-        assertThat(SpringEnvironment.getEnvironment(), notNullValue());
+        assertThat(SpringEnvironment.get(), notNullValue());
     }
 
     @Test
     public void testLoanFactorSetting() {
-        assertThat(SpringEnvironment.getEnvironment().getProperty("loan.factor"), notNullValue());
+        assertThat(SpringEnvironment.get().getProperty("loan.factor"), notNullValue());
     }
 }

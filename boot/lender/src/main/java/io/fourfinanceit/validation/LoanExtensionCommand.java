@@ -96,7 +96,7 @@ public class LoanExtensionCommand implements Validator, DateRange {
         LoanExtensionCommand cmd = (LoanExtensionCommand) target;
         log.info("cmd: " + cmd.toString());
 
-        LoanRepository loanRepository = SpringContext.getApplicationContext().getBean(LoanRepository.class);
+        LoanRepository loanRepository = SpringContext.get().getBean(LoanRepository.class);
         Loan loan = loanRepository.findByNumber(cmd.getNumber());
 
         if (loan == null) {
