@@ -53,7 +53,6 @@ public class LoanResource {
             @RequestBody @Valid LoanExtensionCommand cmd,
             Errors errors) {
         log.info("updateLoan > " + cmd.toString());
-        // extend load
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {
@@ -71,6 +70,5 @@ public class LoanResource {
     protected void initPutBinder(WebDataBinder binder) {
         binder.addValidators(new LoanExtensionCommand());
     }
-
 
 }

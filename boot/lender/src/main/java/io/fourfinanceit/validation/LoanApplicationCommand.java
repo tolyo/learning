@@ -194,8 +194,6 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
         }
     }
 
-
-
     private static Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
         Assert.notNull(cmd.getCustomer(), "Customer must not be null");
         LoanApplicationAttemptRepository loanApplicationAttemptReposity =

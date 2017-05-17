@@ -2,9 +2,11 @@ package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.util.DomainFilter;
+import io.fourfinanceit.util.FormatUtils;
 import io.fourfinanceit.util.JsonDateSerializer;
 import io.fourfinanceit.util.SpringEnvironment;
 import io.fourfinanceit.validation.LoanApplicationCommand;
@@ -15,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
@@ -25,6 +28,8 @@ import java.util.Set;
  */
 @Entity
 public class Loan implements Serializable, DomainFilter {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(FormatUtils.DATE_FORMAT);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,7 +45,7 @@ public class Loan implements Serializable, DomainFilter {
 
     @NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
-    private Date startDate;
+    private Date startDate = new Date();
 
    //@NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
@@ -55,7 +60,6 @@ public class Loan implements Serializable, DomainFilter {
     @Temporal(TemporalType.DATE)
     @JsonIgnore
     private Date created = new Date();
-
 
    //@NotNull
     @UpdateTimestamp
@@ -176,14 +180,24 @@ public class Loan implements Serializable, DomainFilter {
     @Override
     public ObjectNode toJson() {
         ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+        node.put("amount", amount.setScale(2).doubleValue());
+        node.put("debt", getCurrentDebt());
+        node.put("startDate", dateFormat.format(startDate));
+        node.put("endDate", dateFormat.format(endDate));
+
+        ArrayNode extensionsNode = new ArrayNode(JsonNodeFactory.instance);
+        loanExtensions.stream().forEach(x -> extensionsNode.add(x.toJson()));
+        node.set("extensions", extensionsNode);
+
         return node;
     }
 
     public BigDecimal getCurrentDebt() {
+        int days = (int)((startDate.getTime() - endDate.getTime())/(1000 * 60 * 60 * 24));
         return amount
                 .multiply(new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.factor")))
-                // todo multiply by periods
-                ;
+                .multiply(new BigDecimal(days/7))
+                .abs();
     }
 
     public boolean isActive() {

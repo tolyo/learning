@@ -1,11 +1,16 @@
 package io.fourfinanceit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.fourfinanceit.util.DomainFilter;
+import io.fourfinanceit.util.FormatUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +18,9 @@ import java.util.Objects;
  * Loan extentions modify a loan
  */
 @Entity
-public class LoanExtension {
+public class LoanExtension implements DomainFilter {
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(FormatUtils.DATE_FORMAT);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -122,5 +129,13 @@ public class LoanExtension {
                 ", create='" + created + "'" +
                 ", updated='" + updated + "'" +
                 '}';
+    }
+
+    @Override
+    public ObjectNode toJson() {
+        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
+        node.put("startDate", dateFormat.format(startDate));
+        node.put("endDate", dateFormat.format(endDate));
+        return node;
     }
 }
