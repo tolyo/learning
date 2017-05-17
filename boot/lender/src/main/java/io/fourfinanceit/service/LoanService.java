@@ -9,6 +9,7 @@ import io.fourfinanceit.validation.LoanExtensionCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 @Transactional
@@ -21,10 +22,22 @@ public class LoanService {
     LoanExtensionRepository loanExtensionRepository;
 
     public Loan createLoan(LoanApplicationCommand cmd) {
-        return loanRepository.save(cmd.getLoan());
+        Loan loan = cmd.getLoan();
+        Loan existingLoan = loanRepository.findByNumber(loan.getNumber());
+        if (existingLoan != null) return createLoan(cmd);
+        else return loanRepository.save(loan);
     }
 
     public LoanExtension extendLoan(LoanExtensionCommand cmd) {
+        Assert.notNull(cmd, "LoanExtensionCommand must not be null");
+        Assert.notNull(cmd.getLoan(), "Loan must not be null");
+
+        // Update end date for loan
+        Loan loan = cmd.getLoan();
+        cmd.getLoanExtension().setStartDate(loan.getEndDate());
+        loan.setEndDate(cmd.getEndDate());
+        loanRepository.save(loan);
+
         return loanExtensionRepository.save(cmd.getLoanExtension());
     }
 }

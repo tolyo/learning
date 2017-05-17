@@ -6,7 +6,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,10 +20,10 @@ public class LoanExtension {
     private Long id;
 
     @NotNull
-    private LocalDate startDate;
+    private Date startDate;
 
     @NotNull
-    private LocalDate endDate;
+    private Date endDate;
 
     @NotNull
     @CreationTimestamp
@@ -49,29 +48,19 @@ public class LoanExtension {
         this.id = id;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public LoanExtension startDate(LocalDate startDate) {
-        this.startDate = startDate;
-        return this;
-    }
-
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public LoanExtension endDate(LocalDate endDate) {
-        this.endDate = endDate;
-        return this;
-    }
-
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 

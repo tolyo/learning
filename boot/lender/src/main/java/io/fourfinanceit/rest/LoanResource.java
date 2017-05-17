@@ -50,17 +50,16 @@ public class LoanResource {
 
     @PutMapping("")
     public ResponseEntity<ObjectNode> updateLoan(
-            @RequestBody @Valid LoanExtensionCommand loanExtensionCommand,
+            @RequestBody @Valid LoanExtensionCommand cmd,
             Errors errors) {
-        log.info("updateLoan > " + loanExtensionCommand.toString());
+        log.info("updateLoan > " + cmd.toString());
         // extend load
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
+        } else {
+            loanService.extendLoan(cmd);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
-        // validate extention request
-
-        // return created
-        return null;
     }
 
     @InitBinder("loanApplicationCommand")

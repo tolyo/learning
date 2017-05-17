@@ -33,7 +33,7 @@ public class Loan implements Serializable, DomainFilter {
 
     // Validated fields
     @NotNull
-    private String number = String.format("%09d", new Random().nextInt(999999999));
+    private String number = getRandomNumber();
 
     @ManyToOne
     private Customer customer;
@@ -188,5 +188,13 @@ public class Loan implements Serializable, DomainFilter {
 
     public boolean isActive() {
         return this.getEndDate().after(new Date());
+    }
+
+    private static String getRandomNumber() {
+        return String.format("%09d", new Random().nextInt(999999999));
+    }
+
+    public void resetNumber() {
+        this.number = getRandomNumber();
     }
 }

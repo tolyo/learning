@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.fourfinanceit.domain.Loan;
 import io.fourfinanceit.domain.LoanExtension;
 import io.fourfinanceit.repository.LoanRepository;
+import io.fourfinanceit.util.DateRange;
 import io.fourfinanceit.util.JsonDateDeserializer;
 import io.fourfinanceit.util.JsonDateSerializer;
 import io.fourfinanceit.util.SpringContext;
@@ -17,10 +18,13 @@ import org.springframework.validation.Validator;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+import static io.fourfinanceit.util.ValidationUtils.isDateRangeMinValid;
+import static io.fourfinanceit.util.ValidationUtils.isDateRangeValid;
+
 /**
  * Validator for loan extensions
  */
-public class LoanExtensionCommand implements Validator {
+public class LoanExtensionCommand implements Validator, DateRange {
 
     private static final Logger log = LoggerFactory.getLogger(LoanExtensionCommand.class);
 
@@ -32,6 +36,8 @@ public class LoanExtensionCommand implements Validator {
     @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date endDate;
 
+    Loan loan;
+
     public String getNumber() {
         return number;
     }
@@ -40,12 +46,26 @@ public class LoanExtensionCommand implements Validator {
         this.number = number;
     }
 
+    @Override
+    public Date getStartDate() {
+        return this.loan.getEndDate();
+    }
+
+    @Override
     public Date getEndDate() {
         return endDate;
     }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
     }
 
     @Override
@@ -70,12 +90,25 @@ public class LoanExtensionCommand implements Validator {
         Loan loan = loanRepository.findByNumber(cmd.getNumber());
 
         if (loan == null) {
-
-        }
+            errors.rejectValue("number", "", "invalid number");
+            return;
+        } else cmd.setLoan(loan);
 
         if (!loan.isActive()) {
-
+            errors.rejectValue("loan", "", "expired loan");
+            return;
         }
+
+        // Validate dates
+        if (!isDateRangeValid(cmd)) {
+            errors.rejectValue("startDate", "", "invalid start date");
+            return;
+        };
+
+        if (!isDateRangeMinValid(cmd)) {
+            errors.rejectValue("endDate", "", "invalid end date");
+            return;
+        };
 
     }
 

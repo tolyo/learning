@@ -19,14 +19,14 @@ public class LoanTests {
 
     @Test
     public void testIsActive() {
-        // give an active loan
+        // given an active loan
         loan = new Loan();
-        loan.setEndDate(new Date(new Date().getTime() + (100000)));
-        // should be trie
+        loan.setEndDate(new Date(new Date().getTime() + (10000)));
+        // should be true
         assertThat(loan.isActive(), is(true));
 
         // given an inactive loan
-        loan.setEndDate(new Date(new Date().getTime() - (100000)));
+        loan.setEndDate(new Date(new Date().getTime() - (10000)));
         // should be false
         assertThat(loan.isActive(), is(false));
     }

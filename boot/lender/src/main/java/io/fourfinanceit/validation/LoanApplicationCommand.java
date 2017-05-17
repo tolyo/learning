@@ -21,16 +21,18 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.fourfinanceit.util.ValidationUtils.isDateRangeMinValid;
+import static io.fourfinanceit.util.ValidationUtils.isDateRangeValid;
+
 /**
  * Class for validating loan applications
  */
-public class LoanApplicationCommand implements Serializable, Validator {
+public class LoanApplicationCommand implements Serializable, Validator, DateRange {
 
     private static final Logger log = LoggerFactory.getLogger(LoanApplicationCommand.class);
 
@@ -77,6 +79,7 @@ public class LoanApplicationCommand implements Serializable, Validator {
         this.amount = amount;
     }
 
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -85,6 +88,7 @@ public class LoanApplicationCommand implements Serializable, Validator {
         this.startDate = startDate;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -190,16 +194,7 @@ public class LoanApplicationCommand implements Serializable, Validator {
         }
     }
 
-    private boolean isDateRangeMinValid(LoanApplicationCommand cmd) {
-        long days = ChronoUnit.DAYS.between(cmd.getStartDate().toInstant(), cmd.getEndDate().toInstant());
-        boolean range = days >= Long.parseLong(SpringEnvironment.getEnvironment().getProperty("loan.min.period.days"));
-        return range;
-    }
 
-    private boolean isDateRangeValid(LoanApplicationCommand cmd) {
-        log.error("isDateRangeValid" + cmd.getStartDate().after(cmd.getEndDate()));
-        return cmd.getStartDate().before(cmd.getEndDate());
-    }
 
     private static Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
         Assert.notNull(cmd.getCustomer(), "Customer must not be null");
@@ -258,4 +253,5 @@ public class LoanApplicationCommand implements Serializable, Validator {
     public boolean isValidApplicationAttempt() {
         return (this.getCustomer() != null && this.getIp() != null);
     }
+
 }
