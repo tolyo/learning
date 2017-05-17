@@ -4,6 +4,10 @@ import io.fourfinanceit.domain.Customer;
 import io.fourfinanceit.domain.LoanApplicationAttempt;
 import io.fourfinanceit.repository.CustomerRepository;
 import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
+import io.fourfinanceit.validation.LoanApplicationCommand;
+import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 public class HomeworkApplication {
+
+    private final Logger log = LoggerFactory.getLogger(HomeworkApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(HomeworkApplication.class, args);
@@ -28,12 +34,6 @@ public class HomeworkApplication {
             customer1 = customerRepository.save(customer1);
             LoanApplicationAttempt loandApplicationAttempt = new LoanApplicationAttempt(customer1, "127.0.0.1");
             loandApplicationAttempt = loanApplicationAttemptRepository.save(loandApplicationAttempt);
-            //Loan loan = new Loan();
-            customer1.addLoandApplicationAttempt(loandApplicationAttempt);
-//            customer1.addLoan(loan);
-
-            customerRepository.save(new Customer("22211"));
-            customerRepository.save(new Customer("22233"));
         };
     }
 }

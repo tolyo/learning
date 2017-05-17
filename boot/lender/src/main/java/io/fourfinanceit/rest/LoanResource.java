@@ -39,7 +39,7 @@ public class LoanResource {
             Errors errors,
             HttpServletRequest request) {
         log.info("createLoan > " + loanApplicationCommand.toString() + " from " + request.getRemoteAddr());
-        loanApplicationAttemptRepository.save(loanApplicationCommand.getLoanApplicationAttempt());
+        if (loanApplicationCommand.isValidApplicationAttempt()) loanApplicationAttemptRepository.save(loanApplicationCommand.getLoanApplicationAttempt());
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {

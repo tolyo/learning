@@ -10,6 +10,7 @@ import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -20,7 +21,6 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  */
 public class LoanApplicationCommand implements Serializable, Validator {
 
-    private final Logger log = LoggerFactory.getLogger(LoanApplicationCommand.class);
+    private static final Logger log = LoggerFactory.getLogger(LoanApplicationCommand.class);
 
     // Validated fields
     private String customerNumber;
@@ -142,20 +142,14 @@ public class LoanApplicationCommand implements Serializable, Validator {
     public void validate(Object target, Errors errors) {
         Assert.notNull(target, "Target must not be null");
         Assert.notNull(errors, "Errors must not be null");
+
+        // Validate constraints first
+        if (errors.hasErrors()) return;
+
         log.info("Begin validate loan application command");
 
         LoanApplicationCommand cmd = (LoanApplicationCommand) target;
         log.info("cmd: " + cmd.toString());
-
-        // Validate dates
-        if (!isDateRangeValid(cmd)) {
-            errors.rejectValue("startDate", "", "invalid start date");
-            return;
-        };
-        if (!isDateRangeMinValid(cmd)) {
-            errors.rejectValue("endDate", "", "invalid end date");
-            return;
-        }; 
 
         // Validate customer number
         CustomerRepository customerRepository = SpringContext.getApplicationContext().getBean(CustomerRepository.class);
@@ -166,6 +160,18 @@ public class LoanApplicationCommand implements Serializable, Validator {
         } else cmd.setCustomer(customer);
 
         log.info("Customer" + customer.toString());
+
+
+        // Validate dates
+        if (!isDateRangeValid(cmd)) {
+            errors.rejectValue("startDate", "", "invalid start date");
+            return;
+        };
+
+        if (!isDateRangeMinValid(cmd)) {
+            errors.rejectValue("endDate", "", "invalid end date");
+            return;
+        };
 
         // Validate ip address count
         Integer maxAttemptsLimit = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.max.attempts"));
@@ -178,7 +184,7 @@ public class LoanApplicationCommand implements Serializable, Validator {
         }
 
         // Risk analysis for amount and time
-        if ((cmd.getAmount() == new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.max.limit"))) &&
+        if ((cmd.getAmount().compareTo(new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.max.limit")))) == 0 &&
             isRiskTime()) {
             errors.rejectValue("customer", "", "risk limits exceeded");
             return;
@@ -196,27 +202,35 @@ public class LoanApplicationCommand implements Serializable, Validator {
         return cmd.getStartDate().before(cmd.getEndDate());
     }
 
-    private Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
+    private static Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
+        Assert.notNull(cmd.getCustomer(), "Customer must not be null");
         LoanApplicationAttemptRepository loanApplicationAttemptReposity =
                 SpringContext.getApplicationContext().getBean(LoanApplicationAttemptRepository.class);
 
+        final int RIGA_TIME = Integer.parseInt(SpringEnvironment.getEnvironment().getProperty("utc.offset"));
+        log.info("Customer " + cmd.getCustomer().toString());
+        log.info("Found attemts " + Integer.toString(loanApplicationAttemptReposity.findByCustomer(cmd.getCustomer()).size()));
+
         // reached max applications (e.g. 3) per day from a single IP
         List<LoanApplicationAttempt> loanApplicationAttempts =
-                loanApplicationAttemptReposity.findByCustomer(customer)
+                loanApplicationAttemptReposity.findByCustomer(cmd.getCustomer())
                     .stream()
-                    .filter(x -> x.getIp() == cmd.getIp() &&
-                        x.getCreated().after(Date.from(LocalDateTime.now().with(LocalTime.ofNanoOfDay(0)).toInstant(ZoneOffset.MIN))))
+                    .filter(x -> x.getIp().contentEquals(cmd.getIp()) &&
+                        x.getCreated().after(Date.from( LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).toInstant(ZoneOffset.ofHours(RIGA_TIME)))))
                     .collect(Collectors.toList());
 
         log.info("Found " + Integer.toString(loanApplicationAttempts.size()));
         return Integer.valueOf(loanApplicationAttempts.size());
     }
 
-    private boolean isRiskTime() {
+    private static boolean isRiskTime() {
         Calendar rightNow = Calendar.getInstance();
         int hour = rightNow.get(Calendar.HOUR_OF_DAY);
         int start = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
-        int end = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
+        int end = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourend"));
+
+        boolean riskTime = (start <= hour && hour <= end);
+        log.info(Boolean.toString(riskTime));
         return(start <= hour && hour <= end);
     }
 
@@ -236,5 +250,13 @@ public class LoanApplicationCommand implements Serializable, Validator {
 
     public LoanApplicationAttempt getLoanApplicationAttempt() {
         return new LoanApplicationAttempt(this);
+    }
+
+    /**
+     * Verify the application attempt is sufficient persistence.
+     * @return
+     */
+    public boolean isValidApplicationAttempt() {
+        return (this.getCustomer() != null && this.getIp() != null);
     }
 }
