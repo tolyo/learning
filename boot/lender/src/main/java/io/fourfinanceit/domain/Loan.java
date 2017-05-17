@@ -12,10 +12,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -29,10 +31,14 @@ public class Loan implements Serializable, DomainFilter {
     @JsonIgnore
     private Long id;
 
+    // Validated fields
+    @NotNull
+    private String number = String.format("%09d", new Random().nextInt(999999999));
+
     @ManyToOne
     private Customer customer;
 
-   //@NotNull
+    @NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
     private Date startDate;
 
@@ -44,12 +50,12 @@ public class Loan implements Serializable, DomainFilter {
     @Column(precision=10, scale=2)
     private BigDecimal amount;
 
-
    //@NotNull
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     @JsonIgnore
     private Date created = new Date();
+
 
    //@NotNull
     @UpdateTimestamp
@@ -83,6 +89,10 @@ public class Loan implements Serializable, DomainFilter {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
     }
 
     public Customer getCustomer() {
@@ -174,5 +184,9 @@ public class Loan implements Serializable, DomainFilter {
                 .multiply(new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.factor")))
                 // todo multiply by periods
                 ;
+    }
+
+    public boolean isActive() {
+        return this.getEndDate().after(new Date());
     }
 }

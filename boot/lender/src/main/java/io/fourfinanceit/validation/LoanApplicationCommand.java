@@ -10,7 +10,6 @@ import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -146,7 +145,7 @@ public class LoanApplicationCommand implements Serializable, Validator {
         // Validate constraints first
         if (errors.hasErrors()) return;
 
-        log.info("Begin validate loan application command");
+        log.info("Begin custom loan application command");
 
         LoanApplicationCommand cmd = (LoanApplicationCommand) target;
         log.info("cmd: " + cmd.toString());
