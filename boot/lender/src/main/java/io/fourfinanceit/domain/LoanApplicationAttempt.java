@@ -14,7 +14,8 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * For every loan there may be several application attempts
+ * For every loan there may be several application attempts, which
+ * need to be persisted for risk evaluation purposes.
  */
 @Entity
 public class LoanApplicationAttempt implements DomainFilter {

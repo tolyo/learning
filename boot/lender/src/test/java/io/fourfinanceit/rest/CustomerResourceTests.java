@@ -41,6 +41,6 @@ public class CustomerResourceTests {
     public void testGetCustomers() {
         ResponseEntity<Customer[]> responseEntity = this.restTemplate.getForEntity("/customers", Customer[].class);
         List<Customer> customers = Arrays.asList(responseEntity.getBody());
-        assertThat(customers.size(), equalTo(3));
+        assertThat(customers.size(), equalTo(1));
     }
 }
