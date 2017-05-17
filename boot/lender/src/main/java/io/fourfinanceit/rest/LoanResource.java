@@ -1,10 +1,12 @@
 package io.fourfinanceit.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.fourfinanceit.service.LoanService;
 import io.fourfinanceit.validation.LoanApplicationCommand;
 import io.fourfinanceit.validation.LoanExtensionCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
@@ -23,6 +25,9 @@ public class LoanResource {
 
     private final Logger log = LoggerFactory.getLogger(LoanResource.class);
 
+    @Autowired
+    LoanService loanService;
+
     @PostMapping("")
     public ResponseEntity<Object> createLoan(
             @RequestBody @Valid LoanApplicationCommand loanApplicationCommand,
@@ -32,8 +37,9 @@ public class LoanResource {
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {
+            loanService.createLoan(loanApplicationCommand);
+            return ResponseEntity.created(null).body(null);
         }
-        return null;
     }
 
     @PutMapping("")

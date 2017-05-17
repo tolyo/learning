@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.util.DomainFilter;
 import io.fourfinanceit.util.JsonDateSerializer;
+import io.fourfinanceit.util.SpringEnvironment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -169,5 +170,12 @@ public class Loan implements Serializable, DomainFilter {
     public ObjectNode toJson() {
         ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
         return node;
+    }
+
+    public BigDecimal getCurrentDebt() {
+        return amount
+                .multiply(new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.factor")))
+                // todo multiply by periods
+                ;
     }
 }

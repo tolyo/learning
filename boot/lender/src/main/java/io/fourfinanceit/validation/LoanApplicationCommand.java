@@ -1,12 +1,13 @@
 package io.fourfinanceit.validation;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.fourfinanceit.domain.Customer;
+import io.fourfinanceit.domain.Loan;
 import io.fourfinanceit.domain.LoanApplicationAttempt;
 import io.fourfinanceit.repository.CustomerRepository;
 import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
-import io.fourfinanceit.util.IpAddressHolder;
-import io.fourfinanceit.util.SpringContext;
-import io.fourfinanceit.util.SpringEnvironment;
+import io.fourfinanceit.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -15,11 +16,13 @@ import org.springframework.validation.Validator;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,12 +42,21 @@ public class LoanApplicationCommand implements Serializable, Validator {
     @Min(0)
     private BigDecimal amount;
 
+    /**
+     * Accurate regex to check for an IP address, allowing leading zeros
+     */
     @NotNull
-    private Date startDate;
-
+    @Pattern(regexp= RegexUtils.IP_REGEX, message = "invalid ip")
     private String ip;
 
     @NotNull
+    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonDeserialize(using=JsonDateDeserializer.class)
+    private Date startDate;
+
+    @NotNull
+    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date endDate;
 
     // Popullated fields
@@ -135,6 +147,16 @@ public class LoanApplicationCommand implements Serializable, Validator {
         LoanApplicationCommand cmd = (LoanApplicationCommand) target;
         log.info("cmd: " + cmd.toString());
 
+        // Validate dates
+        if (!isDateRangeValid(cmd)) {
+            errors.rejectValue("startDate", "", "invalid start date");
+            return;
+        };
+        if (!isDateRangeMinValid(cmd)) {
+            errors.rejectValue("endDate", "", "invalid end date");
+            return;
+        }; 
+
         // Validate customer number
         CustomerRepository customerRepository = SpringContext.getApplicationContext().getBean(CustomerRepository.class);
         Customer customer = customerRepository.findByNumber(cmd.getCustomerNumber());
@@ -146,8 +168,6 @@ public class LoanApplicationCommand implements Serializable, Validator {
         log.info("Customer" + customer.toString());
 
         // Validate ip address count
-        cmd.setIp(SpringContext.getApplicationContext().getBean(IpAddressHolder.class).getIpAddress());
-
         Integer maxAttemptsLimit = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.max.attempts"));
         Integer currentAttemptsCount = getCurrentAttemptsCount(cmd);//
 
@@ -156,12 +176,23 @@ public class LoanApplicationCommand implements Serializable, Validator {
             errors.rejectValue("customer", "", "attempts exceeded");
             return;
         }
+
         // Risk analysis for amount and time
         if ((cmd.getAmount() == new BigDecimal(SpringEnvironment.getEnvironment().getProperty("loan.max.limit"))) &&
             isRiskTime()) {
             errors.rejectValue("customer", "", "risk limits exceeded");
             return;
         }
+    }
+
+    private boolean isDateRangeMinValid(LoanApplicationCommand cmd) {
+        long days = ChronoUnit.DAYS.between(cmd.getStartDate().toInstant(), cmd.getEndDate().toInstant());
+        boolean range = days >= Long.parseLong(SpringEnvironment.getEnvironment().getProperty("loan.min.period.days"));
+        return range;
+    }
+
+    private boolean isDateRangeValid(LoanApplicationCommand cmd) {
+        return cmd.getStartDate().after(cmd.getEndDate());
     }
 
     private Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
@@ -186,6 +217,10 @@ public class LoanApplicationCommand implements Serializable, Validator {
         int start = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
         int end = Integer.valueOf(SpringEnvironment.getEnvironment().getProperty("loan.risk.hourstart"));
         return(start <= hour && hour <= end);
+    }
+
+    public Loan getLoan() {
+        return null;
     }
 
     @Override

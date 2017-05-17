@@ -10,5 +10,4 @@ public interface LoanApplicationAttemptRepository extends JpaRepository<LoanAppl
 
     Set<LoanApplicationAttempt> findByCustomer(Customer customer);
 
-
 }
