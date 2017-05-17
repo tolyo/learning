@@ -233,4 +233,8 @@ public class LoanApplicationCommand implements Serializable, Validator {
                 ", endDate=" + endDate +
                 '}';
     }
+
+    public LoanApplicationAttempt getLoanApplicationAttempt() {
+        return new LoanApplicationAttempt(this);
+    }
 }

@@ -1,6 +1,7 @@
 package io.fourfinanceit.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.service.LoanService;
 import io.fourfinanceit.validation.LoanApplicationCommand;
 import io.fourfinanceit.validation.LoanExtensionCommand;
@@ -29,12 +30,16 @@ public class LoanResource {
     @Autowired
     LoanService loanService;
 
+    @Autowired
+    LoanApplicationAttemptRepository loanApplicationAttemptRepository;
+
     @PostMapping("")
     public ResponseEntity<Object> createLoan(
             @RequestBody @Valid LoanApplicationCommand loanApplicationCommand,
             Errors errors,
             HttpServletRequest request) {
         log.info("createLoan > " + loanApplicationCommand.toString() + " from " + request.getRemoteAddr());
+        loanApplicationAttemptRepository.save(loanApplicationCommand.getLoanApplicationAttempt());
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {

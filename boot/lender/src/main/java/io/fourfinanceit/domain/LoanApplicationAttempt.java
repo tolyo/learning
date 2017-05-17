@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.util.DomainFilter;
+import io.fourfinanceit.validation.LoanApplicationCommand;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -43,6 +44,11 @@ public class LoanApplicationAttempt implements DomainFilter {
     private Date updated = new Date();
 
     public LoanApplicationAttempt() {}
+
+    public LoanApplicationAttempt(LoanApplicationCommand cmd) {
+        this.customer = cmd.getCustomer();
+        this.ip = cmd.getIp();
+    }
 
     public LoanApplicationAttempt(Customer customer, String ip) {
         this.customer = customer;
