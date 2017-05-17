@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.util.DomainFilter;
 import io.fourfinanceit.util.JsonDateSerializer;
 import io.fourfinanceit.util.SpringEnvironment;
+import io.fourfinanceit.validation.LoanApplicationCommand;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -43,9 +44,6 @@ public class Loan implements Serializable, DomainFilter {
     @Column(precision=10, scale=2)
     private BigDecimal amount;
 
-   //@NotNull
-    @Column(precision=10, scale=2)
-    private BigDecimal rate;
 
    //@NotNull
     @CreationTimestamp
@@ -64,6 +62,14 @@ public class Loan implements Serializable, DomainFilter {
     private Set<LoanExtension> loanExtensions = new HashSet<>();
 
     public Loan() {};
+
+    public Loan(LoanApplicationCommand cmd) {
+        this.startDate = cmd.getStartDate();
+        this.endDate = cmd.getEndDate();
+        this.amount = cmd.getAmount();
+        this.customer = cmd.getCustomer();
+
+    };
 
     public Loan(Date startDate, Date endDate, BigDecimal amount) {
         this.startDate = startDate;
@@ -111,14 +117,6 @@ public class Loan implements Serializable, DomainFilter {
         this.amount = amount;
     }
 
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
-    }
-
     public Date getUpdated() {
         return updated;
     }
@@ -159,7 +157,6 @@ public class Loan implements Serializable, DomainFilter {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", amount=" + amount +
-                ", rate=" + rate +
                 ", created=" + created +
                 ", updated=" + updated +
                 ", loanExtensions=" + loanExtensions +

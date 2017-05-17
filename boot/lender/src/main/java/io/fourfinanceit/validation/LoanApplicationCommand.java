@@ -192,7 +192,8 @@ public class LoanApplicationCommand implements Serializable, Validator {
     }
 
     private boolean isDateRangeValid(LoanApplicationCommand cmd) {
-        return cmd.getStartDate().after(cmd.getEndDate());
+        log.error("isDateRangeValid" + cmd.getStartDate().after(cmd.getEndDate()));
+        return cmd.getStartDate().before(cmd.getEndDate());
     }
 
     private Integer getCurrentAttemptsCount(LoanApplicationCommand cmd) {
@@ -220,7 +221,7 @@ public class LoanApplicationCommand implements Serializable, Validator {
     }
 
     public Loan getLoan() {
-        return null;
+        return new Loan(this);
     }
 
     @Override
