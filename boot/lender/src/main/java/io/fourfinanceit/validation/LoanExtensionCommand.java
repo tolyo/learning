@@ -18,8 +18,8 @@ import org.springframework.validation.Validator;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-import static io.fourfinanceit.util.ValidationUtils.isDateRangeMinValid;
-import static io.fourfinanceit.util.ValidationUtils.isDateRangeValid;
+import static io.fourfinanceit.util.RangeValidation.isDateRangeMinValid;
+import static io.fourfinanceit.util.RangeValidation.isDateRangeValid;
 
 /**
  * Validator for loan extensions

@@ -26,8 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.fourfinanceit.util.ValidationUtils.isDateRangeMinValid;
-import static io.fourfinanceit.util.ValidationUtils.isDateRangeValid;
+import static io.fourfinanceit.util.RangeValidation.isDateRangeMinValid;
+import static io.fourfinanceit.util.RangeValidation.isDateRangeValid;
 
 /**
  * Class for validating loan applications
@@ -157,7 +157,7 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
         // Validate customer number
         CustomerRepository customerRepository = SpringContext.get().getBean(CustomerRepository.class);
         Customer customer = customerRepository.findByNumber(cmd.getCustomerNumber());
-        if (customer.getId() == null) {
+        if (customer == null) {
             errors.rejectValue("customerNumber", "", "invalid number");
             return;
         } else cmd.setCustomer(customer);

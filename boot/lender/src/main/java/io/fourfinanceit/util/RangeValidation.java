@@ -2,7 +2,7 @@ package io.fourfinanceit.util;
 
 import java.time.temporal.ChronoUnit;
 
-public abstract class ValidationUtils {
+public abstract class RangeValidation {
 
     public static boolean isDateRangeMinValid(DateRange cmd) {
         long days = ChronoUnit.DAYS.between(cmd.getStartDate().toInstant(), cmd.getEndDate().toInstant());
