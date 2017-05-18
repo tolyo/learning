@@ -1,5 +1,6 @@
 package io.fourfinanceit.rest;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.domain.Customer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +14,11 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Arrays;
 import java.util.List;
 
+import static io.fourfinanceit.util.test.TestHelpers.CUSTOMER_NUMBER;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -36,5 +39,13 @@ public class CustomerResourceTests {
         ResponseEntity<Customer[]> responseEntity = this.restTemplate.getForEntity("/customers", Customer[].class);
         List<Customer> customers = Arrays.asList(responseEntity.getBody());
         assertThat(customers.size(), equalTo(1));
+    }
+
+    @Test
+    public void testGetCustomer() {
+        ResponseEntity<ObjectNode> responseEntity = this.restTemplate
+                .getForEntity("/customers/" + CUSTOMER_NUMBER, ObjectNode.class);
+        ObjectNode customer = responseEntity.getBody();
+        assertThat(customer.get("number").asText(), is(CUSTOMER_NUMBER));
     }
 }
