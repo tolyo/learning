@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Loan extentions modify a loan
+ * Loan extensions modify a loan
  */
 @Entity
 public class LoanExtension implements DomainFilter {
