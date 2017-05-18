@@ -8,6 +8,7 @@ import io.fourfinanceit.repository.CustomerRepository;
 import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.repository.LoanExtensionRepository;
 import io.fourfinanceit.repository.LoanRepository;
+import io.fourfinanceit.util.test.TestHelpers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,9 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 @SpringBootApplication
 public class HomeworkApplication {
@@ -39,7 +37,7 @@ public class HomeworkApplication {
         return () -> {
             log.info("Generate sample data");
             Customer customer = new Customer();
-            customer.setNumber("123123123");
+            customer.setNumber(TestHelpers.CUSTOMER_NUMBER);
             customer = customerRepository.save(customer);
             // Sample loan application
             LoanApplicationAttempt loandApplicationAttempt = new LoanApplicationAttempt(customer, "127.0.0.1");
@@ -48,8 +46,8 @@ public class HomeworkApplication {
             // Sample loan
             Loan loan = new Loan();
             loan.setCustomer(customer);
-            loan.setStartDate(Date.from(LocalDate.now().minusDays(10).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
-            loan.setEndDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+            loan.setStartDate(TestHelpers.WEEK_AGO);
+            loan.setEndDate(TestHelpers.TOMORROW);
             loan.setAmount(new BigDecimal(10.10));
             loanRepository.save(loan);
 
@@ -57,7 +55,7 @@ public class HomeworkApplication {
             LoanExtension loanExtension = new LoanExtension();
             loanExtension.setLoan(loan);
             loanExtension.setStartDate(loan.getEndDate());
-            loanExtension.setEndDate(Date.from(LocalDate.now().plusDays(10).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+            loanExtension.setEndDate(TestHelpers.WEEK_FROM_NOW);
             loanExtensionRepository.save(loanExtension);
         };
     }

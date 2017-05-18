@@ -90,13 +90,13 @@ public class Customer implements DomainFilter {
 
     public Customer addLoandApplicationAttempt(LoanApplicationAttempt loanApplicationAttempt) {
         this.loandApplicationAttempts.add(loanApplicationAttempt);
-        loanApplicationAttempt.setBorrower(this);
+        loanApplicationAttempt.setCustomer(this);
         return this;
     }
 
     public Customer removeLoandApplicationAttempt(LoanApplicationAttempt loanApplicationAttempt) {
         this.loandApplicationAttempts.remove(loanApplicationAttempt);
-        loanApplicationAttempt.setBorrower(null);
+        loanApplicationAttempt.setCustomer(null);
         return this;
     }
 

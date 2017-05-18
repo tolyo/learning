@@ -81,7 +81,7 @@ public class LoanApplicationAttempt implements DomainFilter {
         this.ip = ip;
     }
 
-    public Customer getBorrower() {
+    public Customer getCustomer() {
         return customer;
     }
 
@@ -90,7 +90,7 @@ public class LoanApplicationAttempt implements DomainFilter {
         return this;
     }
 
-    public void setBorrower(Customer customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 

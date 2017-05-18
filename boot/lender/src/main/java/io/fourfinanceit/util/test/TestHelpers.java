@@ -7,6 +7,8 @@ import java.util.Date;
 
 abstract public class TestHelpers {
 
+    public static final String CUSTOMER_NUMBER = "111111";
+
     public static final Date TODAY = new Date();
     public static final Date TOMORROW = Date.from(LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     public static final Date YESTERDAY = Date.from(LocalDate.now().minusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());

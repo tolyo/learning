@@ -38,6 +38,8 @@ public class Loan implements Serializable, DomainFilter {
     @NotNull
     private String number = getRandomNumber();
 
+    @NotNull
+
     @ManyToOne
     private Customer customer;
 
@@ -46,22 +48,20 @@ public class Loan implements Serializable, DomainFilter {
     @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date startDate = new Date();
 
-   //@NotNull
+    @NotNull
     @JsonSerialize(using=JsonDateSerializer.class)
     @JsonDeserialize(using=JsonDateDeserializer.class)
     private Date endDate;
 
-   //@NotNull
+    @NotNull
     @Column(precision=10, scale=2)
     private BigDecimal amount;
 
-   //@NotNull
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     @JsonIgnore
     private Date created = new Date();
 
-   //@NotNull
     @UpdateTimestamp
     @Temporal(TemporalType.DATE)
     @JsonIgnore
