@@ -141,7 +141,6 @@ public class LoanApplicationCommandTests {
     public void testIsValidApplicationAttempts() {
         // given a valid loan application attempt
         cmd = getValidLoanApplicationCommand(customer);
-        cmd.setIp("127.0.0.1");
         // expect true
         assertThat(cmd.isValidApplicationAttempt(), is(true));
 

@@ -1,73 +1,87 @@
 package io.fourfinanceit.validation;
 
-import io.fourfinanceit.HomeworkApplication;
 import io.fourfinanceit.domain.Loan;
 import io.fourfinanceit.repository.CustomerRepository;
+import io.fourfinanceit.repository.LoanRepository;
 import io.fourfinanceit.util.test.TestHelpers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 
+import static io.fourfinanceit.util.test.TestHelpers.TOMORROW;
+import static io.fourfinanceit.util.test.TestHelpers.YESTERDAY;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = HomeworkApplication.class)
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoanExtensionCommandTests {
 
     LoanExtensionCommand cmd;
-
+    Loan loan;
     Errors errors;
 
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    LoanRepository loanRepository;
+
     @Before
     public void setup() {
         cmd = new LoanExtensionCommand();
         errors = new BeanPropertyBindingResult(cmd, "cmd");
+        loan = loanRepository.findAll().get(0);
     }
 
     @Test
     public void testCustomerNumberValidationConstraints() {
-//        // when customer number is not present
-//        ValidationUtils.invokeValidator(cmd, cmd, errors);
-//
-//        // then errors is popullated
-//        assertThat(errors.hasErrors(), is(true));
-//        assertThat(errors.getFieldError("customerNumber"), notNullValue());
-//
-//        // when customer number is present
-//        cmd = new LoanApplicationCommand();
-//        String number = customerRepository.findAll().get(0).getNumber();
-//        cmd.setCustomerNumber(number);
-//        cmd.setStartDate(new Date());
-//        cmd.setEndDate(new Date());
-//        errors = new BeanPropertyBindingResult(cmd, "cmd");
-//        ValidationUtils.invokeValidator(cmd, cmd, errors);
-//
-//        // then the error field should be empty
-//        assertThat(errors.getFieldError("customerNumber"),  nullValue());
+        // when customer number is not present
+        ValidationUtils.invokeValidator(cmd, cmd, errors);
 
+        // then errors is popullated
+        assertThat(errors.hasErrors(), is(true));
+        assertThat(errors.getFieldError("number"), notNullValue());
 
+        // when customer number is present
+        cmd = getValidLoanExtensionCommand(loan);
+        errors = new BeanPropertyBindingResult(cmd, "cmd");
+        ValidationUtils.invokeValidator(cmd, cmd, errors);
+
+        // then the error field should be empty
+        assertThat(errors.getFieldError("number"),  nullValue());
     }
 
     @Test
-    public void testIsValidApplicationAttempts() {
-//        // given a valid loan application attempt
-//        cmd = new LoanApplicationCommand();
-//        cmd.setCustomer(new Customer());
-//        cmd.setIp("127.0.0.1");
-//        // expect true
-//        assertThat(cmd.isValidApplicationAttempt(), is(true));
-//
-//        // give an invalid loan application attempt
-//        cmd = new LoanApplicationCommand();
-//        // expect false
-//        assertThat(cmd.isValidApplicationAttempt(), is(false));
+    public void testInactiveLoanValidationConstraints() {
+        // given a expired loan application attempt
+        loan.setEndDate(YESTERDAY);
+        loan = loanRepository.save(loan);
+        cmd = getValidLoanExtensionCommand(loan);
+        ValidationUtils.invokeValidator(cmd, cmd, errors);
+
+        // expect errors to be popullated
+        assertThat(errors.getFieldError("loan"), notNullValue());
+    }
+
+    @Test
+    public void testValidLoanExtension() {
+        // given a valid loan\
+        loan.setEndDate(TOMORROW);
+        loan = loanRepository.save(loan);
+        cmd = getValidLoanExtensionCommand(loan);
+        ValidationUtils.invokeValidator(cmd, cmd, errors);
+
+        // expect errors to be empty
+        assertThat(errors.hasErrors(), is(false));
     }
 
     public static LoanExtensionCommand getValidLoanExtensionCommand(Loan loan) {

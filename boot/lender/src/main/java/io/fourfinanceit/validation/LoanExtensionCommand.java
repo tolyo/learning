@@ -90,7 +90,7 @@ public class LoanExtensionCommand implements Validator, DateRange {
         // Validate constraints first
         if (errors.hasErrors()) return;
 
-        log.info("Begin custom loan extention command");
+        log.info("Begin custom loan extension command");
 
         LoanExtensionCommand cmd = (LoanExtensionCommand) target;
         log.info("cmd: " + cmd.toString());
