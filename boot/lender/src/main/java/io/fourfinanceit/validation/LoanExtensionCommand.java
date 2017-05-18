@@ -76,8 +76,7 @@ public class LoanExtensionCommand implements Validator, DateRange {
     @Override
     public String toString() {
         return "LoanExtensionCommand{" +
-                "number='" + number + '\'' +
-                ", startDate=" + this.loan.getEndDate().toString() +
+                "number='" + number +
                 ", endDate=" + endDate +
                 '}';
     }
@@ -93,7 +92,6 @@ public class LoanExtensionCommand implements Validator, DateRange {
         log.info("Begin custom loan extension command");
 
         LoanExtensionCommand cmd = (LoanExtensionCommand) target;
-        log.info("cmd: " + cmd.toString());
 
         LoanRepository loanRepository = SpringContext.get().getBean(LoanRepository.class);
         Loan loan = loanRepository.findByNumber(cmd.getNumber());
