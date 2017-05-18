@@ -3,6 +3,7 @@ package io.fourfinanceit.validation;
 import io.fourfinanceit.HomeworkApplication;
 import io.fourfinanceit.domain.Customer;
 import io.fourfinanceit.repository.CustomerRepository;
+import io.fourfinanceit.util.test.TestHelpers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,5 +76,16 @@ public class LoanApplicationCommandTests {
         cmd = new LoanApplicationCommand();
         // expect false
         assertThat(cmd.isValidApplicationAttempt(), is(false));
+    }
+
+    public static LoanApplicationCommand getValidLoanApplicationCommand(Customer customer) {
+        LoanApplicationCommand cmd = new LoanApplicationCommand();
+        cmd.setCustomer(customer);
+        cmd.setCustomerNumber(customer.getNumber());
+        cmd.setAmount(TestHelpers.LOAN_AMOUNT);
+        cmd.setIp("127.0.0.1");
+        cmd.setStartDate(TestHelpers.TODAY);
+        cmd.setEndDate(TestHelpers.WEEK_FROM_NOW);
+        return cmd;
     }
 }

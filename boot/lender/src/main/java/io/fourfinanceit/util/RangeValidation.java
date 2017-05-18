@@ -1,6 +1,7 @@
 package io.fourfinanceit.util;
 
 import org.springframework.util.Assert;
+
 import java.util.concurrent.TimeUnit;
 
 public abstract class RangeValidation {
@@ -10,7 +11,7 @@ public abstract class RangeValidation {
         if (cmd.getStartDate() == null) return false;
         if (cmd.getEndDate() == null) return false;
 
-        long days = TimeUnit.HOURS.convert(cmd.getStartDate().getTime() - cmd.getEndDate().getTime(), TimeUnit.MILLISECONDS)/24;
+        long days = TimeUnit.HOURS.convert(cmd.getEndDate().getTime() - cmd.getStartDate().getTime(), TimeUnit.MILLISECONDS)/24;
         System.out.println(days);
         boolean range = days >= Long.parseLong(SpringEnvironment.get().getProperty("loan.min.period.days"));
         System.out.println(range);

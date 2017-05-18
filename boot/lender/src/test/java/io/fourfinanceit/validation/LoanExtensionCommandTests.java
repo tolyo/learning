@@ -1,8 +1,9 @@
 package io.fourfinanceit.validation;
 
 import io.fourfinanceit.HomeworkApplication;
-import io.fourfinanceit.domain.Customer;
+import io.fourfinanceit.domain.Loan;
 import io.fourfinanceit.repository.CustomerRepository;
+import io.fourfinanceit.util.test.TestHelpers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,14 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-
-import java.util.Date;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.IsNull.notNullValue;
 
 
 @RunWith(SpringRunner.class)
@@ -75,5 +68,13 @@ public class LoanExtensionCommandTests {
 //        cmd = new LoanApplicationCommand();
 //        // expect false
 //        assertThat(cmd.isValidApplicationAttempt(), is(false));
+    }
+
+    public static LoanExtensionCommand getValidLoanExtensionCommand(Loan loan) {
+        LoanExtensionCommand cmd = new LoanExtensionCommand();
+        cmd.setEndDate(TestHelpers.TWO_WEEKs_FROM_NOW);
+        cmd.setNumber(loan.getNumber());
+        cmd.setLoan(loan);
+        return cmd;
     }
 }
