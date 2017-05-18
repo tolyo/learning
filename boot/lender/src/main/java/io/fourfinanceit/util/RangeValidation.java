@@ -12,9 +12,7 @@ public abstract class RangeValidation {
         if (cmd.getEndDate() == null) return false;
 
         long days = TimeUnit.HOURS.convert(cmd.getEndDate().getTime() - cmd.getStartDate().getTime(), TimeUnit.MILLISECONDS)/24;
-        System.out.println(days);
         boolean range = days >= Long.parseLong(SpringEnvironment.get().getProperty("loan.min.period.days"));
-        System.out.println(range);
         return range;
     }
 

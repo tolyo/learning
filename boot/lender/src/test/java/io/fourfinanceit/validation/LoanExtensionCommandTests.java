@@ -86,7 +86,7 @@ public class LoanExtensionCommandTests {
 
     public static LoanExtensionCommand getValidLoanExtensionCommand(Loan loan) {
         LoanExtensionCommand cmd = new LoanExtensionCommand();
-        cmd.setEndDate(TestHelpers.TWO_WEEKs_FROM_NOW);
+        cmd.setEndDate(TestHelpers.TWO_WEEKS_FROM_NOW);
         cmd.setNumber(loan.getNumber());
         cmd.setLoan(loan);
         return cmd;

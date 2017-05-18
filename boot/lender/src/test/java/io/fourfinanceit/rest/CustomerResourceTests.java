@@ -25,11 +25,10 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class CustomerResourceTests {
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    TestRestTemplate restTemplate;
 
     @Autowired
     WebApplicationContext webApplicationContext;
-
     public void setup() {
         assertThat(this.webApplicationContext, notNullValue());
     }

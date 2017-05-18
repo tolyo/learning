@@ -79,7 +79,7 @@ public class LoanServiceTests {
         // a loan extension should be saved
         assertThat(loanExtension.getId(), notNullValue());
         // and loan should be updated
-        assertThat(loanRepository.findAll().get(0).getEndDate().toInstant(), is(TWO_WEEKs_FROM_NOW.toInstant()));
+        assertThat(loanRepository.findAll().get(0).getEndDate().toInstant(), is(TWO_WEEKS_FROM_NOW.toInstant()));
     }
 
 

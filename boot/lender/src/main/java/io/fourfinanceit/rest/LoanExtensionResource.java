@@ -3,7 +3,6 @@ package io.fourfinanceit.rest;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.service.LoanService;
-import io.fourfinanceit.validation.LoanApplicationCommand;
 import io.fourfinanceit.validation.LoanExtensionCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,44 +14,35 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static io.fourfinanceit.util.ControllerUtils.getErrorMap;
 
 @RestController
-@RequestMapping("/loans")
+@RequestMapping("/loanextensions")
 @Transactional
-public class LoanResource {
+public class LoanExtensionResource {
 
-    private final Logger log = LoggerFactory.getLogger(LoanResource.class);
+    private final Logger log = LoggerFactory.getLogger(LoanExtensionResource.class);
 
     @Autowired
     LoanService loanService;
 
-    @Autowired
-    LoanApplicationAttemptRepository loanApplicationAttemptRepository;
-
     @PostMapping("")
-    public ResponseEntity<ObjectNode> createLoan(
-            @RequestBody @Valid LoanApplicationCommand loanApplicationCommand,
-            Errors errors,
-            HttpServletRequest request) {
-        log.info("createLoan > " + loanApplicationCommand.toString() + " from " + request.getRemoteAddr());
-        if (loanApplicationCommand.isValidApplicationAttempt()) loanApplicationAttemptRepository.save(loanApplicationCommand.getLoanApplicationAttempt());
+    public ResponseEntity<ObjectNode> createLoanExtension(
+            @RequestBody @Valid LoanExtensionCommand cmd,
+            Errors errors) {
+        log.info("updateLoan > " + cmd.toString());
         if (errors.hasErrors()) {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {
-            loanService.createLoan(loanApplicationCommand);
+            loanService.extendLoan(cmd);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
 
-    @InitBinder("loanApplicationCommand")
+    @InitBinder("loanExtensionCommand")
     protected void initPostBinder(WebDataBinder binder) {
-        binder.addValidators(new LoanApplicationCommand());
+        binder.addValidators(new LoanExtensionCommand());
     }
-
-
-
 }

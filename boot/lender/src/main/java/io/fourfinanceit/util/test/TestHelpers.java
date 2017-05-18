@@ -15,7 +15,7 @@ abstract public class TestHelpers {
     public static final Date TOMORROW = Date.from(LocalDate.now().plusDays(1).atTime(23, 59).atZone(ZoneId.systemDefault()).toInstant());
     public static final Date YESTERDAY = Date.from(LocalDate.now().minusDays(1).atTime(23, 59).atZone(ZoneId.systemDefault()).toInstant());
     public static final Date WEEK_FROM_NOW = Date.from(LocalDate.now().plusDays(7).atTime(23, 59).atZone(ZoneId.systemDefault()).toInstant());
-    public static final Date TWO_WEEKs_FROM_NOW = Date.from(LocalDate.now().plusDays(14).atTime(23, 59).atZone(ZoneId.systemDefault()).toInstant());
+    public static final Date TWO_WEEKS_FROM_NOW = Date.from(LocalDate.now().plusDays(14).atTime(23, 59).atZone(ZoneId.systemDefault()).toInstant());
     public static final Date WEEK_AGO = Date.from(LocalDate.now().minusDays(7).atTime(23, 59).atZone(ZoneId.systemDefault()).toInstant());
 
 }

@@ -77,7 +77,7 @@ public class LoanExtensionCommand implements Validator, DateRange {
     public String toString() {
         return "LoanExtensionCommand{" +
                 "number='" + number + '\'' +
-                ", startDate=" + this.getEndDate() +
+                ", startDate=" + this.loan.getEndDate().toString() +
                 ", endDate=" + endDate +
                 '}';
     }

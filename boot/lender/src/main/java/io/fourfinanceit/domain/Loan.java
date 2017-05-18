@@ -167,13 +167,9 @@ public class Loan implements Serializable, DomainFilter {
     public String toString() {
         return "Loan{" +
                 "id=" + id +
-                ", customer=" + customer +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", amount=" + amount +
-                ", created=" + created +
-                ", updated=" + updated +
-                ", loanExtensions=" + loanExtensions +
                 '}';
     }
 

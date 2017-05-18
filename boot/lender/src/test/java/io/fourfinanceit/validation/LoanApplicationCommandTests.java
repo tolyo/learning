@@ -27,7 +27,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoanApplicationCommandTests {
 
     LoanApplicationCommand cmd;
@@ -111,9 +111,9 @@ public class LoanApplicationCommandTests {
     @Test
     public void testRiskTimeConstraintInvalid() {
         // when give risky time range and assuming current time is risky and a maximum amount
-        cmd = getValidLoanApplicationCommand(customer);
         riskRange.setStartHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - 1);
         riskRange.setEndHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + 1);
+        cmd = getValidLoanApplicationCommand(customer);
         cmd.setAmount(new BigDecimal(1000.00));
         ValidationUtils.invokeValidator(cmd, cmd, errors);
 
