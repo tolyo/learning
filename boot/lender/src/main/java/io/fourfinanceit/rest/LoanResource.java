@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.service.LoanService;
 import io.fourfinanceit.validation.LoanApplicationCommand;
-import io.fourfinanceit.validation.LoanExtensionCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

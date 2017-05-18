@@ -1,6 +1,5 @@
 package io.fourfinanceit.util.test;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;

@@ -1,7 +1,6 @@
 package io.fourfinanceit.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.fourfinanceit.repository.LoanApplicationAttemptRepository;
 import io.fourfinanceit.service.LoanService;
 import io.fourfinanceit.validation.LoanExtensionCommand;
 import org.slf4j.Logger;
