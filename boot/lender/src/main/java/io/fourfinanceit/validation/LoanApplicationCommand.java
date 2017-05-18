@@ -201,14 +201,15 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
 
         final int RIGA_TIME = Integer.parseInt(SpringEnvironment.get().getProperty("utc.offset"));
         log.info("Customer " + cmd.getCustomer().toString());
-        log.info("Found attemts " + Integer.toString(loanApplicationAttemptReposity.findByCustomer(cmd.getCustomer()).size()));
+        log.info("Time " + Date.from(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).toInstant(ZoneOffset.ofHours(RIGA_TIME))).toString());
 
         // reached max applications (e.g. 3) per day from a single IP
         List<LoanApplicationAttempt> loanApplicationAttempts =
                 loanApplicationAttemptReposity.findByCustomer(cmd.getCustomer())
                     .stream()
-                    .filter(x -> x.getIp().contentEquals(cmd.getIp()) &&
-                        x.getCreated().after(Date.from( LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).toInstant(ZoneOffset.ofHours(RIGA_TIME)))))
+                    .filter(x ->
+                            x.getIp().contentEquals(cmd.getIp()) &&
+                            x.getCreated().after(Date.from(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).toInstant(ZoneOffset.ofHours(RIGA_TIME)))))
                     .collect(Collectors.toList());
 
         log.info("Found " + Integer.toString(loanApplicationAttempts.size()));
@@ -216,10 +217,11 @@ public class LoanApplicationCommand implements Serializable, Validator, DateRang
     }
 
     private static boolean isRiskTime() {
+        RiskRange riskRange = SpringContext.get().getBean(RiskRange.class);
         Calendar rightNow = Calendar.getInstance();
         int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-        int start = Integer.valueOf(SpringEnvironment.get().getProperty("loan.risk.hourstart"));
-        int end = Integer.valueOf(SpringEnvironment.get().getProperty("loan.risk.hourend"));
+        int start = riskRange.getStartHour();
+        int end = riskRange.getEndHour();
 
         boolean riskTime = (start <= hour && hour <= end);
         log.info(Boolean.toString(riskTime));

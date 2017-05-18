@@ -1,6 +1,7 @@
 package io.fourfinanceit.rest;
 
 import io.fourfinanceit.HomeworkApplication;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -8,4 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = HomeworkApplication.class)
 public class LoanResourceTests {
+
+    @Test
+    public void someTest() {
+
+    }
 }
