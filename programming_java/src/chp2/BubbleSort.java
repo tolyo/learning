@@ -16,8 +16,7 @@ public class BubbleSort {
     }
 
     private static int[] bubbleSort(int[] a) {
-        boolean sorted = false;
-        while (!sorted) {
+        while (true) {
             boolean swap = false;
             for (int x = 0; x < a.length - 1; x++) {
                 if (a[x] > a[x + 1]) {
@@ -27,7 +26,7 @@ public class BubbleSort {
                     swap = true;
                 }
             }
-            if (!swap) sorted = true;
+            if (!swap) break;
         }
 
         return a;
