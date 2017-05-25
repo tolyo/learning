@@ -8,12 +8,12 @@ import org.springframework.validation.Validator;
 
 public class PhoneValidator implements Validator, DomainFilter {
 
+    private String number;
     private Phone phone;
-
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return false;
+        return aClass.equals(this.getClass());
     }
 
     @Override
