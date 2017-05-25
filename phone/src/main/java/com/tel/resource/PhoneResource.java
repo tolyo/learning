@@ -1,8 +1,10 @@
 package com.tel.resource;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.tel.model.validators.PhoneValidator;
+import com.tel.model.PhoneValidator;
 import com.tel.service.PhoneService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -19,6 +21,8 @@ import static com.tel.util.ControllerUtils.getErrorMap;
 @RequestMapping("/phones")
 public class PhoneResource {
 
+    private static final Logger log = LoggerFactory.getLogger(PhoneResource.class);
+
     @Autowired
     PhoneService phoneService;
 
@@ -27,6 +31,7 @@ public class PhoneResource {
             @RequestBody @Valid PhoneValidator cmd,
             Errors errors
     ) {
+        log.info("get > " + cmd.toString());
         if (errors.hasErrors())  {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {

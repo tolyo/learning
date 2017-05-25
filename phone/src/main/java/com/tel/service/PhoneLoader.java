@@ -4,6 +4,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,49 +15,47 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Responsible for loading phone
+ * Responsible for loading phone numbers and codes
  */
 @Service
 public class PhoneLoader implements InitializingBean {
+
+    private static final Logger log = LoggerFactory.getLogger(PhoneLoader.class);
 
     @Autowired
     PhoneService phoneService;
 
     @Value("${phone.code.url}")
-    String countryUrl;
+    String phoneCodeUrl;
 
     private void loadPhones() {
         try {
-            Document doc = Jsoup.connect(this.countryUrl).get();
-
+            Document doc = Jsoup.connect(phoneCodeUrl).get();
             // Load alphabetical listing by country or region
             Element table = doc.getElementsByClass("wikitable").get(1);
-            loadTable(table);
-            // Load locations with no country code
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadTable(Element table) {
-        try {
             Elements trs = table.select("tr");
             trs.forEach(tr -> {
+                // find all data items in row
                 Elements tds = tr.select("td");
-                tds.select("[title]").forEach(td -> {
-                    String code = td.text().replaceAll("\\+|\\s+","");
-                    if (code.contains(",")) {
+                if (tds.size() == 0) return;
+                // find country name in first column
+                String country = tds.get(0).text();
+                // find all codes in second column
+                Elements codes = tds.get(1).select("[title]");
+                codes.forEach(code -> {
+                    String countryCode = code.text().replaceAll("\\+|\\s+","");
+                    log.info("Loading country code(s): " + countryCode + " for " + country);
+                    // handle countries with multiple codes
+                    if (countryCode.contains(",")) {
                         Arrays
-                        .asList(code.split(","))
-                        .forEach(x -> phoneService.load(Integer.parseInt(x), tr.text()));
+                        .asList(countryCode.split(","))
+                        .forEach(x -> phoneService.load(Integer.parseInt(x), country));
                     } else {
-                        phoneService.load(Integer.parseInt(code), tr.text());
+                        phoneService.load(Integer.parseInt(countryCode), country);
                     }
                 });
             });
-
-        } catch (NumberFormatException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
