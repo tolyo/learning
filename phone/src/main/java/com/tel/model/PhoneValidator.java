@@ -63,18 +63,25 @@ public class PhoneValidator implements Validator, DomainFilter {
         log.info("Number has country: " + country.get());
 
         // Validate for phone
-        CountryCode countryCode = CountryCode.findByName(country.get()).get(0);
+        boolean countryValid = CountryCode.findByName(country.get()).size() > 0;
         Phonenumber.PhoneNumber phoneNumber;
         try {
-            phoneNumber = phoneUtil.parse(phoneValidator.getNumber(), countryCode.getAlpha2());
+            if (countryValid) {
+                CountryCode countryCode = CountryCode.findByName(country.get()).get(0);
+                phoneNumber = phoneUtil.parse(phoneValidator.getNumber(), countryCode.getAlpha2());
+            } else {
+                phoneNumber = phoneUtil.parse(phoneValidator.getNumber(), country.get());
+            }
         } catch (NumberParseException e) {
             errors.rejectValue("number", "", "number.invalid");
             return;
         }
+
         if (!phoneUtil.isValidNumber(phoneNumber)) {
             errors.rejectValue("number", "", "number.invalid");
             return;
         }
+
         log.info("Number valid");
     }
 

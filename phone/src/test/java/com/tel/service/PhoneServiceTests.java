@@ -29,7 +29,6 @@ public class PhoneServiceTests {
         assertThat(country.get(), notNullValue());
         assertThat(country.get(), is("Latvia"));
 
-
         // when given number 7
         country = phoneService.get(BigInteger.valueOf(7));
 
@@ -47,7 +46,6 @@ public class PhoneServiceTests {
         // then should return Latvia
         assertThat(country.get(), notNullValue());
         assertThat(country.get(), is("Latvia"));
-
 
         // when given valid number 74957397000
         country = phoneService.get(BigInteger.valueOf(74957397000L));
