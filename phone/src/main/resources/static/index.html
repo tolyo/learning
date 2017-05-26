@@ -7,11 +7,25 @@
   <script src="main.js"></script>
 </head>
 <body ng-controller="PhoneController as $ctrl">
-{{ $ctrl.test }}
-    <form name="phoneForm">
-      Phone number: <input type="tel" id="tel-input">
+    <form name="phoneForm"
+          novalidate="novalidate"
+          ng-submit="$ctrl.submit(data)">
+      <input type="text"
+             name="tel"
+             ng-model="data.number"
+             id="tel-input">
+      <br>
+      <br>
+      <button type="submit">Submit</button>
+
       <hr>
-      <button type="submit" >Submit</button>
+
+      <div ng-show="$ctrl.data"
+           style="color: green">Your country for {{ $ctrl.data.number }} is {{ $ctrl.data.country }}</div>
+
+      <div ng-show="$ctrl.errors"
+           style="color: red"> Number {{ $ctrl.errors['number'] }}</div>
+
     </form>
   </body>
 </html>

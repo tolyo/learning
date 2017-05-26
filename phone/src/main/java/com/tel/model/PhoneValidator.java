@@ -17,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.util.Optional;
 
@@ -25,8 +26,9 @@ public class PhoneValidator implements Validator, DomainFilter {
     private static final Logger log = LoggerFactory.getLogger(PhoneValidator.class);
     private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "empty")
+    @NotBlank(message = "blank")
+    @Size(max = 15, message = "too.long") //E.164, which specifies that the entire number should be 15 digits or shorter
     private String number;
 
     private String country;
@@ -70,7 +72,7 @@ public class PhoneValidator implements Validator, DomainFilter {
             return;
         }
         if (!phoneUtil.isValidNumber(phoneNumber)) {
-            errors.rejectValue("number", "", "number.invalid.for.country");
+            errors.rejectValue("number", "", "number.invalid");
             return;
         }
         log.info("Number valid");
