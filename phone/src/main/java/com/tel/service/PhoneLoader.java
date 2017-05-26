@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
-/**
- * Responsible for loading phone numbers and codes
- */
 @Service
 public class PhoneLoader implements InitializingBean {
 
@@ -56,8 +54,11 @@ public class PhoneLoader implements InitializingBean {
                     }
                 });
             });
+        } catch (UnknownHostException e) {
+            log.error("Application requires an active Internet connection to load data");
+            System.exit(1);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

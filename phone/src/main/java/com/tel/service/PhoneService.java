@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Naive non-thread safe implementation of a service for storing county codes
- */
 @Service
 public class PhoneService {
 

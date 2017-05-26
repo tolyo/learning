@@ -5,9 +5,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-/**
- * Helper for accessing application context from static or instance methods
- */
 @Component
 public class SpringContext implements ApplicationContextAware {
 
