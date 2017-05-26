@@ -58,12 +58,16 @@ public class PhoneValidator implements Validator, DomainFilter {
         // Validate for country
         Optional<String> country = phoneService.get(number);
         if (country.isPresent()) phoneValidator.setCountry(country.get());
-        else errors.rejectValue("number", "", "country.invalid");
+        else {
+            errors.rejectValue("number", "", "country.invalid");
+            return;
+        }
 
         log.info("Number has country: " + country.get());
 
         // Validate for phone
         boolean countryValid = CountryCode.findByName(country.get()).size() > 0;
+        log.info("Country code available? " + countryValid);
         Phonenumber.PhoneNumber phoneNumber;
         try {
             if (countryValid) {
