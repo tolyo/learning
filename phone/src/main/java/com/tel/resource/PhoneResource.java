@@ -8,10 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,16 +24,19 @@ public class PhoneResource {
     @Autowired
     PhoneService phoneService;
 
-    @GetMapping("")
-    public ResponseEntity<ObjectNode> get(
-            @RequestBody @Valid PhoneValidator cmd,
+    @PostMapping("")
+    public ResponseEntity<ObjectNode> post(
+            @RequestBody @Valid PhoneValidator phoneValidator,
             Errors errors
     ) {
-        log.info("get > " + cmd.toString());
+        log.info("post => " + phoneValidator.toString());
         if (errors.hasErrors())  {
             return ResponseEntity.unprocessableEntity().body(getErrorMap(errors));
         } else {
-            return ResponseEntity.ok(cmd.toJsonNode());
+            return ResponseEntity.ok(phoneValidator.toJsonNode());
         }
     }
+
+    @InitBinder("phoneValidator")
+    protected void initGetBinder(WebDataBinder binder) { binder.addValidators(new PhoneValidator());}
 }

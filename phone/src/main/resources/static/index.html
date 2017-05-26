@@ -2,9 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Phone validator</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="main.js"></script>
 </head>
-<body>
-  TEST
-</body>
+<body ng-controller="PhoneController as $ctrl">
+{{ $ctrl.test }}
+    <form name="phoneForm">
+      Phone number: <input type="tel" id="tel-input">
+      <hr>
+      <button type="submit" >Submit</button>
+    </form>
+  </body>
 </html>

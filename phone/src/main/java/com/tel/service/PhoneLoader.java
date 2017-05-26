@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -49,9 +50,9 @@ public class PhoneLoader implements InitializingBean {
                     if (countryCode.contains(",")) {
                         Arrays
                         .asList(countryCode.split(","))
-                        .forEach(x -> phoneService.load(Integer.parseInt(x), country));
+                        .forEach(x -> phoneService.load(new BigInteger(x), country));
                     } else {
-                        phoneService.load(Integer.parseInt(countryCode), country);
+                        phoneService.load(new BigInteger(countryCode), country);
                     }
                 });
             });

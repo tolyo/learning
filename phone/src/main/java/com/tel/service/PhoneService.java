@@ -3,6 +3,7 @@ package com.tel.service;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,26 +14,24 @@ import java.util.Optional;
 @Service
 public class PhoneService {
 
-    private static final Map<Integer, String> countryCode = new HashMap<>();
+    private static final Map<BigInteger, String> countryCode = new HashMap<>();
 
-    public void load(Integer s, String country) {
+    public void load(BigInteger s, String country) {
         Assert.notNull(s, "Number required");
         Assert.notNull(country, "Country required");
         countryCode.put(s, country);
     }
 
-    public Optional<String> get(Integer number) {
-        if (number == null) return Optional.empty();
-        else {
-            if (countryCode.containsKey(number)) return Optional.of(countryCode.get(number));
-            else return get(shortenNumber(number));
-        }
+    public Optional<String> get(BigInteger number) {
+        if (countryCode.containsKey(number)) return Optional.ofNullable(countryCode.get(number));
+        else return get(shortenNumber(number));
     }
 
-    private Integer shortenNumber(Integer number) {
+    private BigInteger shortenNumber(BigInteger number) {
+        Assert.notNull(number, "Number required");
         String numberString = number.toString();
         numberString = numberString.substring(0, numberString.length() - 1);
         if (numberString.equals("")) return null;
-        return Integer.parseInt(numberString);
+        else return new BigInteger(numberString);
     }
 }

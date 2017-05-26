@@ -2,6 +2,10 @@ package com.tel.model;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+import com.neovisionaries.i18n.CountryCode;
 import com.tel.service.PhoneService;
 import com.tel.util.DomainFilter;
 import com.tel.util.SpringContext;
@@ -13,11 +17,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.util.Optional;
 
 public class PhoneValidator implements Validator, DomainFilter {
 
     private static final Logger log = LoggerFactory.getLogger(PhoneValidator.class);
+    private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
     @NotNull
     @NotBlank
@@ -32,15 +38,42 @@ public class PhoneValidator implements Validator, DomainFilter {
 
         // Validate default constraints first
         if (errors.hasErrors()) return;
-
         PhoneValidator phoneValidator = (PhoneValidator) target;
+        log.info("Begin custom validation: " + phoneValidator.toString());
         PhoneService phoneService = SpringContext.get().getBean(PhoneService.class);
 
-        Integer number = Integer.parseInt(phoneValidator.getNumber().replaceAll("[^0-9]", ""));
-        Optional<String> country = phoneService.get(number);
+        // Validate for number
+        BigInteger number;
+        try {
+            number = new BigInteger(phoneValidator.getNumber().replaceAll("[^0-9]", ""));
+        } catch (NumberFormatException e) {
+            errors.rejectValue("number", "", "number.invalid");
+            return;
+        }
 
+        log.info("Number is not a string: " + number.toString());
+
+        // Validate for country
+        Optional<String> country = phoneService.get(number);
         if (country.isPresent()) phoneValidator.setCountry(country.get());
         else errors.rejectValue("number", "", "country.invalid");
+
+        log.info("Number has country: " + country.get());
+
+        // Validate for phone
+        CountryCode countryCode = CountryCode.findByName(country.get()).get(0);
+        Phonenumber.PhoneNumber phoneNumber;
+        try {
+            phoneNumber = phoneUtil.parse(phoneValidator.getNumber(), countryCode.getAlpha2());
+        } catch (NumberParseException e) {
+            errors.rejectValue("number", "", "number.invalid");
+            return;
+        }
+        if (!phoneUtil.isValidNumber(phoneNumber)) {
+            errors.rejectValue("number", "", "number.invalid.for.country");
+            return;
+        }
+        log.info("Number valid");
     }
 
     @Override
