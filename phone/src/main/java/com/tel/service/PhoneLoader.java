@@ -70,6 +70,7 @@ public class PhoneLoader implements InitializingBean {
     private String validatedCountryName(String countryName) {
         if (CountryCode.findByName(countryName).size() > 0) return countryName;
         else {
+            log.info("Country name " + countryName + " not found");
             Optional<String> correctedName = Arrays
                     .stream(CountryCode.values())
                     .filter(x -> levenshtein.distance(x.getName().toLowerCase(), countryName.toLowerCase()) < LEVENSHTEIN_DISTANCE)

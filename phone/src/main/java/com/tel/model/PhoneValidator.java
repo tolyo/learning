@@ -49,11 +49,10 @@ public class PhoneValidator implements Validator, DomainFilter {
         try {
             number = new BigInteger(phoneValidator.getNumber().replaceAll("[^0-9]", ""));
         } catch (NumberFormatException e) {
+            log.info("Number is not a string: " + phoneValidator.getNumber());
             errors.rejectValue("number", "", "number.invalid");
             return;
         }
-
-        log.info("Number is not a string: " + number.toString());
 
         // Validate for country
         Optional<String> country = phoneService.get(number);
