@@ -12,10 +12,11 @@ member(Elem, List) ->
   case List of
     [] -> false;
     [Head] -> Elem =:= Head;
-    [Head|Tail] -> case Elem =:= Head of
-      true -> true;
-      false -> member(Elem, Tail)
-    end
+    [Head|Tail] ->
+      case Elem =:= Head of
+        true -> true;
+        false -> member(Elem, Tail)
+      end
   end.
   %% END
 
