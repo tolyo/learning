@@ -54,12 +54,12 @@ takewhile(Pred, List) ->
   end.
   %% END
 %%
-%%takewhile_test() ->
-%%  F = fun(Val) -> Val =:= 32 end,
-%%  ?assertEqual("   ", takewhile(F, "   hello")),
-%%  ?assertEqual([], takewhile(F, [])),
-%%  ?assertEqual([], takewhile(F, [1,2,3])),
-%%  ?assertEqual([32], takewhile(F, [32,3,4])),
-%%  ?assertEqual([32,32], takewhile(F, [32,32,3,4])),
-%%  ?assertEqual([32,32,32,32,32,32], takewhile(F, [32,32,32,32,32,32,3,32,4,32])),
-%%  ok.
+takewhile_test() ->
+  F = fun(Val) -> Val =:= 32 end,
+  ?assertEqual("   ", takewhile(F, "   hello")),
+  ?assertEqual([], takewhile(F, [])),
+  ?assertEqual([], takewhile(F, [1,2,3])),
+  ?assertEqual([32], takewhile(F, [32,3,4])),
+  ?assertEqual([32,32], takewhile(F, [32,32,3,4])),
+  ?assertEqual([32,32,32,32,32,32], takewhile(F, [32,32,32,32,32,32,3,32,4,32])),
+  ok.
