@@ -8,7 +8,15 @@
 %% http://www.erlang.org/doc/man/lists.html#any-2
 any(Pred, List) ->
   %% BEGIN (write your solution here)
-
+  case List of
+    [] -> false;
+    [Head] -> Pred(Head);
+    [Head|Tail] ->
+      case Pred(Head) of
+        true -> true;
+        false -> any(Pred, Tail)
+      end
+  end.
   %% END
 
 any_test() ->
@@ -26,7 +34,15 @@ any_test() ->
 %% http://www.erlang.org/doc/man/lists.html#all-2
 all(Pred, List) ->
   %% BEGIN (write your solution here)
-
+  case List of
+    [] -> true;
+    [Head] -> Pred(Head);
+    [Head|Tail] ->
+      case Pred(Head) of
+        false -> false;
+        true -> all(Pred, Tail)
+      end
+  end.
   %% END
 
 all_test() ->
