@@ -9,7 +9,14 @@
 %% http://www.erlang.org/doc/man/lists.html#member-2
 member(Elem, List) ->
   %% BEGIN (write your solution here)
-
+  case List of
+    [] -> false;
+    [Head] -> Elem =:= Head;
+    [Head|Tail] -> case Elem =:= Head of
+      true -> true;
+      false -> member(Elem, Tail)
+    end
+  end.
   %% END
 
 member_test() ->
@@ -25,7 +32,19 @@ member_test() ->
 %% http://www.erlang.org/doc/man/lists.html#filter-2
 filter(Pred, List) ->
   %% BEGIN (write your solution here)
-
+  case List of
+    [] -> [];
+    [Head] ->
+      case Pred(Head) of
+        true -> [Head];
+        false -> []
+      end;
+    [Head|Tail] ->
+      case Pred(Head) of
+        true -> [Head|filter(Pred,Tail)];
+        false -> filter(Pred, Tail)
+      end
+  end.
   %% END
 
 filter_test() ->
