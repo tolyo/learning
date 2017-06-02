@@ -3,7 +3,7 @@
 -export([run/0, run/1]).
 
 run() ->
-  Modules = [champ_stat], %%, champ_filter, champ_pairs
+  Modules = [champ_stat, champ_filter], %%, champ_filter, champ_pairs
    Res = lists:map(fun(M) -> eunit:test(M) end, Modules),
   case Res of
     [ok,ok,ok] -> init:stop(0);

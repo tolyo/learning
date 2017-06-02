@@ -1,13 +1,25 @@
 -module(champ_filter).
 
+-import(lists, [foldl/3, map/2, filter/2]).
 -export([filter_sick_players/1]).
 -include_lib("eunit/include/eunit.hrl").
 
-filter_sick_players(Champ) -> Champ.
-%% BEGIN (write your solution here)
+%% К несчастью, незадолго до чемпионата началась эпидемия крокодильего гриппа.
+%% Многие игроки серьезно заболели. Их здоровье (Health) стало меньше 50 единиц.
+%% Таких игроков нужно удалить из команд. В результате может оказаться,
+%% то в команде осталось слишком мало игроков. Команды, где число игроков меньше 5,
+%% не допускаются к участию в чемпионате. Реализовать функцию
+%% champ_filter:filter_sick_players/1, которая на вход принимает структуру данных,
+%% описывающую чемпионат, и на выходе отдает такую же структуру, но отфильтрованную
+%% согласно описанным правилам.
 
-%% END
+filter_sick_players(Champ) ->
+  HealthyPlayerTeams = map(fun(Team) -> filter_sick(Team) end, Champ),
+  filter(fun({_, _, Players}) -> length(Players) >= 5 end, HealthyPlayerTeams).
 
+filter_sick({team, Name, Players} ) ->
+  HealthyPlayers = [ {player, Name, Age, Rating, Health} || {player, Name, Age, Rating, Health} <- Players,  Health >= 50 ],
+  {team, Name, HealthyPlayers}.
 
 filter_sick_players_test() ->
   Result = [{team, "Crazy Bulls",
