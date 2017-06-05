@@ -4,25 +4,7 @@
 
 new_game() -> {{f, f, f}, {f, f, f}, {f, f, f}}.
 
-%% Реализовать функцию tic_tac_toe:win/1, которая на вход принимает игровое поле и на выходе
-%% выдает:
-%%    {win, x}, если выиграли крестики;
-%%    {win, o}, если выиграли нолики;
-%%    no_win, если никто не выиграл.
-%% Например:
-%%    2> G1 = {{f,f,f},{f,x,f},{o,f,f}}.
-%%            {{f,f,f},{f,x,f},{o,f,f}}
-%%    3> tic_tac_toe:win(G1).
-%%       no_win
-%%    4> G2 = {{f,f,o},{x,x,x},{o,o,f}}.
-%%             {{f,f,o},{x,x,x},{o,o,f}}
-%%    5> tic_tac_toe:win(G2).
-%%       {win,x}
-%%    6> G3 = {{f,f,o},{x,x,o},{x,o,o}}.
-%%       {{f,f,o},{x,x,o},{x,o,o}}
-%%    7> tic_tac_toe:win(G3).
-%%       {win,o}
-win(GameState) -> 
+win(GameState) ->
   case GameState of
     %% horizontal checks
     {{x, x, x}, _, _} -> {win, x};
@@ -50,42 +32,17 @@ win(GameState) ->
     _ -> no_win
   end.
 
-
-%% Реализовать функцию tic_tac_toe:move/3, которая на вход принимает номер ячейки, знак игрока (крестик или нолик) и игровое поле.
-%% И возвращает либо обновленное игровое поле, где данный игрок сделал ход в данную ячейку, либо ошибку, если такой ход невозможен.
-%% Ячейки нумеруются так:
-%%   {{1,2,3},
-%%    {4,5,6},
-%%    {7,8,9}}
-%% Например, в начальной позиции, когда все ячейки свободны, игрок ставит крестик в первую ячейку:
-%%    2> G = tic_tac_toe:new_game().
-%%    {{f,f,f},{f,f,f},{f,f,f}}
-%%    3> tic_tac_toe:move(1, x, G).
-%%    {ok,{{x,f,f},{f,f,f},{f,f,f}}}
-%% Функция возвращает кортеж {ok, NewGameState}, где крестик стоит в первой ячейке.
-%% А если игрок пытается поставить крестик в ячейку, которая уже занята, то функция возвращает {error, invalid_move}:
-%%    2> G1 = {{f,f,f},{f,x,f},{o,f,f}}.
-%%    {{f,f,f},{f,x,f},{o,f,f}}
-%%    3> tic_tac_toe:move(5, o, G1).
-%%    {error,invalid_move}
-%% Пример полного сеанса игры:
-%%    2> G = tic_tac_toe:new_game().
-%%    {{f,f,f},{f,f,f},{f,f,f}}
-%%    3> tic_tac_toe:move(1, x, G).
-%%    {ok,{{x,f,f},{f,f,f},{f,f,f}}}
-%%    4> {ok, G2} = tic_tac_toe:move(1, x, G).
-%%    {ok,{{x,f,f},{f,f,f},{f,f,f}}}
-%%    5> {ok, G3} = tic_tac_toe:move(2, o, G2).
-%%    {ok,{{x,o,f},{f,f,f},{f,f,f}}}
-%%    6> {ok, G4} = tic_tac_toe:move(4, x, G3).
-%%    {ok,{{x,o,f},{x,f,f},{f,f,f}}}
-%%    7> {ok, G5} = tic_tac_toe:move(7, x, G4).
-%%    {ok,{{x,o,f},{x,f,f},{x,f,f}}}
-%%    8> tic_tac_toe:win(G5).
-%%    {win,x}
-%% Определения функций даны в модуле tic_tac_toe, реализация за вами.
-%% Тесты на сей раз вынесены в отдельный модуль tic_tac_toe_test. Их не возбраняется смотреть, но не нужно модифицировать :)
-move(Cell, Player, GameState) -> {Cell, Player, GameState}.
-%% BEGIN (write your solution here)
-
-%% END
+move(Cell, Player, GameState) ->
+  {{F1, F2, F3}, {F4, F5, F6}, {F7, F8, F9}} = GameState,
+  case GameState of
+    {{f, _, _}, _, _} when Cell =:= 1 -> {ok, {{Player, F2, F3}, {F4, F5, F6}, {F7, F8, F9}}};
+    {{_, f, _}, _, _} when Cell =:= 2 -> {ok, {{F1, Player, F3}, {F4, F5, F6}, {F7, F8, F9}}};
+    {{_, _, f}, _, _} when Cell =:= 3 -> {ok, {{F1, F2, Player}, {F4, F5, F6}, {F7, F8, F9}}};
+    {_, {f, _, _}, _} when Cell =:= 4 -> {ok, {{F1, F2, F3}, {Player, F5, F6}, {F7, F8, F9}}};
+    {_, {_, f, _}, _} when Cell =:= 5 -> {ok, {{F1, F2, F3}, {F4, Player, F6}, {F7, F8, F9}}};
+    {_, {_, _, f}, _} when Cell =:= 6 -> {ok, {{F1, F2, F3}, {F4, F5, Player}, {F7, F8, F9}}};
+    {_, _, {f, _, _}} when Cell =:= 7 -> {ok, {{F1, F2, F3}, {F4, F5, F6}, {Player, F8, F9}}};
+    {_, _, {_, f, _}} when Cell =:= 8 -> {ok, {{F1, F2, F3}, {F4, F5, F6}, {F7, Player, F9}}};
+    {_, _, {_, _, f}} when Cell =:= 9 -> {ok, {{F1, F2, F3}, {F4, F5, F6}, {F7, F8, Player}}};
+    _ -> {error,invalid_move}
+  end.
