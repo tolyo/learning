@@ -15,13 +15,16 @@
 %%    - сумма рейтингов пары игроков должна быть больше 600.
 %%      Вернуть нужно имена игроков, а не весь кортеж, представляющий игрока.
 %%
-%% Например, для команд "Crazy Bulls" и "Cool Hourses" допустимой парой будет {"Big Bull", "Sleepy Hourse"},
+%% Например, для команд "Crazy Bulls" и "Cool Hourses" допустимой парой будет
+%% {"Big Bull", "Sleepy Hourse"},
 %% а недопустимой парой будет {"Small Bull", "Sleepy Hourse"}.
-
-make_pairs(Team1, Team2) -> Team1.
-%% BEGIN (write your solution here)
-
-%% END
+%% {player, Name, Age, Rating, Health} = Player
+make_pairs({_, _, Team1}, {_, _, Team2}) ->
+  [ {Name1, Name2} ||
+      {_, Name1, _, Rating1, _} <- Team1,
+      {_, Name2, _, Rating2, _} <- Team2,
+      Rating1 + Rating2 > 600
+  ].
 
 
 make_pairs_test() ->
