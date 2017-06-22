@@ -12,8 +12,7 @@ len(List) -> len(List, 0).
 len(List, Acc) ->
   case List of
     [] -> Acc;
-    [Head] -> Acc + 1;
-    [Head|Tail] -> len(Tail, Acc + 1)
+    [_Head|Tail] -> len(Tail, Acc + 1)
   end.
 
 len_test() ->
@@ -32,7 +31,6 @@ reverse(List) -> reverse(List, []).
 reverse(List, Acc) ->
   case List of
     [] -> Acc;
-    [Head] -> [Head|Acc];
     [Head|Tail] -> reverse(Tail, [Head|Acc])
   end.
 

@@ -4,12 +4,11 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
+-import(task_4,[takewhile/2, dropwhile/2]).
 
 %% implement lists:splitwith/2
 %% http://www.erlang.org/doc/man/lists.html#splitwith-2
-splitwith(Pred, List) ->
-    {[], []}.
-
+splitwith(Pred, List) -> {takewhile(Pred, List), dropwhile(Pred, List)}.
 
 splitwith_test() ->
     F = fun(Val) -> Val rem 2 =:= 0 end,
@@ -26,7 +25,14 @@ splitwith_test() ->
 %% http://www.erlang.org/doc/man/lists.html#zipwith-3
 %% if two lists have different lengths don't throw exception but ignore the rest of longer list
 zipwith(Pred, List1, List2) ->
-    [].
+  case List1 of
+    [] -> [];
+    [Head1|Tail1] ->
+      case List2 of
+        [] -> [];
+        [Head2|Tail2] -> [Pred(Head1, Head2)|zipwith(Pred, Tail1, Tail2)]
+      end
+  end.
 
 
 zipwith_test() ->

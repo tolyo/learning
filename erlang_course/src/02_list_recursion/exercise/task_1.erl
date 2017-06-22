@@ -9,7 +9,6 @@
 any(Pred, List) ->
     case List of
       [] -> false;
-      [Head] -> Pred(Head);
       [Head|Tail] ->
         case Pred(Head) of
           true -> true;
@@ -33,7 +32,6 @@ any_test() ->
 all(Pred, List) ->
   case List of
     [] -> true;
-    [Head] -> Pred(Head);
     [Head|Tail] ->
       case Pred(Head) of
         false -> false;

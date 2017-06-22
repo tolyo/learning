@@ -10,7 +10,6 @@
 member(Elem, List) ->
   case List of
     [] -> false;
-    [Head] -> Elem == Head;
     [Head|Tail] ->
       case Head =:= Elem of
         true -> true;
@@ -32,11 +31,6 @@ filter(Pred, List) -> filter(Pred, List, []).
 filter(Pred, List, Acc) ->
   case List of
     [] -> Acc;
-    [Head] ->
-      case Pred(Head) of
-        true -> task_2:reverse([Head|Acc]);
-        _ -> Acc
-      end;
     [Head|Tail] ->
       case Pred(Head) of
         true -> filter(Pred, Tail, task_2:reverse([Head|Acc]));
