@@ -3,7 +3,6 @@
 -export([sample_champ/0, get_stat/1, filter_sick_players/1, make_pairs/2]).
 -include_lib("eunit/include/eunit.hrl").
 
-
 sample_champ() ->
     [
      {team, "Crazy Bulls",
@@ -60,17 +59,25 @@ sample_champ() ->
 
 
 get_stat(Champ) ->
-    {0, 0, 0.0, 0.9}.
-
+    NumTeams = length(Champ),
+    NumPlayers = lists:foldl(fun({_, _, Players}, Sum) -> length(Players) + Sum end, 0, Champ),
+    AllPlayers = lists:flatmap(fun({_, _, Players}) -> Players end, Champ),
+    Ages = lists:map(fun(X) -> {_, _, Age, _, _} = X, Age end, AllPlayers),
+    AvgAge =  lists:sum(Ages) / NumPlayers,
+    AvgRating = lists:foldl(fun(X, Sum) -> {_, _, _, Rating, _} = X, Rating + Sum end, 0, AllPlayers) / NumPlayers,
+    {NumTeams, NumPlayers, AvgAge, AvgRating}.
 
 get_stat_test() ->
     ?assertEqual({5,40,24.85,242.8}, get_stat(sample_champ())),
     ok.
 
-
 filter_sick_players(Champ) ->
-    Champ.
+    HealthyPlayerTeams = lists:map(fun(Team) -> filter_sick(Team) end, Champ),
+    lists:filter(fun({_, _, Players}) -> length(Players) >= 5 end, HealthyPlayerTeams).
 
+filter_sick({team, Name, Players} ) ->
+    HealthyPlayers = [ {player, Name, Age, Rating, Health} || {player, Name, Age, Rating, Health} <- Players,  Health >= 50 ],
+    {team, Name, HealthyPlayers}.
 
 filter_sick_players_test() ->
     Result = [{team, "Crazy Bulls",
@@ -104,8 +111,12 @@ filter_sick_players_test() ->
     ok.
 
 
-make_pairs(Team1, Team2) ->
-    [].
+make_pairs({_, _, Team1}, {_, _, Team2}) ->
+    [ {Name1, Name2} ||
+      {_, Name1, _, Rating1, _} <- Team1,
+      {_, Name2, _, Rating2, _} <- Team2,
+      Rating1 + Rating2 > 600
+    ].
 
 
 make_pairs_test() ->
