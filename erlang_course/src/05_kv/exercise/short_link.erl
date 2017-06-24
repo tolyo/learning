@@ -6,17 +6,27 @@
 
 init() ->
     %% init randomizer
-    <<A:32, B:32, C:32>> = crypto:rand_bytes(12),
+    <<A:32, B:32, C:32>> = crypto:strong_rand_bytes(12),
     random:seed({A,B,C}),
-    State = your_state_structure,
+    State = { maps:new(), maps:new() },
     State.
 
 
 create_short(LongLink, State) ->
-    your_result.
+  {ToMap, FromMap} = State,
+  case maps:find(LongLink, ToMap) of
+    {ok, Val} -> {Val, State};
+    error ->
+      ShortLink = rand_str(10),
+      {ShortLink, {maps:put(LongLink, ShortLink, ToMap), maps:put(ShortLink, LongLink, FromMap)}}
+  end.
 
 get_long(ShortLink, State) ->
-    {error, not_found}.
+  {_, FromMap} = State,
+    case maps:find(ShortLink, FromMap) of
+      {ok, Val} -> {ok, Val};
+      error -> {error, not_found}
+    end.
 
 
 %% generates random string of chars [a-zA-Z0-9]
