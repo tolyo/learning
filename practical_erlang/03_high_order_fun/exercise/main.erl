@@ -59,17 +59,37 @@ sample_champ() ->
     ].
 
 
+%% Нужно реализовать функцию, которая на вход принимает структуру данных, описывающую чемпионат и на выходе отдает кортеж:
+%% NumTeams -- число команд в чемпионате;
+%% NumPlayers -- число игроков в чемпионате;
+%% AvgAge -- средний возраст игрока;
+%% AvgRating -- средний рейтинг игрока.
 get_stat(Champ) ->
-    {0, 0, 0.0, 0.9}.
+    {length(Champ), getNumberOfPlayers(Champ), getAverageAge(Champ), getAverageRating(Champ)}.
 
+getNumberOfPlayers(Champ) ->
+    lists:sum(lists:map(fun({_, _, X}) -> length(X) end, Champ)).
+
+getAverageAge(Champ) ->
+    Players = lists:flatten(lists:map(fun({_, _, X}) -> X end, Champ)),
+    Ages = lists:map(fun({player, _, X, _, _}) -> X end, Players),
+    lists:sum(Ages)/length(Ages).
+
+getAverageRating(Champ) ->
+    Players = lists:flatten(lists:map(fun({_, _, X}) -> X end, Champ)),
+    Ratings = lists:map(fun({player, _, _, X, _}) -> X end, Players),
+    lists:sum(Ratings)/length(Ratings).
 
 get_stat_test() ->
     ?assertEqual({5,40,24.85,242.8}, get_stat(sample_champ())),
     ok.
 
-
 filter_sick_players(Champ) ->
-    Champ.
+    HealtyPlayerTeams = lists:map(fun({A, B, X}) -> {A, B, filterSick(X)} end, Champ),
+    lists:filter(fun({_, _, X}) -> length(X) >= 5 end, HealtyPlayerTeams).
+
+filterSick(Players) ->
+    lists:filter(fun({_, _, _, _, X}) -> X >= 50 end, Players).
 
 
 filter_sick_players_test() ->
@@ -104,8 +124,12 @@ filter_sick_players_test() ->
     ok.
 
 
-make_pairs(Team1, Team2) ->
-    [].
+make_pairs({_, _, Team1}, {_, _, Team2}) ->
+    [ {Name1, Name2} ||
+        {_, Name1, _, Rating1, _} <- Team1,
+        {_, Name2, _, Rating2, _} <- Team2,
+        Rating1 + Rating2 > 600
+    ].
 
 
 make_pairs_test() ->
@@ -136,3 +160,4 @@ make_pairs_test() ->
                   {"Son of Hen","Cow Flow"}],
                  main:make_pairs(T4, T3)),
     ok.
+
