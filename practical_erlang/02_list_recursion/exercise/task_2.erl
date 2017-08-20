@@ -7,9 +7,10 @@
 
 %% implement erlang:length/1
 %% http://www.erlang.org/doc/man/erlang.html#length-1
-len(List) ->
-    0.
+len(List) -> len(List, 0).
 
+len([], Count) -> Count;
+len([_|T], Count) -> len(T, Count + 1).
 
 len_test() ->
     ?assertEqual(0, len([])),
@@ -22,9 +23,10 @@ len_test() ->
 
 %% implement lists:reverse/1
 %% http://www.erlang.org/doc/man/lists.html#reverse-1
-reverse(List) ->
-    List.
+reverse(List) -> reverse(List, []).
 
+reverse([], List) -> List;
+reverse([H|T], List) -> reverse(T, [H|List]).
 
 reverse_test() ->
     ?assertEqual([], reverse([])),
@@ -33,3 +35,4 @@ reverse_test() ->
     ?assertEqual([5,4,3,2,1], reverse([1,2,3,4,5])),
     ?assertEqual(["ef", "cd", "ab"], reverse(["ab", "cd", "ef"])),
     ok.
+

@@ -8,7 +8,7 @@
 %% implement lists:splitwith/2
 %% http://www.erlang.org/doc/man/lists.html#splitwith-2
 splitwith(Pred, List) ->
-    {[], []}.
+    {task_4:takewhile(Pred, List), task_4:dropwhile(Pred, List)}.
 
 
 splitwith_test() ->
@@ -25,8 +25,9 @@ splitwith_test() ->
 %% implement lists:zipwith/3
 %% http://www.erlang.org/doc/man/lists.html#zipwith-3
 %% if two lists have different lengths don't throw exception but ignore the rest of longer list
-zipwith(Pred, List1, List2) ->
-    [].
+zipwith(_, [], _) -> [];
+zipwith(_, _, []) -> [];
+zipwith(Pred, [H|T], [H2|T2]) -> [Pred(H, H2)|zipwith(Pred, T, T2)].
 
 
 zipwith_test() ->
