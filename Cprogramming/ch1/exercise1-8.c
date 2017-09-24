@@ -2,7 +2,7 @@
 
 /* program that counts blanks tabs and newlines */
 main() {
-    double blanks = 0.0, tabs = 0.0, newlines = 0.0, c;
+    int blanks = 0, tabs = 0, newlines = 0, c;
 
     while ((c = getchar()) != EOF) {
         if (c == '\t')  ++tabs;
@@ -10,7 +10,7 @@ main() {
         if (c == '\n')  ++newlines;
     }
 
-    printf("blanks   %.0f \n", blanks);
-    printf("tabs     %.0f \n", tabs);
-    printf("newlines %.0f \n", newlines);
+    printf("blanks   %d \n", blanks);
+    printf("tabs     %d \n", tabs);
+    printf("newlines %d \n", newlines);
 }
