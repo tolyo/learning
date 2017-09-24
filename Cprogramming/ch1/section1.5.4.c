@@ -3,7 +3,9 @@
 #define IN  1   /* inside a word */
 #define OUT 0   /* outside a word */
 
-/* count lines, words, and characters in input */
+/* count lines, words, and characters in input.
+ * Bug: new lines get counted as new characters!
+ */
 main()
 {
     int c, nl, nw, nc, state;
@@ -21,5 +23,5 @@ main()
             ++nw;
         }
     }
-    printf("%d %d %d \n" , nl, nw, nc);
+    printf("Newlines: %d \nWords: %d \nCharacters: %d \n" , nl, nw, nc);
 }
