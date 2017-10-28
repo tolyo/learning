@@ -11,8 +11,6 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.math.BigInteger;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,8 +27,6 @@ public class PhoneValidatorTests {
 
     PhoneValidator phoneValidator;
     Errors errors;
-    ValidatorFactory factory;
-    Validator validator;
 
     @Before
     public void setup() {
