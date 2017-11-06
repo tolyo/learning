@@ -7,7 +7,6 @@
 #include <stdio.h>
 #define N 8
 
-
 int main() {
     int c, i, p = 0;
 
@@ -15,7 +14,7 @@ int main() {
         if (c == '\t') {
             int lim = N - (p % N);
             for (i = 0; i < lim; ++i) {
-                putchar('*');
+                putchar('_');
                 p++;
             }
         } else if (c == '\n') {
