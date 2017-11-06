@@ -5,31 +5,33 @@
  * which should be given preference? A blank of course!
  */
 #include <stdio.h>
-#define N 4
+#define N 8
 
 int main() {
-    int c, p = 0, t = 0;
+    int c, p = 0, sps = 0, tabs = 0;
 
     while ((c = getchar()) != EOF) {
         if (c == ' ') {
-            t++;
             p++;
+            if (p % N == 0) {
+                tabs++;
+                if (sps = N) {
+                    sps=sps - N;
+                }
+            } else {
+                sps++;
+            }
         } else {
-            if (t > 0) {
-                int j;
-                int tabs = t / N;
-                for (j = 0; j < tabs; ++j) {
+            if (tabs > 0 || sps > 0) {
+                for (tabs; tabs != 0; tabs--) {
                     putchar('\t');
                 }
-                int spaces = t % N;
-                for (j = 0; j < spaces; ++j) {
+                for (sps; sps != 0; sps--) {
                     putchar(' ');
                 }
-                t = 0;
                 putchar(c);
             } else {
                 putchar(c);
-                t = 0;
                 if (c == '\n') {
                     p = 0;
                 } else {
