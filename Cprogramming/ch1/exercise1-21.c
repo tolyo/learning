@@ -16,7 +16,7 @@ int main() {
             if (p % N == 0) {
                 tabs++;
                 if (sps = N) {
-                    sps=sps - N;
+                    sps = sps - N;
                 }
             } else {
                 sps++;

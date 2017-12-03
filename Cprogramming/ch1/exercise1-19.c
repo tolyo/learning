@@ -1,6 +1,6 @@
 /*
  * Write a function reverse(s) that reverse
- * the character sting s. Use it to writ e a program
+ * the character sting s. Use it to write a program
  * that reverse its input a line at a time.
  */
 
