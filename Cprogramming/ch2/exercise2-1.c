@@ -1,5 +1,7 @@
 /*
- * Write a program to determine the ranges of char, int, float
+ * Write a program to determine the ranges of char, short,
+ * int, long, both signed and unsigned, including floating point
+ * types
  */
 #include <stdio.h>
 #include <limits.h>
@@ -20,4 +22,7 @@ int main() {
     printf("Min long %ld\n", LONG_MIN);
     printf("Max longs %ld\n", LONG_MAX);
     printf("Max unsigned longs %lu\n", ULONG_MAX);
+
+    printf("Min float %f\n", FLT_MIN);
+    printf("Max float %f\n", FLT_MAX);
 }
