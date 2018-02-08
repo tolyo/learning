@@ -71,6 +71,7 @@ int printline(int pos)
     }
 }
 
+/* Find the position of the last blank */
 int getblank(int pos)
 {
     if (pos > 0) {
