@@ -6,15 +6,12 @@
 #include <stdio.h>
 
 int main() {
-    unsigned setbits(x, p, n, y)
-    {
-        return x & ~(~(~0 << n) << (p + 1 - n)) | ( (~x & ~(~0 << p + 1)) >> (p + 1 - n) & ~(~0 << n)) << (p + 1 - n);
-    }
 
     unsigned invert(x, p, n)
     {
-        int y = (~x & ~(~0 << p + 1)) >> (p + 1 - n);
-        return setbits(x, p, n, y);
+        return x & ~(~(~0 << n) << (p + 1 - n)) |
+               ((~x & ~(~0 << p + 1)) >>
+               (p + 1 - n) & ~(~0 << n)) << (p + 1 - n);
     }
 
     printf("%u \n", invert(251,3,3));
