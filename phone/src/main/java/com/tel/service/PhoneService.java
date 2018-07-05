@@ -20,6 +20,7 @@ public class PhoneService {
     }
 
     public Optional<String> get(BigInteger number) {
+        Assert.notNull(number, "Number required");
         if (countryCode.containsKey(number)) return Optional.ofNullable(countryCode.get(number));
         else return get(shortenNumber(number));
     }
