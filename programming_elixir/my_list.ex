@@ -39,15 +39,11 @@ defmodule MyList do
     [head + n|caesar(tail, n) ]
   end
 
-   def caesar([head|tail], n) do
-      [head + n - 26|caesar(tail, n) ]
-   end
+  def caesar([head|tail], n) do
+    [head + n - 26|caesar(tail, n) ]
+  end
 
-   def span(from, from) do
-     [from]
-   end
+  def span(from, from), do: [from]
+  def span(from, to), do: [from|span(from + 1, to)]
 
-   def span(from, to) do
-      [from|span(from + 1, to) ]
-   end
 end
