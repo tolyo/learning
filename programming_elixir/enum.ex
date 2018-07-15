@@ -4,11 +4,11 @@ defmodule MyEnum do
     false
   end
 
-  def all?([ head ], func) do
+  def all?([head], func) do
     func.(head)
   end
 
-  def all?([ head | tail ], func) do
+  def all?([head|tail], func) do
     if (func.(head)) do
       all?(tail, func)
     else
@@ -16,29 +16,29 @@ defmodule MyEnum do
     end
   end
 
-  def each([ head | tail ], func) do
-    [ func.(head) | each(tail, func) ]
+  def each([head|tail], func) do
+    [func.(head)|each(tail, func) ]
   end
 
   def each([head], func) do
-    [ func.(head) ]
+    [func.(head) ]
   end
 
   def each([], _) do
     []
   end
 
-  def filter([ head | tail ], func) do
+  def filter([head|tail], func) do
      if func.(head) do
-       [ head | filter(tail, func)]
+       [head| filter(tail, func)]
      else
-       filter( tail , func)
+       filter(tail, func)
      end
   end
 
   def filter([head], func) do
     if func.(head) do
-      [ head ]
+      [head]
     else
       []
     end
@@ -52,9 +52,9 @@ defmodule MyEnum do
     _split(list, sep, [])
   end
 
-  def _split([ head | tail], sep, acc) do
+  def _split([head| tail], sep, acc) do
     if head === sep do
-      {[ acc | [head]], tail}
+      {[ acc|[head]], tail}
     else
       _split(tail, sep, acc ++ head)
     end
@@ -64,17 +64,26 @@ defmodule MyEnum do
     _take(list, sep, 0)
   end
 
-  def _take([ head | tail ], sep, count) do
+  def _take([head|tail], sep, count) do
     if sep === count do
       []
     else
-      [ head | _take(tail, sep, count + 1) ]
+      [head| _take(tail, sep, count + 1) ]
     end
   end
 
   def _take([], sep, count), do: []
 
   def flatten([]), do: []
-  def flatten([head | tail]), do: flatten(head) ++ flatten(tail)
+  def flatten([head|tail]), do: flatten(head) ++ flatten(tail)
   def flatten(head), do: [head]
+
+
+  # ListsAndRecursion-7
+  def span(from, from), do: [from]
+  def span(from, to), do: [from|span(from + 1, to)]
+  def is_prime(x), do: true
+  def primes(n) do
+    for x <- span(2, n), is_prime(x), do: x
+  end
 end
