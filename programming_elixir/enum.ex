@@ -1,11 +1,7 @@
 defmodule MyEnum do
 
   def all?([], _) do
-    false
-  end
-
-  def all?([head], func) do
-    func.(head)
+    true
   end
 
   def all?([head|tail], func) do
@@ -82,7 +78,9 @@ defmodule MyEnum do
   # ListsAndRecursion-7
   def span(from, from), do: [from]
   def span(from, to), do: [from|span(from + 1, to)]
-  def is_prime(x), do: true
+  def is_prime(x) do
+    all?(Enum.into(2..x-1, []), fn val -> rem(x, val) > 0 end)
+  end
   def primes(n) do
     for x <- span(2, n), is_prime(x), do: x
   end
