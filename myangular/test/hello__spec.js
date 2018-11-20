@@ -1,4 +1,4 @@
-var sayHello = require('../src/hello');
+const sayHello = require('../src/hello');
 
 describe("Hello", function () {
 

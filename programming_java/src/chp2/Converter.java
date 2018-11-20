@@ -7,7 +7,7 @@ public class Converter {
 
     public static void main(String[] args) {
         //System.out.println(toBinaryByTwoDivision(254));
-        System.out.println(toBinaryBySubtractionMethod(247));
+        System.out.println(toBinaryBySubtractionMethod(0));
     }
 
     /**
@@ -78,6 +78,7 @@ public class Converter {
     }
 
     public static Integer largestPowerOfTwo(Integer D) {
+
         int power = 1;
         while (power <= D/2) {
             power *= 2;
