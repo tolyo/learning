@@ -2,13 +2,61 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e0d898b7-f847-45d8-8cb9-06a02a79f0e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../programming_java/src/chp1/Exercise1_2_1.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../myangular/test/hello__spec.js" afterPath="$PROJECT_DIR$/../../myangular/test/hello__spec.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../programming_java/src/chp2/Converter.java" afterPath="$PROJECT_DIR$/../../programming_java/src/chp2/Converter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/MIT600.iml" afterPath="$PROJECT_DIR$/.idea/MIT600.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/build.gradle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/gradlew" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/gradlew.bat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/BeanRegister.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/HomeworkApplication.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/domain/Customer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/domain/Loan.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/domain/LoanApplicationAttempt.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/domain/LoanExtension.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/repository/CustomerRepository.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/repository/LoanApplicationAttemptRepository.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/repository/LoanExtensionRepository.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/repository/LoanRepository.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/rest/CustomerResource.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/rest/LoanExtensionResource.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/rest/LoanResource.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/service/LoanService.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/ControllerUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/DateRange.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/DomainFilter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/FormatUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/JsonDateDeserializer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/JsonDateSerializer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/RangeValidation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/RegexUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/RiskRange.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/SpringContext.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/SpringEnvironment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/util/test/TestHelpers.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/validation/LoanApplicationCommand.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/java/io/fourfinanceit/validation/LoanExtensionCommand.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/main/resources/application.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/HomeworkApplicationTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/domain/LoanTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/repository/CustomerRepositoryTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/repository/LoanApplicationAttemptRepositoryTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/repository/LoanExtensionRepositoryTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/repository/LoanRepositoryTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/rest/CustomerResourceTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/rest/LoanExtensionResourceTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/rest/LoanResourceTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/service/LoanServiceTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/util/RangeValidationTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/util/RegexUtilsTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/util/SpringContextTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/util/SpringEnvironmentTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/validation/LoanApplicationCommandTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../boot/lender/src/test/java/io/fourfinanceit/validation/LoanExtensionCommandTests.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../learning_scala/build.sbt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../learning_scala/src/main/scala/learning/scala/Chapter5.scala" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../../learning_scala/src/test/scala/learning/scala/Chapter5Spec.scala" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/book/Chapter 2/code.py" afterPath="$PROJECT_DIR$/book/Chapter 2/code.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/book/Chapter 3/code.py" afterPath="$PROJECT_DIR$/book/Chapter 3/code.py" />
     </list>
     <ignored path="MIT600.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,7 +77,7 @@
     <SUITE FILE_PATH="coverage/MIT600$Doctests_in_ps4.coverage" NAME="Doctests in ps4 Coverage Results" MODIFIED="1514909292968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/problem_sets/4" />
     <SUITE FILE_PATH="coverage/MIT600$ps2_newton.coverage" NAME="ps2_newton Coverage Results" MODIFIED="1492722310376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/problem_sets/2" />
     <SUITE FILE_PATH="coverage/MIT600$ps2_hangman.coverage" NAME="ps2_hangman Coverage Results" MODIFIED="1460913002243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/problem_sets/2" />
-    <SUITE FILE_PATH="coverage/MIT600$code__1_.coverage" NAME="code (1) Coverage Results" MODIFIED="1542750571659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/book/Chapter 2" />
+    <SUITE FILE_PATH="coverage/MIT600$code__1_.coverage" NAME="code (1) Coverage Results" MODIFIED="1542762701400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/book/Chapter 3" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -40,71 +88,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="code.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/book/Chapter 14/code.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="12" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rcParamsSettings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/book/Chapter 14/rcParamsSettings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="code.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/book/Chapter 18/code.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="code.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="code.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/book/Chapter 3/code.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+            <state vertical-scroll-proportion="-0.7906977">
+              <caret line="58" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="code.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="builtins.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/-1247971764/builtins.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="233" column="4" selection-start-line="233" selection-start-column="4" selection-end-line="233" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="code.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/book/Chapter 2/code.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39534885">
-              <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="code.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/book/Chapter 9/code.py">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="code.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/book/Chapter 4/code.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+              <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -131,6 +139,7 @@
         <option value="$PROJECT_DIR$/book/Chapter 14/rcParamsSettings.py" />
         <option value="$PROJECT_DIR$/problem_sets/2/ps2_hangman.py" />
         <option value="$PROJECT_DIR$/book/Chapter 2/code.py" />
+        <option value="$PROJECT_DIR$/book/Chapter 3/code.py" />
       </list>
     </option>
   </component>
@@ -179,10 +188,6 @@
               <option name="myItemId" value="MIT600" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -207,10 +212,6 @@
               <option name="myItemId" value="book" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chapter 9" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -223,6 +224,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="book" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chapter 3" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -255,21 +260,21 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="70" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="67" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="92" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="90" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="97" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="96" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="960" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="943" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="72" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="92" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="91" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="97" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="96" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="958" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="950" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RecentsManager">
@@ -324,13 +329,13 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/book/Chapter 14" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/book/Chapter 2" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="MIT600" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/book/Chapter 14/code.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/book/Chapter 2/code.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -360,13 +365,13 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/book/Chapter 2" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/book/Chapter 3" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="MIT600" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/book/Chapter 2/code.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/book/Chapter 3/code.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -572,12 +577,11 @@
       <item index="4" class="java.lang.String" itemvalue="Python.code (1)" />
     </list>
     <recent_temporary>
-      <list size="5">
+      <list size="4">
         <item index="0" class="java.lang.String" itemvalue="Python.code (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.problem4" />
-        <item index="2" class="java.lang.String" itemvalue="Python.code" />
+        <item index="1" class="java.lang.String" itemvalue="Python.code" />
+        <item index="2" class="java.lang.String" itemvalue="Python.problem4" />
         <item index="3" class="java.lang.String" itemvalue="Python.ps3a" />
-        <item index="4" class="java.lang.String" itemvalue="Python tests.Doctests in ps4" />
       </list>
     </recent_temporary>
   </component>
@@ -598,7 +602,13 @@
       <option name="project" value="LOCAL" />
       <updated>1522070685176</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Update">
+      <created>1542750665085</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1542750665085</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -611,21 +621,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="52" width="1285" height="716" extended-state="4" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27280065" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15254237" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32799146" sideWeight="0.5021916" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32799146" sideWeight="0.4978084" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.862442" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3263328" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279483" sideWeight="0.4978084" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.8610662" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3263328" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24942085" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39937434" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3990307" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -633,6 +643,27 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32799146" sideWeight="0.5021916" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279483" sideWeight="0.4978084" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.8610662" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3263328" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15254237" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24942085" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39937434" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -647,10 +678,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Book code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Book code" />
+    <MESSAGE value="Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/book/Chapter 3/code.py</url>
+          <line>72</line>
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -780,13 +820,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/book/Chapter 11/code.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python2.7/doctest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="19.296482">
@@ -826,26 +859,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/book/Chapter 3/code.py">
+    <entry file="file://$PROJECT_DIR$/book/Chapter 9/code.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.23376623">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/book/Chapter 9/code.py">
+    <entry file="file://$PROJECT_DIR$/book/Chapter 5/functionsFromChapter4.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/book/Chapter 7/code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/book/Chapter 11/code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/book/Chapter 16/code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/book/Chapter 10/code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4651163">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/book/Chapter 2/code.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39534885">
-          <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="6" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/-1247971764/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="233" column="4" selection-start-line="233" selection-start-column="4" selection-end-line="233" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/book/Chapter 3/code.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.7906977">
+          <caret line="58" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="58" selection-end-column="8" />
           <folding />
         </state>
       </provider>
