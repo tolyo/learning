@@ -226,4 +226,8 @@ Scope.prototype.$$postDigest = function (expr) {
   this.$$postDigestQueue.push(expr);
 };
 
+Scope.prototype.$new = function () {
+  return Object.create(this)
+}
+
 module.exports = Scope;
