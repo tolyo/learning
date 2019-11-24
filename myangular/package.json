@@ -11,8 +11,7 @@
     "karma-jshint-preprocessor": "0.0.6",
     "karma-phantomjs-launcher": "^1.0.4",
     "phantomjs": "^2.1.7",
-    "sinon": "^2.3.8",
-    "watchify": "^3.9.0"
+    "sinon": "^2.3.8"
   },
   "scripts": {
     "lint": "jshint src test",
