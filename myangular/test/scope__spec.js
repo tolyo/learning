@@ -739,7 +739,7 @@ describe('$watchGroup', function() {
 });
 
 describe("inheritance", function() {
-// Tests for this chapter
+  // Tests for chapter 2
   it("inherits the parent's properties", function() {
     var parent = new Scope();
     parent.aValue = [1, 2, 3];
@@ -812,8 +812,10 @@ describe("inheritance", function() {
   it("shadows a parent's property with the same name", function() {
     var parent = new Scope();
     var child = parent.$new();
+
     parent.name = 'Joe';
     child.name = 'Jill';
+
     expect(child.name).toBe('Jill');
     expect(parent.name).toBe('Joe');
   });
@@ -868,4 +870,60 @@ describe("inheritance", function() {
     expect(child.aValueWas).toBe('abc');
   });
 
+  it("digests from root on $apply", function() {
+    var parent = new Scope();
+    var child = parent.$new();
+    var child2 = child.$new();
+    parent.aValue = 'abc';
+    parent.counter = 0;
+    parent.$watch(
+        function(scope) { return scope.aValue; },
+        function(newValue, oldValue, scope) {
+          scope.counter++;
+        }
+    );
+    child2.$apply(function(scope) { });
+    expect(parent.counter).toBe(1);
+  });
+
+  it("schedules a digest from root on $evalAsync", function(done) {
+    var parent = new Scope();
+    var child = parent.$new();
+    var child2 = child.$new();
+    parent.aValue = 'abc';
+    parent.counter = 0;
+    parent.$watch(
+        function(scope) { return scope.aValue; },
+        function(newValue, oldValue, scope) {
+          scope.counter++;
+        });
+    child2.$evalAsync(function(scope) { });
+    setTimeout(function() {
+      expect(parent.counter).toBe(1);
+      done();
+    }, 50);
+  });
+
+  it("does not have access to parent attributes when isolated", function() {
+    var parent = new Scope();
+    var child = parent.$new(true);
+    parent.aValue = 'abc';
+    expect(child.aValue).toBeUndefined();
+  });
+
+  it("cannot watch parent attributes when isolated", function() {
+    var parent = new Scope();
+    var child = parent.$new(true);
+    parent.aValue = 'abc';
+    child.$watch(
+      function(scope) { 
+        return scope.aValue; 
+      },
+      function(newValue, oldValue, scope) {
+          scope.aValueWas = newValue;
+      }
+    );
+    child.$digest();
+    expect(child.aValueWas).toBeUndefined();
+  });
 });
