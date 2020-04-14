@@ -274,7 +274,7 @@ Scope.prototype.$destroy = function() {
 };
 
 // Chapter 3
-Scope.prototype.$watchCollection = function(watchFn, listenerFn) {
+Scope.prototype.$watchCollection = function(watchFn, listenerFn, valueEq) {
   var self = this;
   var newValue;
   var oldValue;
@@ -283,10 +283,46 @@ Scope.prototype.$watchCollection = function(watchFn, listenerFn) {
   var internalWatchFn = function(scope) {
     newValue = watchFn(scope);
 
-    if (!self.$$areEqual(newValue, oldValue, false)) {
-      changeCount++;
-    }
-    oldValue = newValue;
+    if (_.isObject(newValue)) {      
+      if (isArrayLike(newValue)) {
+        if (!_.isArray(oldValue)) {
+          changeCount++;
+          oldValue = [];
+        }
+
+        if (oldValue.length !== newValue.length) {
+          changeCount++;
+          oldValue.length = newValue.length;  
+        }
+
+        if (_.forEach(newValue, function(x, i) {
+          
+          var bothNaN = _.isNaN(x) && _.isNaN(oldValue[i]);
+          if (!bothNaN && x !== oldValue[i]) {
+            changeCount++;
+            oldValue[i] = x;
+          }    
+        }));
+
+      } else {
+        if (!_.isObject(oldValue) || isArrayLike(oldValue)) {
+          changeCount++;
+          oldValue = newValue;         
+        }
+        _.forOwn(newValue, function(newVal, key) {
+          if (oldValue[key] !== newVal) {
+            changeCount++;
+            oldValue[key] = newVal;
+          }
+        });
+        oldValue = _.cloneDeep(newValue);
+      }
+    } else {
+      if (!self.$$areEqual(newValue, oldValue, false)) {
+        changeCount++;
+      }
+      oldValue = newValue;
+    }    
     return changeCount;
   };
 
@@ -294,7 +330,15 @@ Scope.prototype.$watchCollection = function(watchFn, listenerFn) {
     listenerFn(newValue, oldValue, self);
   };
   
-  return this.$watch(internalWatchFn, internalListenerFn);
+  return this.$watch(internalWatchFn, internalListenerFn, false);
 };
 
+
+function isArrayLike(obj) {
+  if (_.isNull(obj) || _.isUndefined(obj)) {
+    return false;
+  }
+  var length = obj.length;
+  return _.isNumber(length);
+}
 module.exports = Scope;
