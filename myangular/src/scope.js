@@ -278,10 +278,15 @@ Scope.prototype.$watchCollection = function(watchFn, listenerFn, valueEq) {
   var self = this;
   var newValue;
   var oldValue;
+  var oldLength;
   var changeCount = 0;
+  var veryOldValue;
+  var trackVeryOldValue = (listenerFn.length > 1);
+  var firstRun = true;
 
   var internalWatchFn = function(scope) {
     newValue = watchFn(scope);
+    var newLength;
 
     if (_.isObject(newValue)) {      
       if (isArrayLike(newValue)) {
@@ -307,14 +312,33 @@ Scope.prototype.$watchCollection = function(watchFn, listenerFn, valueEq) {
       } else {
         if (!_.isObject(oldValue) || isArrayLike(oldValue)) {
           changeCount++;
-          oldValue = newValue;         
+          oldValue = {};
+          oldLength = 0;         
         }
+        newLength = 0;
         _.forOwn(newValue, function(newVal, key) {
-          if (oldValue[key] !== newVal) {
+          newLength++;
+          if (oldValue.hasOwnProperty(key)) {
+            var bothNan = _.isNaN(newVal) && _.isNaN(oldValue[key]);
+            if (!bothNan && oldValue[key] !== newVal) {
+              changeCount++;
+            }
+          } else {
             changeCount++;
+            oldLength++;
             oldValue[key] = newVal;
           }
         });
+
+        if (oldLength > newLength) {
+          changeCount++;
+          _.forOwn(oldValue, function(oldVal, key) {
+            if (!newValue.hasOwnProperty(key)) {
+              oldLength--;
+              delete oldValue[key];
+            }
+          });
+        }
         oldValue = _.cloneDeep(newValue);
       }
     } else {
@@ -327,7 +351,16 @@ Scope.prototype.$watchCollection = function(watchFn, listenerFn, valueEq) {
   };
 
   var internalListenerFn = function() {
-    listenerFn(newValue, oldValue, self);
+    if (firstRun) {
+      listenerFn(newValue, newValue, self);
+      firstRun = false;
+    } else {
+      listenerFn(newValue, veryOldValue, self);
+    }
+    
+    if (trackVeryOldValue) {
+      veryOldValue = _.clone(newValue);
+    }
   };
   
   return this.$watch(internalWatchFn, internalListenerFn, false);
@@ -339,6 +372,6 @@ function isArrayLike(obj) {
     return false;
   }
   var length = obj.length;
-  return _.isNumber(length);
+  return length === 0 || (_.isNumber(length) && length > 0 && (length - 1) in obj);
 }
 module.exports = Scope;
