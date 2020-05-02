@@ -13,6 +13,7 @@ function Scope() {
   this.$$children = [];
   this.$$phase = null;
   this.$parent = null;
+  this.$$listeners = {};
 }
 
 function initWatchVal(){}
@@ -250,6 +251,7 @@ Scope.prototype.$new = function (isolated, parent) {
   child.$$watchers = [];
   child.$$children = [];
   child.$parent = parent;
+  child.$$listeners = {};
   return child;
 };
 
@@ -366,6 +368,40 @@ Scope.prototype.$watchCollection = function(watchFn, listenerFn, valueEq) {
   return this.$watch(internalWatchFn, internalListenerFn, false);
 };
 
+Scope.prototype.$on = function(name, listenerFn) {
+  if (this.$$listeners[name]) {
+    this.$$listeners[name].push(listenerFn);
+  } else {
+    this.$$listeners[name] = [listenerFn];
+  }
+  var listeners = this.$$listeners[name];
+  return function() {
+    var index = listeners.indexOf(listenerFn);
+    if (index >= 0) {
+      listeners.splice(index, 1);
+    }
+  };
+};
+
+Scope.prototype.$emit = function(eventName) {
+  var additionalArgs = _.tail(arguments);
+  return this.$$fireEventOnScope(eventName, additionalArgs);
+};
+
+Scope.prototype.$broadcast = function(eventName) {
+  var additionalArgs = _.tail(arguments);
+  return this.$$fireEventOnScope(eventName, additionalArgs);
+};
+
+Scope.prototype.$$fireEventOnScope = function(eventName, additionalArgs) {
+  var event = {name: eventName};
+  var listenerArgs = [event].concat(additionalArgs);
+  var listeners = this.$$listeners[eventName] || [];
+  _.forEach(listeners, function(listener) {
+    listener.apply(null, listenerArgs);
+  });
+  return event;
+};
 
 function isArrayLike(obj) {
   if (_.isNull(obj) || _.isUndefined(obj)) {
@@ -374,4 +410,5 @@ function isArrayLike(obj) {
   var length = obj.length;
   return length === 0 || (_.isNumber(length) && length > 0 && (length - 1) in obj);
 }
+
 module.exports = Scope;
