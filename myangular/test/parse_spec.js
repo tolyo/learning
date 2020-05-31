@@ -107,4 +107,10 @@ describe("parse", function() {
     var fn = parse('[]');
     expect(fn()).toEqual([]);
   });
+
+  it("will parse a non-empty array", function() {
+    var fn = parse('[1, 2]');
+    expect(fn()).toEqual([1, 2]);
+  });
 });
+

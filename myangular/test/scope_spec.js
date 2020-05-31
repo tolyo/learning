@@ -634,6 +634,9 @@ describe('$watchGroup', function() {
     scope = new Scope();
   });
 
+
+
+  
   it('takes watches as an array and calls listener with arrays', function() {
     var gotNewValues, gotOldValues;
     scope.aValue = 1;

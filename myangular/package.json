@@ -2,7 +2,7 @@
   "name": "my-own-angularjs",
   "version": "0.1.0",
   "devDependencies": {
-    "browserify": "^14.4.0",
+    "browserify": "^16.5.1",
     "jasmine-core": "^2.6.4",
     "jshint": "^2.9.5",
     "karma": "^1.7.0",
