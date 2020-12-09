@@ -5,12 +5,14 @@
 #include <stdio.h>
 
 int main() {
-    unsigned rightrot(x, n)
-    {
-        return ((x & (~0 << n)) >> n) | ((x & (~(~0 << n))) << n);
-    }
+    unsigned rightrot(x, n);
 
     printf("%u \n",rightrot(240,3));
 }
 
+
+unsigned rightrot(x, n)
+{
+    return ((x & (~0 << n)) >> n) | ((x & (~(~0 << n))) << n);
+}
 

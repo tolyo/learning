@@ -7,14 +7,15 @@
 
 int main() {
 
-    unsigned invert(x, p, n)
-    {
-        return x & ~(~(~0 << n) << (p + 1 - n)) |
-               ((~x & ~(~0 << p + 1)) >>
-               (p + 1 - n) & ~(~0 << n)) << (p + 1 - n);
-    }
+    unsigned invert(x, p, n);
 
     printf("%u \n", invert(251,3,3));
 }
 
+unsigned invert(int x, int p, int n)
+{
+    return x & ~(~(~0 << n) << (p + 1 - n)) |
+            ((~x & ~(~0 << p + 1)) >>
+            (p + 1 - n) & ~(~0 << n)) << (p + 1 - n);
+}
 

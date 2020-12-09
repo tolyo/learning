@@ -7,7 +7,7 @@
 #include <stdio.h>
 #define MAXLINE 1000    /* maximum input line size */
 
-int getline(char line[], int lim);
+int getLine(char line[], int lim);
 void reverse(char line[]);
 
 /* clean up lines */
@@ -15,7 +15,7 @@ int main() {
     int len;                /* current line length */
     char line[MAXLINE];     /* current input line */
 
-    while ((len = getline(line, MAXLINE)) > 0)
+    while ((len = getLine(line, MAXLINE)) > 0)
         if (len > 1) {
             reverse(line);
             printf("%s\n", line);
@@ -23,8 +23,8 @@ int main() {
     return 0;
 }
 
-/* getline: read a line into  s, return length */
-int getline(char s[], int lim)
+/* getLine: read a line into  s, return length */
+int getLine(char s[], int lim)
 {
     int c, i, j, total = 0;
 
@@ -56,8 +56,10 @@ void reverse(char line[]) {
 
     /* find length */
     for (i = 0; line[i] != '\0'; ++i) {}
+    /* decrease by by one */
     --i;
 
+    /* reverse one har at a time */
     for (j = 0; j <= i; ++j) {
         a = line[j];
         line[j] = line[i];

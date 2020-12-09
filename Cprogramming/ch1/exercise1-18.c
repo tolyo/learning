@@ -6,22 +6,22 @@
 #include <stdio.h>
 #define MAXLINE 1000    /* maximum input line size */
 
-int getline(char line[], int lim);
+int getLine(char line[], int lim);
 
 /* clean up lines */
 int main() {
     int len;                /* current line length */
     char line[MAXLINE];     /* current input line */
 
-    while ((len = getline(line, MAXLINE)) > 0)
+    while ((len = getLine(line, MAXLINE)) > 0)
         if (len > 1) {
             printf("%s\n", line);
         }
     return 0;
 }
 
-/* getline: read a line into  s, return length */
-int getline(char s[], int lim)
+/* getLine: read a line into  s, return length */
+int getLine(char s[], int lim)
 {
     int c, i, j, total = 0;
 
@@ -44,7 +44,6 @@ int getline(char s[], int lim)
     if (c == '\n') {
         s[i] = c;
         ++i;
-        ++total;
     }
 
     s[i] = '\0';
