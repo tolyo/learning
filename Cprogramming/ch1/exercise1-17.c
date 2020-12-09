@@ -10,7 +10,7 @@ int getline(char line[], int lim);
 void clearArray(char line[]);
 
 /* print all lines greater than min line */
-main() {
+int main() {
     int len;                /* current line length */
     char line[MAXLINE];     /* current input line */
 

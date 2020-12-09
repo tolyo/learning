@@ -7,19 +7,25 @@
 #include <stdio.h>
 #define MAXLINE 10 /* maximum input line size */
 
-int getline(char line[], int lim);
+int getLine(char line[], int lim);
 void copy(char to[], char from[]);
 void clearArray(char line[]);
 
+/**
+ * Revise the main routing of the longest-line program so it will
+ * correctly print the length of arbitrarily long input lines, as
+ * as much as possible of the text.
+ * /
+
 /* print the longest input line */
-main() {
+int main() {
     int len;    /* current line length */
     int max;    /* maximum length seen so far */
     char line[MAXLINE];     /* current input line */
     char longest[MAXLINE];  /* longest line saved here */
 
     max = 0;
-    while ((len = getline(line, MAXLINE)) > 0)
+    while ((len = getLine(line, MAXLINE)) > 0)
         if (len > max) {
             max = len;
             copy(longest, line);
@@ -32,8 +38,8 @@ main() {
     return 0;
 }
 
-/* getline: read a line into  s, return length */
-int getline(char s[], int lim)
+/* getLine: read a line into  s, return length */
+int getLine(char s[], int lim)
 {
     int c, i, total = 0;
 
@@ -49,7 +55,6 @@ int getline(char s[], int lim)
     if (c == '\n') {
         s[i] = c;
         ++i;
-        ++total;
     }
     s[i] = '\0';
     return total;
@@ -58,9 +63,10 @@ int getline(char s[], int lim)
 /* clearArray: reinitialize array to empty state */
 void clearArray(char s[]) {
     int i;
-    for (i = 0; i < MAXLINE - 1; ++i) {
+    for (i = 0; i < MAXLINE; ++i) {
         s[i] = 0; /* or '\0' also works; */
     }
+    return;
 }
 
 /* copy: copy 'from' into 'to'; assume to is big enoguh */

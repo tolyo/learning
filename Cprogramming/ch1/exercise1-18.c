@@ -9,7 +9,7 @@
 int getline(char line[], int lim);
 
 /* clean up lines */
-main() {
+int main() {
     int len;                /* current line length */
     char line[MAXLINE];     /* current input line */
 

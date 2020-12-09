@@ -5,7 +5,7 @@
 
 double toCelsius(double fahr);
 
-main()
+int main()
 {
     float fahr, celsius;
     int lower, upper, step;
@@ -19,6 +19,8 @@ main()
         printf("%3.0f  %6.1f \n", fahr, toCelsius(fahr));
         fahr = fahr + step;
     }
+    
+    return 0;
 }
 
 double toCelsius(double fahr) {

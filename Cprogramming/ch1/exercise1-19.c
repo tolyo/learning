@@ -11,7 +11,7 @@ int getline(char line[], int lim);
 void reverse(char line[]);
 
 /* clean up lines */
-main() {
+int main() {
     int len;                /* current line length */
     char line[MAXLINE];     /* current input line */
 
