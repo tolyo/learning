@@ -3,7 +3,7 @@
 /* program copies its input to its output replacing
  * each string of one or more blanks by a single blank
  */
-main() {
+int main() {
 
     int blank = 0; // blank keeps the state for current one or more blanks
     int c;

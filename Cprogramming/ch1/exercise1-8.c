@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-/* program that counts blanks tabs and newlines */
-main() {
+/* Program that counts blanks tabs and newlines. Press Ctrl+D to quit prompt */
+int main() {
     int blanks = 0, tabs = 0, newlines = 0, c;
 
     while ((c = getchar()) != EOF) {
@@ -13,4 +13,5 @@ main() {
     printf("blanks   %d \n", blanks);
     printf("tabs     %d \n", tabs);
     printf("newlines %d \n", newlines);
+    return 0;
 }

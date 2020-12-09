@@ -1,9 +1,17 @@
-defmodule MyEnum do
+defmodule Ch10 do
 
-  def all?([], _) do
-    true
+  @doc """
+  Implement the following Enum functions using no library functions or list
+  comprehensions: all? , each , filter , split , and take . You may need to use an if
+  statement to implement filter . The syntax for this is
+  if condition do
+  expression(s)
+  else
+  expression(s)
   end
+  """
 
+  def all?([], _), do: true
   def all?([head|tail], func) do
     if (func.(head)) do
       all?(tail, func)
@@ -12,18 +20,10 @@ defmodule MyEnum do
     end
   end
 
-  def each([head|tail], func) do
-    [func.(head)|each(tail, func) ]
-  end
+  def each([], _), do: []
+  def each([head|tail], func), do: [func.(head) | each(tail, func)]
 
-  def each([head], func) do
-    [func.(head) ]
-  end
-
-  def each([], _) do
-    []
-  end
-
+  def filter([], _), do: []
   def filter([head|tail], func) do
      if func.(head) do
        [head| filter(tail, func)]
@@ -32,27 +32,15 @@ defmodule MyEnum do
      end
   end
 
-  def filter([head], func) do
-    if func.(head) do
-      [head]
-    else
-      []
-    end
-  end
-
-  def filter([], _) do
-    []
-  end
-
   def split(list, sep) do
     _split(list, sep, [])
   end
 
   def _split([head| tail], sep, acc) do
     if head === sep do
-      {[ acc|[head]], tail}
+      {acc ++ [head], tail}
     else
-      _split(tail, sep, acc ++ head)
+      _split(tail, sep, acc ++ [head])
     end
   end
 
@@ -60,6 +48,7 @@ defmodule MyEnum do
     _take(list, sep, 0)
   end
 
+  def _take([], sep, count), do: []
   def _take([head|tail], sep, count) do
     if sep === count do
       []
@@ -68,24 +57,24 @@ defmodule MyEnum do
     end
   end
 
-  def _take([], sep, count), do: []
-
   def flatten([]), do: []
   def flatten([head|tail]), do: flatten(head) ++ flatten(tail)
   def flatten(head), do: [head]
 
-
-  # ListsAndRecursion-7
-  def span(from, from), do: [from]
-  def span(from, to), do: [from|span(from + 1, to)]
-  def is_prime(x) do
-    all?(Enum.into(2..x-1, []), fn val -> rem(x, val) > 0 end)
-  end
+  @doc """
+    In the last exercise of Chapter 7, Lists and Recursion, on page 71, you
+    wrote a span function. Use it and list comprehensions to return a list of
+    the prime numbers from 2 to n.
+  """
   def primes(n) do
-    for x <- span(2, n), is_prime(x), do: x
+    for x <- Ch7.MyList.span(2, n), Enum.all?(2..x-1, &(rem(x, &1) > 0)), do: x
   end
 
-  # ListsAndRecursion-8
+  @doc """
+    The Pragmatic Bookshelf has offices in Texas (TX) and North Carolina
+    (NC), so we have to charge sales tax on orders shipped to these states.
+    The rates can be expressed as a keyword list (I wish it were that simple....):
+  """
   def get_orders() do
     tax_rates = [ NC: 0.075, TX: 0.08 ]
     orders = [
@@ -98,11 +87,6 @@ defmodule MyEnum do
       [id: 129, ship_to: :CA, net_amount: 102.00],
       [id: 120, ship_to: :NC, net_amount: 50.00]
     ]
-    
-    Enum.map(orders, fn x ->
-      rate = tax_rates[x[:ship_to]] || 0
-      Keyword.put(x, :total_amount, x[:net_amount] * (1 + rate))
-    end)
+    Enum.map(orders, &(Keyword.put(&1, :total_amount, &1[:net_amount] + &1[:net_amount] * (tax_rates[&1[:ship_to]] || 0))))
   end
-
 end

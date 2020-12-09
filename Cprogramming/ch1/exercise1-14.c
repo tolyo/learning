@@ -9,8 +9,8 @@ int main()
     int c, i, j;
     int ascii[128];
 
-    // popullate array with ascii printable chars
-    for (j = 32; j < 127; ++j) {
+    // populate array with ascii printable chars
+    for (j = 0; j < 128; ++j) {
         ascii[j] = 0;
     }
 
