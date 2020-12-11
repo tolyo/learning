@@ -11,28 +11,35 @@
 int main()
 {
 
-    int binsearch(int x, int v[], int n)
-    {
-        int low, high, mid;
+    int binsearch(int x, int v[], int n);
 
-        low = 0;
-        high = n - 1;
+    int c[10] = {10, 20, 30, 40, 44, 45, 46, 47, 57, 60};
+
+    printf("%d\n", binsearch(47, c, 10));
+    printf("%d\n", binsearch(10, c, 10));
+    printf("%d\n", binsearch(1, c, 10));
+}
+
+int binsearch(int x, int v[], int n)
+{
+    int low, high, mid, count;
+
+    low = 0;
+    high = n - 1;
+    mid = (low + high) / 2;
+
+    while (v[mid] != x && low != high) {
+        if (x < v[mid]) {
+            high = mid - 1;
+        } else {
+           low = mid + 1;
+        }        
         mid = (low + high) / 2;
-
-        while (v[mid] != x) {
-            if (x < v[mid]) {
-                mid = (low + mid) / 1 - 1;
-            } else {
-                mid = (low + high) / 1 + 1;
-            }
-        }
-
-        return mid;
     }
 
-    int c[5] = {10, 20, 30, 40, 60};
-
-    printf("%d\n", binsearch(40, c, 5));
-
-
+    if (low == high && v[mid] != x) {
+        return -1;
+    } else {
+        return mid;
+    }
 }
