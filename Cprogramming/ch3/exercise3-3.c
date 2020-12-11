@@ -15,7 +15,7 @@ void expand(char s1[], char s2[]);
 int main() 
 {
 
-    char s1[MAXLINE] = "-a-bA-C1-9-";
+    char s1[MAXLINE] = "-a-b-cA-C1-9-";
     char s2[MAXLINE];
 
     expand(s1, s2);
@@ -40,10 +40,15 @@ void expand(char s1[], char s2[])
         } 
 
         if (s1[i] >= 'A' || s1[i] >= '1') {
-            // beggin pattern
+            // begin pattern
             start = s1[i];
             i++;
             i++;
+            // peek for continuation a-b-c
+            if (s1[i+1] == '-' && s1[i+2] != '\0') {
+                i++;
+                i++;
+            }
             end = s1[i];
             while (start <= end) {
                 s2[j] = start;
