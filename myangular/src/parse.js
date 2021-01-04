@@ -2,9 +2,15 @@
 
 var _ = require('lodash');
 
-
-var ESCAPES = {'n':'\n', 'f':'\f', 'r':'\r', 't':'\t',
-'v':'\v', '\'':'\'', '"':'"'};
+var ESCAPES = {
+    'n':'\n', 
+    'f':'\f', 
+    'r':'\r', 
+    't':'\t', 
+    'v':'\v', 
+    '\'':'\'', 
+    '"':'"'
+};
 
 function parse(expr) {
     var lexer = new Lexer();
@@ -200,7 +206,7 @@ AST.prototype.arrayDeclaration = function() {
     }
     this.consume(']');
     return {type: AST.ArrayExpression, elements: elements};
-}
+};
 
 AST.prototype.peek = function(e) {
     if (this.tokens.length > 0) {
@@ -217,7 +223,7 @@ AST.prototype.consume = function(e) {
         throw 'Unexpected. Expecting: ' + e;
     }
     return token;
-}
+};
 
 AST.prototype.constant = function() {
     return {type: AST.Literal, value: this.consume().value};
@@ -237,6 +243,7 @@ ASTCompiler.prototype.compile = function(text) {
     var ast = this.astBuilder.ast(text);
     this.state = {body: []};
     this.recurse(ast);
+    /*jslint evil: true */
     return new Function(this.state.body.join(''));
 };
 
