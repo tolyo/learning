@@ -109,8 +109,13 @@ describe("parse", function() {
   });
 
   it("will parse a non-empty array", function() {
-    var fn = parse('[1, 2]');
-    expect(fn()).toEqual([1, 2]);
+    var fn = parse('[1, "two", [3], true]');
+    expect(fn()).toEqual([1, "two", [3], true]);
+  });
+
+  it("will parse an array with trailing commas", function() {
+    var fn = parse('[1, 2, 3, ]');
+    expect(fn()).toEqual([1, 2, 3]);
   });
 });
 
