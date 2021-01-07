@@ -30,11 +30,11 @@ Lexer.prototype.lex = function(text) {
     while (this.index < this.text.length) {
         this.ch = this.text.charAt(this.index);
         if (this.isNumber(this.ch) ||
-           (this.ch === '.' && this.isNumber(this.peek()))) {
+           (this.is('.') && this.isNumber(this.peek()))) {
             this.readNumber();
-        } else if (this.ch === '\'' || this.ch === '"') {
+        } else if (this.is('\'"')) {
             this.readString(this.ch);
-        } else if (this.ch === '[' || this.ch === ']' || this.ch === ',') {
+        } else if (this.is('[],{}:')) {
             this.tokens.push({
                 text: this.ch
             });
@@ -50,6 +50,10 @@ Lexer.prototype.lex = function(text) {
     return this.tokens;
 };
 
+Lexer.prototype.is = function(chs) {
+    return chs.indexOf(this.ch) >= 0;
+};
+
 Lexer.prototype.readIdent = function() {
     var text = '';
     while (this.index < this.text.length) { 
@@ -61,7 +65,10 @@ Lexer.prototype.readIdent = function() {
     }
     this.index++;
     }
-    var token = {text: text};
+    var token = {
+        text: text,
+        identifier: true
+    };
     this.tokens.push(token);
 };
 
@@ -170,6 +177,9 @@ function AST(lexer) {
 AST.Program = 'Program';
 AST.Literal = 'Literal';
 AST.ArrayExpression = 'ArrayExpression';
+AST.ObjectExpression = 'ObjectExpression';
+AST.Property = 'Property';
+AST.Identifier = 'Identifier';
 
 AST.prototype.ast = function(text) {
     this.tokens = this.lexer.lex(text);
@@ -183,6 +193,8 @@ AST.prototype.program = function() {
 AST.prototype.primary = function() {
     if (this.expect('[')) {
         return this.arrayDeclaration();
+    } else if (this.expect('{')) {
+        return this.object(); 
     } else if (this.constants.hasOwnProperty(this.tokens[0].text)) {
         return this.constants[this.consume().text];
     } else {
@@ -211,6 +223,27 @@ AST.prototype.arrayDeclaration = function() {
     return {type: AST.ArrayExpression, elements: elements};
 };
 
+AST.prototype.object = function() {
+    var properties = [];
+    if(!this.peek('}')) {
+        do {
+            var property = {type: AST.Property};
+            if (this.peek().identifier) {
+                property.key = this.identifier();
+            } else {
+                property.key = this.constant();
+            }
+            
+            this.consume(':');
+            property.value = this.primary();
+            properties.push(property);
+        } while(this.expect(','));
+    }
+
+    this.consume('}');
+    return {type: AST.ObjectExpression, properties: properties};
+};
+
 AST.prototype.peek = function(e) {
     if (this.tokens.length > 0) {
         var text = this.tokens[0].text;
@@ -232,6 +265,10 @@ AST.prototype.constant = function() {
     return {type: AST.Literal, value: this.consume().value};
 };
 
+AST.prototype.identifier = function() {
+    return {type: AST.Identifier, name: this.consume().text};
+};
+
 AST.prototype.constants = {
     'null': {type: AST.Literal, value: null},
     'true': {type: AST.Literal, value: true},
@@ -251,6 +288,7 @@ ASTCompiler.prototype.compile = function(text) {
 };
 
 ASTCompiler.prototype.recurse = function(ast) {
+    var that = this;
     switch (ast.type) {
         case AST.Program:
             this.state.body.push('return ', this.recurse(ast.body), ';');
@@ -258,11 +296,17 @@ ASTCompiler.prototype.recurse = function(ast) {
         case AST.Literal:
             return this.escape(ast.value);
         case AST.ArrayExpression:
-            var that = this;
             var elements = _.map(ast.elements, function(element) {
                 return that.recurse(element);
             });
             return '[' + elements.join(',') + ']';
+        case AST.ObjectExpression:
+            var properties = _.map(ast.properties, function(property) {
+                var key = property.key.type === AST.Identifier ? property.key.name : that.escape(property.key.value);
+                var value = that.recurse(property.value);
+                return key + ':' + value;
+            }, this);
+            return '{' + properties.join(',') + '}'; 
     }
 };
 
