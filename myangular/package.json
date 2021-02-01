@@ -21,7 +21,7 @@
   "dependencies": {
     "@types/jquery": "^3.3.34",
     "@types/lodash": "^4.14.149",
-    "jquery": "^3.5.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.20"
   }
 }
