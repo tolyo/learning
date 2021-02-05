@@ -194,7 +194,7 @@ defmodule FP do
          [] -> acc
          [head | tail] -> f.(head, fold_right(tail, acc).(f))
        end
-      end
+     end
   end
 
   @doc """
@@ -240,7 +240,7 @@ defmodule FP do
          [] -> acc
          [head | tail] -> fold_left(tail, f.(acc, head)).(f)
        end
-      end
+     end
   end
 
 
@@ -254,12 +254,155 @@ defmodule FP do
     3
   """
   @spec suml([any()]) :: number()
-  def suml(list), do: FP.fold_left(list, 0).(fn (acc, val) -> acc + val end)
+  def suml(list), do: fold_left(list, 0).(fn (acc, val) -> acc + val end)
 
   @spec productl([any()]) :: number()
-  def productl(list), do: FP.fold_left(list, 1).(fn (acc, val) -> acc * val end)
+  def productl(list), do: fold_left(list, 1).(fn (acc, val) -> acc * val end)
 
   @spec lengthl([any()]) :: number()
-  def lengthl(list), do: FP.fold_left(list, 0).(fn (acc, _val) -> acc + 1 end)
+  def lengthl(list), do: fold_left(list, 0).(fn (acc, _val) -> acc + 1 end)
+
+
+  @doc """
+    Write a function that returns the reverse of a list (given List(1,2,3) it returns
+    List(3,2,1) ). See if you can write it using a fold.
+
+    iex> FP.reverse_list([1,2,3])
+    [3,2,1]
+  """
+  @spec reverse_list([any()]) :: [any()]
+  def reverse_list(list), do: fold_left(list, []).(fn(acc, val) -> [val | acc] end)
+
+
+  @doc """
+  Hard: Can you write foldLeft in terms of foldRight ? How about the other way
+    around? Implementing foldRight via foldLeft is useful because it lets us implement
+    foldRight tail-recursively, which means it works even for large lists without overflow-
+    ing the stack.
+
+    foldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B
+    def foldRight[A,B](as: List[A], z: B)(f: (A, B) => B): B
+
+    iex> FP.fold_left_right([1,2,3], 0).(fn (x,y) -> x + y end)
+    6
+
+    iex> FP.fold_right_left([1,2,3], 0).(fn (x,y) -> x + y end)
+    6
+  """
+  @spec fold_left_right(any, any) :: (any -> any)
+  def fold_left_right(list, acc) do
+    fn(f) ->
+      case list do
+        [] -> acc
+        [head | tail] -> fold_right(tail, f.(head, acc)).(f)
+      end
+    end
+  end
+
+  @spec fold_right_left(any, any) :: (any -> any)
+  def fold_right_left(list, acc) do
+    fn(f) ->
+      case list do
+        [] -> acc
+        [head | tail] -> f.(head, fold_left(tail, acc).(f))
+      end
+    end
+  end
+
+  @doc """
+    Implement append in terms of either foldLeft or foldRight.
+    iex> FP.append([1,2,3], 4)
+    [1,2,3,4]
+  """
+
+  @spec append([any()], any()) :: [any()]
+  def append(list, last), do: fold_right(list, [last]).(fn (val, acc) -> [val | acc] end)
+
+  @doc """
+    Hard: Write a function that concatenates a list of lists into a single list. Its runtime
+    should be linear in the total length of all lists. Try to use functions we have already
+    defined
+
+    iex> FP.concat([1,2,[3,4],5,[6,7,8],[],[9]])
+    [1,2,3,4,5,6,7,8,9]
+  """
+  @spec concat([any()]) :: [any()]
+  def concat(list) do
+    fold_left(list, []).(fn (acc, val) ->
+      case val do
+        [] -> acc
+        [val] -> append(acc, val)
+        [head | tail] ->
+          fold_left(tail, append(acc, head)).(fn (acc, val) -> append(acc, val) end)
+        val -> append(acc, val)
+      end
+    end)
+  end
+
+  @doc """
+    Write a function that transforms a list of integers by adding 1 to each element.
+    (Reminder: this should be a pure function that returns a new List !)
+
+    iex> FP.add_one([1,2,3])
+    [2,3,4]
+  """
+  @spec add_one([number]) :: [number()]
+  def add_one(list), do: fold_right(list, []).(fn (val, acc) -> [val + 1 | acc] end)
+
+  @doc """
+    Write a function that turns each value in a List[Double] into a String . You can use
+    the expression d.toString to convert some d: Double to a String
+
+    iex> FP.list_to_string([1.2,3.5])
+    ["1.2", "3.5"]
+  """
+  @spec list_to_string([number]) :: [String.t()]
+  def list_to_string(list), do: fold_right(list, []).(fn (val, acc) -> ["#{val}" | acc] end)
+
+  @doc """
+    Write a function map that generalizes modifying each element in a list while maintain-
+    ing the structure of the list. Here is its signature: 12
+    def map[A,B](as: List[A])(f: A => B): List[B]
+
+    iex> FP.map([1,2,3]).(fn x -> x + 1 end)
+    [2,3,4]
+
+  """
+  @spec map([any()]) :: ((any()) -> any())
+  def map(list), do: fn (f) -> fold_right(list, []).(fn (val, acc) -> [ f.(val) | acc ] end) end
+
+
+  @doc """
+    Write a function filter that removes elements from a list unless they satisfy a given
+    predicate. Use it to remove all odd numbers from a List[Int] .
+    def filter[A](as: List[A])(f: A => Boolean): List[A]
+    iex> FP.filter([1,2,3,4]).(fn x -> rem(x, 2) != 0 end)
+    [2,4]
+  """
+  @spec filter([any()]) :: ((any()) -> boolean())
+  def filter(list), do: fn (f) -> fold_right(list, []).(fn (val, acc) ->
+    case f.(val) do
+      true -> acc
+      false -> [val | acc]
+    end
+  end) end
+
+  @doc """
+    Write a function flatMap that works like map except that the function given will return
+    a list instead of a single result, and that list should be inserted into the final resulting
+    list. Here is its signature:
+    def flatMap[A,B](as: List[A])(f: A => List[B]): List[B]
+    For instance, flatMap(List(1,2,3))(i => List(i,i)) should result in
+    List(1,1,2,2,3,3) .
+    iex> FP.flatmap([1,2,3]).(fn x -> [x, x] end)
+    [1,1,2,2,3,3]
+    iex> FP.flatmap([1]).(fn x -> [x, x] end)
+    [1,1]
+
+  """
+  @spec flatmap([any()]) :: ((any()) -> [any()]) | [any()]
+  def flatmap([]), do: fn (_) -> [] end
+  def flatmap([head | tail]), do: fn (f) -> concat([f.(head) | flatmap(tail).(f)]) end
+  def flatmap(val), do: fn (f) -> concat(f.(val)) end
 
 end
