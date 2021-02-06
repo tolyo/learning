@@ -405,4 +405,103 @@ defmodule FP do
   def flatmap([head | tail]), do: fn (f) -> concat([f.(head) | flatmap(tail).(f)]) end
   def flatmap(val), do: fn (f) -> concat(f.(val)) end
 
+  @doc """
+    Use flatMap to implement filter .
+    iex> FP.flat_filter([1,2,3,4]).(fn x -> rem(x, 2) != 0 end)
+    [2,4]
+  """
+  @spec flat_filter([any()]) :: ((any()) -> boolean())
+  def flat_filter(list), do: fn (f) ->
+    FP.flatmap(list).(fn x ->
+      case f.(x) do
+        true -> []
+        false -> [x]
+      end
+    end)
+  end
+
+  @doc """
+    Write a function that accepts two lists and constructs a new list by adding correspond-
+    ing elements. For example, List(1,2,3) and List(4,5,6) become List(5,7,9)
+    iex> FP.add_lists([1,2,3], [4,5,6])
+    [5,7,9]
+  """
+  @spec add_lists([any()], [any()]) :: [any()]
+  def add_lists(a, b) do
+    case a do
+      [head | tail] ->
+        case b do
+          [headb | tailb] ->
+            [head + headb | add_lists(tail, tailb)]
+        end
+      [] -> []
+    end
+  end
+
+  @doc """
+    Generalize the function you just wrote so that it’s not specific to integers or addition.
+    Name your generalized function zipWith .
+    iex> FP.zip_with([1,2,3], [4,5,6], fn (a, b) -> a + b end)
+    [5,7,9]
+  """
+  @spec zip_with([any()], [any()], ((any(), any()) -> any())) :: [any()]
+  def zip_with(a, b, f) do
+    case a do
+      [head | tail] ->
+        case b do
+          [headb | tailb] ->
+            [f.(head, headb) | zip_with(tail, tailb, f)]
+        end
+      [] -> []
+    end
+  end
+
+  @doc """
+    Hard: As an example, implement hasSubsequence for checking whether a List con-
+    tains another List as a subsequence. For instance, List(1,2,3,4) would have
+    List(1,2) , List(2,3) , and List(4) as subsequences, among others. You may have
+    some difficulty finding a concise purely functional implementation that is also effi-
+    cient. That’s okay. Implement the function however comes most naturally. We’ll
+    return to this implementation in chapter 5 and hopefully improve on it. Note: Any
+    two values x and y can be compared for equality in Scala using the expression x == y .
+    def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean
+
+    iex> FP.has_subsequence([1,2], [1,2])
+    true
+    iex> FP.has_subsequence([1,2,3,4], [1,2])
+    true
+    iex> FP.has_subsequence([1,2,3,4], [1,3])
+    false
+    iex> FP.has_subsequence([1,2,3,4], [2,3])
+    true
+    iex> FP.has_subsequence([1,2,3,4], [4])
+    true
+  """
+
+  def is_list_equal([], []), do: true
+  def is_list_equal(_, []), do: false
+  def is_list_equal([], _), do: false
+  def is_list_equal([head | tail], [head2 | tail2]) do
+    case head == head2 do
+      false -> false
+      true -> is_list_equal(tail, tail2)
+    end
+  end
+
+  @spec has_subsequence([any()], [any()]) :: boolean()
+  def has_subsequence(a, b), do: has_subsequence_helper(a, b, [], [])
+  defp has_subsequence_helper([], [_head|_tail], _, _), do: false
+  defp has_subsequence_helper([head|tail], [head2|tail2], acc1, acc2) do
+    case head == head2 do
+      false ->
+        case acc2 do
+          [_a|_b] -> false
+          _ -> has_subsequence_helper(tail, [head2|tail2], [], [])
+        end
+
+      true -> has_subsequence_helper(tail, tail2, [head|acc1], [head2|acc2])
+    end
+  end
+  defp has_subsequence_helper([_head|_tail], [], acc1, acc2), do: is_list_equal(acc1, acc2)
+  defp has_subsequence_helper([], [], acc1, acc2), do: is_list_equal(acc1, acc2)
 end
