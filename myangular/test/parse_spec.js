@@ -1,6 +1,7 @@
 'use strict';
 
 var parse = require('../src/parse');
+var register = require('../src/filter').register;
 var _ = require('lodash');
 
 describe("parse", function() {
