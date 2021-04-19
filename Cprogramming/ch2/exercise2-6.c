@@ -3,9 +3,9 @@
  * at position p set to the rightmonst n bits y, leaving the other bits unchanged
  */
 #include <stdio.h>
-
+unsigned setbits(x, p, n, y);
+        
 int main() {
-    unsigned setbits(x, p, n, y);
     printf("%u \n", setbits(255,3,4,1));
 }
 

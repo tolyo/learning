@@ -4,9 +4,9 @@
  * */
 #include <stdio.h>
 
-int main() {
-    unsigned rightrot(x, n);
+unsigned rightrot(x, n);
 
+int main() {
     printf("%u \n",rightrot(240,3));
 }
 

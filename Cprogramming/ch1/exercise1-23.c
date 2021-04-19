@@ -29,7 +29,7 @@ int main()
             if (commentStarted == 0) {
                 printline();
             }
-            return;
+            return 0;
         }
         // if encounter new line then print everything we have up to this point
         else if (c == '\n' && commentStarted == 0) {
@@ -59,7 +59,7 @@ int main()
 int printlineTo(int pos)
 {
     if (pos == 0)
-        return;
+        return 0;
     int i;
     for (i = 0; i < pos; ++i) {
         putchar(line[i]);
