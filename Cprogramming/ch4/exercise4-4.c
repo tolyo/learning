@@ -1,5 +1,7 @@
 /**
- * Add modulus and negative numbers 
+ * Add commands to print the top element of the status
+ * without poping, to dublicate it, and to swap the top two elemment.
+ * Add a command to clear the stack 
  */
 
 #include <stdio.h>
@@ -11,12 +13,15 @@
 
 int getop(char []);
 void push(double);
+void printTop();
+void clearStack();
 double pop(void);
 
 /* reverse Polish calculator */
 int main() 
 {
     int type;
+    double op1;
     double op2;
     char s[MAXOP];
 
@@ -47,6 +52,23 @@ int main()
                 op2 = pop();
                 push((int)pop() % (int)op2);
                 break;
+            case '?':
+                printTop();
+                break;      
+            case 'c':
+                clearStack();
+                break;
+            case 'd':
+                op2 = pop();
+                push(op2);
+                push(op2);
+                break;    
+            case 's':
+                op1 = pop();
+                op2 = pop();
+                push(op1);
+                push(op2);
+                break;    
             case '\n':
                 printf("Result \t%.8g\n", pop());    
                 break;
@@ -55,8 +77,7 @@ int main()
                 break;    
         }
     }
-    return 0;
-    
+    return 0;    
 }
 
 #define MAXVAL 100 /* maximum depth of val stack */
@@ -95,7 +116,7 @@ int getop(char s[])
         ;
     s[1] = '\0';
     
-     if(!isdigit(c) && c != '.' && c != '-') // not a number
+    if(!isdigit(c) && c != '.' && c != '-') // not a number
         return c;
 
     i = 0;
@@ -143,5 +164,16 @@ void ungetch(int c)  /* push character back on input */
         printf("ungetch: too many characters\n");
     else 
         buf[bufp++] = c;    
+}
+
+/* print the top elemen tof the stack */
+void printTop() 
+{
+    printf(" %d  %c \n", buf[0], buf[0]);
+}
+
+void clearStack()
+{
+    bufp = 0;
 }
 

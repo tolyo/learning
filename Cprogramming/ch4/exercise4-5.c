@@ -1,22 +1,29 @@
 /**
- * Add modulus and negative numbers 
+ * Add sin, cos, exp, pow
  */
 
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
 #include <ctype.h>
+#include <math.h>
+#include <string.h>
 
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
+#define COMMAND '1' /* signal that a command was found */
 
 int getop(char []);
+void handleCommand(char []);
 void push(double);
+void printTop();
+void clearStack();
 double pop(void);
 
 /* reverse Polish calculator */
 int main() 
 {
     int type;
+    double op1;
     double op2;
     char s[MAXOP];
 
@@ -26,6 +33,9 @@ int main()
             case NUMBER:
                 push(atof(s));
                 break;
+            case COMMAND:
+                handleCommand(s);
+                break;    
             case '+':
                 push(pop() + pop());
                 break;
@@ -47,6 +57,27 @@ int main()
                 op2 = pop();
                 push((int)pop() % (int)op2);
                 break;
+            case '?':
+                printTop();
+                break;      
+            case 'c':
+                clearStack();
+                break;
+            case 'd':
+                op2 = pop();
+                push(op2);
+                push(op2);
+                break;    
+            case 's':
+                op1 = pop();
+                op2 = pop();
+                push(op1);
+                push(op2);
+                break;    
+            case 'p':
+                op2 = pop();
+                push(pow(pop(),op2));
+                break;    
             case '\n':
                 printf("Result \t%.8g\n", pop());    
                 break;
@@ -55,8 +86,7 @@ int main()
                 break;    
         }
     }
-    return 0;
-    
+    return 0;    
 }
 
 #define MAXVAL 100 /* maximum depth of val stack */
@@ -94,11 +124,24 @@ int getop(char s[])
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    
-     if(!isdigit(c) && c != '.' && c != '-') // not a number
-        return c;
-
     i = 0;
+
+    if(islower(c))
+    {
+        while(islower(s[++i] = c = getch()));
+            ;
+        s[i] = '\0';
+        if (c != EOF)
+            ungetch(c);
+        if (strlen(s) > 1)
+            return COMMAND;
+        else
+            return c;
+    }
+
+    if(!isdigit(c) && c != '.' && c != '-') // not a number
+        return c;
+    
 
     // handle negative numbers
     if (c == '-')
@@ -121,6 +164,9 @@ int getop(char s[])
             
     s[i] = '\0';
     
+    if (strcmp(s, "pow") == 0)
+        return 'p';
+
     if (c != EOF)
         ungetch(c);
         
@@ -145,3 +191,38 @@ void ungetch(int c)  /* push character back on input */
         buf[bufp++] = c;    
 }
 
+/* print the top elemen tof the stack */
+void printTop() 
+{
+    printf(" %d  %c \n", buf[0], buf[0]);
+}
+
+void clearStack()
+{
+    bufp = 0;
+}
+
+void handleCommand(char cmd[])
+{
+    if (strcmp(cmd, "pow") == 0)
+    {
+        int op = pop();
+        push(pow(op, pop())); 
+        return;
+    } 
+    else if (strcmp(cmd, "sin") == 0)
+    {
+        push(sin(pop())); 
+        return;
+    }
+    else if (strcmp(cmd, "cos") == 0)
+    {
+        push(cos(pop())); 
+        return;
+    }
+    else if (strcmp(cmd, "exp") == 0)
+    {
+        push(exp(pop())); 
+        return;
+    }
+}
