@@ -16,7 +16,7 @@ defmodule Option do
     def new(val), do: %Some{get: val}
   end
 
-  def module None do
+  defmodule None do
     @type t :: nil
   end
 
@@ -77,7 +77,5 @@ defmodule Option do
       _ -> None
     end
   end
-
-
 
 end
