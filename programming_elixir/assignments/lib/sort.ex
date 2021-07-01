@@ -25,18 +25,85 @@ defmodule Sort do
   """
   @spec bubble([...]) :: list
   def bubble([h|t]) do
-    bubble_helper([h], t, false)
+    _bubble([h], t, false)
   end
 
-  defp bubble_helper(list, [], false), do: list
-  defp bubble_helper([h|rest] = list, [t|tail_rest], switched) do
+  defp _bubble(list, [], false), do: list
+  defp _bubble([h|rest] = list, [t|tail_rest], switched) do
     case {switched, tail_rest} do
       {false, []} when h < t -> [t|list] |> Enum.reverse()
       {true, []} when h < t -> [t|list] |> Enum.reverse() |> bubble()
-      {_, []} when h > t -> bubble_helper([t|rest],[h], true)
-      _ when h < t -> bubble_helper([t|list], tail_rest, switched)
-      _ when h > t -> bubble_helper([t|rest], [h|tail_rest], true)
-      _ when h === t -> bubble_helper([t|list], tail_rest, switched)
+      {_, []} when h > t -> _bubble([t|rest],[h], true)
+      _ when h < t -> _bubble([t|list], tail_rest, switched)
+      _ when h > t -> _bubble([t|rest], [h|tail_rest], true)
+      _ when h === t -> _bubble([t|list], tail_rest, switched)
     end
   end
+
+  @doc """
+    iex> Sort.selection_sort([6])
+    [6]
+
+    iex> Sort.selection_sort([1,2])
+    [1,2]
+
+    iex> Sort.selection_sort([2,1])
+    [1,2]
+
+    iex> Sort.selection_sort([2,1,3])
+    [1,2,3]
+
+    iex> Sort.selection_sort([6,2,5,3,4,1])
+    [1,2,3,4,5,6]
+
+    iex> Sort.selection_sort([1,2,3,4,5,6])
+    [1,2,3,4,5,6]
+
+    iex> Sort.selection_sort([1,3,2,3,3,5,6,3])
+    [1,2,3,3,3,3,5,6]
+
+  """
+  @spec selection_sort([any]) :: list()
+  def selection_sort(list) do
+    _selection_sort(list, [])
+  end
+
+  defp _selection_sort([], acc), do: acc |> Enum.reverse()
+  defp _selection_sort(list, acc) do
+    min = min(list)
+    list
+    |> remove_first(min)
+    |> _selection_sort([min|acc])
+  end
+
+
+  @doc """
+    iex> Sort.min([8,4,2,3])
+    2
+  """
+  @spec min(list) :: any
+  def min(list) do
+    _min(list, nil)
+  end
+
+  defp _min(list, val) do
+    case {list, val} do
+      {[], nil} -> nil
+      {[], val} -> val
+      {[h|t], nil} -> _min(t, h)
+      {[h|t], val} ->
+        case val < h do
+          true -> _min(t, val)
+          false -> _min(t, h)
+        end
+    end
+  end
+
+  @doc """
+    iex> Sort.remove_first([8,4,4,2,4,3], 4)
+    [8,4,2,4,3]
+  """
+  def remove_first([], _), do: []
+  def remove_first([h|t], item) when h === item, do: t
+  def remove_first([h|t], item), do: [h|remove_first(t, item)]
 end

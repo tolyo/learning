@@ -20,6 +20,7 @@ defmodule Ch7 do
     end
 
 
+    @spec max(list) :: any
     def max(list) do
       _max(list, 0)
     end
