@@ -41,39 +41,39 @@ defmodule Sort do
   end
 
   @doc """
-    iex> Sort.selection_sort([6])
+    iex> Sort.selection([6])
     [6]
 
-    iex> Sort.selection_sort([1,2])
+    iex> Sort.selection([1,2])
     [1,2]
 
-    iex> Sort.selection_sort([2,1])
+    iex> Sort.selection([2,1])
     [1,2]
 
-    iex> Sort.selection_sort([2,1,3])
+    iex> Sort.selection([2,1,3])
     [1,2,3]
 
-    iex> Sort.selection_sort([6,2,5,3,4,1])
+    iex> Sort.selection([6,2,5,3,4,1])
     [1,2,3,4,5,6]
 
-    iex> Sort.selection_sort([1,2,3,4,5,6])
+    iex> Sort.selection([1,2,3,4,5,6])
     [1,2,3,4,5,6]
 
-    iex> Sort.selection_sort([1,3,2,3,3,5,6,3])
+    iex> Sort.selection([1,3,2,3,3,5,6,3])
     [1,2,3,3,3,3,5,6]
 
   """
-  @spec selection_sort([any]) :: list()
-  def selection_sort(list) do
-    _selection_sort(list, [])
+  @spec selection([any]) :: list()
+  def selection(list) do
+    _selection(list, [])
   end
 
-  defp _selection_sort([], acc), do: acc |> Enum.reverse()
-  defp _selection_sort(list, acc) do
+  defp _selection([], acc), do: acc |> Enum.reverse()
+  defp _selection(list, acc) do
     min = min(list)
     list
     |> remove_first(min)
-    |> _selection_sort([min|acc])
+    |> _selection([min|acc])
   end
 
 
@@ -102,8 +102,19 @@ defmodule Sort do
   @doc """
     iex> Sort.remove_first([8,4,4,2,4,3], 4)
     [8,4,2,4,3]
+
+    iex> Sort.remove_first([8,4,4,2,4,3], 8)
+    [4,4,2,4,3]
+
+    iex> Sort.remove_first([8,4,4,2,4,3], 3)
+    [8,4,4,2,4]
   """
-  def remove_first([], _), do: []
-  def remove_first([h|t], item) when h === item, do: t
-  def remove_first([h|t], item), do: [h|remove_first(t, item)]
+  def remove_first(list, item) do
+    case {list, item} do
+      {[], _} -> []
+      {[h|t], item} when h === item -> t
+      {[h|t], item} -> [h|remove_first(t, item)]
+    end
+  end
+
 end
