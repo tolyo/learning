@@ -5,6 +5,6 @@
  */
 void main() {
     int c = getchar();
-    printf("%d \n", (c != EOF));
+    printf("3 %d \n", (c != EOF));
     printf("%d \n", (c == EOF));
 }

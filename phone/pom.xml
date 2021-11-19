@@ -28,7 +28,9 @@
 		<dependency>
 			<groupId>org.erlang.otp</groupId>
 			<artifactId>jinterface</artifactId>
-			<version>1.6.1</version>
+			<version>1.12</version>
+			<scope>system</scope>
+    		<systemPath>${pom.basedir}/src/lib/OtpErlang.jar</systemPath>
 		</dependency>
 
 		<dependency>

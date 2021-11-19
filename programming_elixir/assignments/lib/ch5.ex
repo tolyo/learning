@@ -8,6 +8,7 @@ defmodule Ch5 do
     fn (a, b) -> a ++ b end
   end
 
+  @spec sum :: (number, number, number -> number)
   @doc """
     sum.(1, 2, 3) #=> 6
   """
